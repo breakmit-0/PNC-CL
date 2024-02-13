@@ -5,7 +5,7 @@
 
 ## Usage
 
-documentation is available [here]()
+documentation is available [here](https://breakmit-0.github.io/lift-ppl/)
 
 
 ### In Matlab
