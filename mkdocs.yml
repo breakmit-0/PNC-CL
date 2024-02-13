@@ -1,0 +1,17 @@
+site_name: My Docs
+theme: 
+  name: readthedocs
+  highlightjs: false
+markdown_extensions:
+  - pymdownx.highlight:
+      use_pygments: true
+      pygments_lang_class: true
+      guess_lang: false
+      linenums: false
+      default_lang: matlab
+      noclasses: true
+  - pymdownx.superfences
+  - pymdownx.extra:
+      def_list: true
+site_dir: "build/site"
+      
