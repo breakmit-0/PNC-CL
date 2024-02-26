@@ -1,13 +1,13 @@
 
 classdef Space
     properties (SetAccess = private)
-        size (2, 1) real
+        size (2, 1) 
     end
 
     methods (Static)
         function self = Space()
             arguments (Output) 
-                self Space 
+                self 
             end
             self.size = [0, 0];
         end
