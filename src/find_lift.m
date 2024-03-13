@@ -5,8 +5,8 @@
 % - f est bornée sur l'espace utile
 % - le maximum est strict (f(x) >= a_j' * x + b_j)
 function [oa, ob] = find_lift(Obstacles)
-    min_convexity = 0.1;
-    upper_bound = 1000;
+    min_convexity = 1;
+    upper_bound = 100;
 
     N = size(Obstacles, 1); % nombre d'obstacles
     D = Obstacles(1).Dim; % dimension de l'espace
@@ -21,16 +21,16 @@ function [oa, ob] = find_lift(Obstacles)
             vertex = Obstacles(obs).V(vertex_id)';
             for other = 1:N
                 if other ~= obs
-                    constraints = [constraints; a(obs,:) * vertex + b(obs) >= a(other,:) * vertex + b(other) + min_convexity];
+                    constraints = [constraints; mtimes(a(obs,:),vertex) + b(obs) >= mtimes(a(other,:), vertex) + b(other) + min_convexity];
                 end
             end
         end
-        constraints = [constraints; a(obs,:) * Obstacles(obs).V(1)' + b(obs) <= upper_bound];
-        constraints = [constraints; a(obs,:) * Obstacles(obs).V(1)' + b(obs) >= 0]; 
+        constraints = [constraints; 0 <= mtimes(a(obs,:), Obstacles(obs).V(1, :)') + b(obs) <= upper_bound];
+        % constraints = [constraints; mtimes(a(obs,:), Obstacles(obs).V(1, :)') + b(obs) >= 0]; 
     end
 
     e = cat(2, a, b);
-    optimize(constraints, trace(e'*e));
+    optimize(constraints, norm(e, 2));
     oa = value(a);
     ob = value(b);
 end
