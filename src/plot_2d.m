@@ -10,11 +10,13 @@ function plot_2d(a, oa, ob)
     plot3(0, 0, 0);
     hold on;
 
+
     for i = 1:N
        b = ob(i);
 
-       z = 1*(xx*oa(i,1) + yy*oa(i,2) + b) - 0.1;
-       surf(x, y, z);
+       z = (xx*oa(i,1) + yy*oa(i,2) + b) - 100;
+       surf(x, y, z, [0 0 0]);
+
     end
 
     plot(a);

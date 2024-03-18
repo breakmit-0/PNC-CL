@@ -18,7 +18,8 @@ function [oa, ob] = find_lift(Obstacles)
 
     for obs = 1:N
         for vertex_id = 1:size(Obstacles(obs).V, 1)
-            vertex = Obstacles(obs).V(vertex_id)';
+            vertex = Obstacles(obs).V(vertex_id, :)';
+            assert_shape(vertex, [2 1]);
             for other = 1:N
                 if other ~= obs
                     constraints = [constraints; mtimes(a(obs,:),vertex) + b(obs) >= mtimes(a(other,:), vertex) + b(other) + min_convexity];
