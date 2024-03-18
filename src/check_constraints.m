@@ -12,7 +12,7 @@ function check_constraints(Obstacles, oa, ob)
 
     for obs = 1:N
         for vertex_id = 1:size(Obstacles(obs).V, 1)
-            vertex = Obstacles(obs).V(vertex_id)';
+            vertex = Obstacles(obs).V(vertex_id, :)';
             for other = 1:N
                 if other ~= obs
                     t = t + 1;

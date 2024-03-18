@@ -22,7 +22,7 @@ function plot_2d(a, oa, ob, space)
         col(2, 1, :) = c;
         col(2, 2, :) = c;
 
-        z = (xx*oa(i,1) + yy*oa(i,2) + b) - 100;
+        z = (xx*oa(i,1) + yy*oa(i,2) + b) - 500;
         assert_shape(z, [2 2]);
         surf(x, y, z, col);
     end

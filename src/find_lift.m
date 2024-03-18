@@ -6,7 +6,7 @@
 % - le maximum est strict (f(x) >= a_j' * x + b_j)
 function [oa, ob] = find_lift(Obstacles)
     min_convexity = 1;
-    upper_bound = 100;
+    upper_bound = 500;
 
     N = size(Obstacles, 1); % nombre d'obstacles
     D = Obstacles(1).Dim; % dimension de l'espace
