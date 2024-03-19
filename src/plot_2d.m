@@ -7,11 +7,26 @@ function plot_2d(a, oa, ob, space)
     y = linspace(0, space, 2);
     [xx,yy] = meshgrid(x,y);
 
+    figure;
     plot3(0, 0, 0);
+    
     hold on;
 
 
     cmap = hsv(N);
+
+    maxv = ob(1);
+
+    for i = 1:N
+        v = ob(i);
+        maxv = max(maxv, v);
+        v = ob(i) + space * oa(i, 1);
+        maxv = max(maxv, v);
+        v = ob(i) + space * oa(i, 2);
+        maxv = max(maxv, v);
+        v = ob(i) + space *(oa(i,1) + oa(i, 2));
+        maxv = max(maxv, v);
+    end
 
     for i = 1:N
         b = ob(i);
@@ -22,7 +37,7 @@ function plot_2d(a, oa, ob, space)
         col(2, 1, :) = c;
         col(2, 2, :) = c;
 
-        z = (xx*oa(i,1) + yy*oa(i,2) + b) - 500;
+        z = (xx*oa(i,1) + yy*oa(i,2) + b);
         assert_shape(z, [2 2]);
         surf(x, y, z, col);
     end
