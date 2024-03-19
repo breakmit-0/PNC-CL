@@ -3,8 +3,8 @@ arguments
     dimension=3
     Number_of_obstacles=30
     average_size = 3
-    standard_deviation_size = 0.2
-    points_standard_deviation = 0.01
+    standard_deviation_size = 0.1
+    points_standard_deviation = 2
     space_length = 30
 end
 
@@ -14,17 +14,28 @@ end
     %between the center of an obstacle and its points), and the standard 
     %deviation of the points of a sized obstacle, and randomly generates the 
     %obstacles in the form of convex polyhedra
+    
+    if standard_deviation_size ~= 0
+        R_size = chol(standard_deviation_size^2);
+    else 
+        R_size = 0;
+    end
 
-    R_size = chol(standard_deviation_size^2);
-    R_point = chol(points_standard_deviation^2);
+    if points_standard_deviation ~= 0
+        R_point = chol(points_standard_deviation^2);
+    else
+        R_point = 0;
+    end
 
     %Initialization of the list of obstacles
     P = repmat(Polyhedron(), Number_of_obstacles, 1);
 
     %Initialization of the matrix which associates a center to a polyhedron
     centers = zeros(dimension, Number_of_obstacles);
-
-    for i=1:Number_of_obstacles
+    
+    %Generation of Number_of_obstacles disjunct obstacles
+    i=1;
+    while i<=Number_of_obstacles
         %Centers are uniformly distribued in the space considering the space length 
         centers(:,i) = rand(dimension,1)*space_length;
 
@@ -48,9 +59,26 @@ end
             vector(:,j) = (rand(1,dimension)-0.5)*2;
             point_deviation = randn*R_point; 
             points(:,j) = vector(:,j)/norm(vector(:,j))*size*(1+point_deviation);
+        end
 
-            %The new polyhedron is saved in the list
-            P(i) = Polyhedron(points') + centers(:,i);
+        %The new polyhedron is saved in the array P if it doesn't have a 
+        %non-empty intersection with a previous one
+        new_polyhedron = Polyhedron(points') + centers(:,i);
+        new_polyhedron = minVRep(new_polyhedron);
+        if i==1
+            P(i) = new_polyhedron;
+            i = i+1;
+        else
+            check = 1;
+            for j=1:(i-1)
+                if not(intersect(new_polyhedron,P(j)).isEmptySet())
+                    check = 0;
+                end
+            end
+            if check
+                P(i) = new_polyhedron;
+                i = i+1;
+            end
         end
     end
     out = P;
