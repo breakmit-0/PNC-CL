@@ -1,3 +1,8 @@
+% Take a polyhedron with the hyperplane form (with matrix A and vector b)
+% and project all faces in R^(d - 1)
+% param:
+% * A: matrix of size n * n
+% * b: column vector of dimension n
 function [faces] = projectFacets(A, b)
     % construct associated polyhedron
     P = Polyhedron('A', A, 'b', b);
