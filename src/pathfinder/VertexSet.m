@@ -2,7 +2,7 @@
 % list of vertices, thus the index of vertex is the index in the list.
 classdef VertexSet < handle
 
-    properties (SetAccess = private)
+    properties
         vertices
     end
     
@@ -22,7 +22,7 @@ classdef VertexSet < handle
         function index = getIndex(obj, vertex)
             index = -1;
             for i = 1:height(obj.vertices)
-                if obj.vertices(i, :) == vertex
+                if matrixEquals(obj.vertices(i, :), vertex, 1e-5)
                     index = i;
                     break
                 end
@@ -32,6 +32,11 @@ classdef VertexSet < handle
                 obj.vertices = [obj.vertices; vertex];
                 index = height(obj.vertices);
             end
+        end
+
+
+        function coords = extractCoords(obj, dimension)
+            coords = obj.vertices(:, dimension);
         end
     end
 end
