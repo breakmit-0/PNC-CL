@@ -1,6 +1,5 @@
 classdef Edge
-    %EDGE Summary of this class goes here
-    %   Detailed explanation goes here
+    %EDGE An immutable object representating an edge.
     
     properties(SetAccess=private, GetAccess=public)
         V1 double,
@@ -23,17 +22,20 @@ classdef Edge
             % Vertices are converted to int, this may results in many
             % collisions if distance between points is less than one.
             % There is no easy solution to this problem.
-            h = bitxor(keyHash(int64(obj.V1)), keyHash(int64(obj.V2)), 'uint64');
-        end
-
-        function eq = eq(objA, objB)
-            eq = keyMatch(objA, objB);
+            %
+            % Current implementation doesn't work at all... set 0 for all
+            % edges...
+            h = 0; %bitxor(keyHash(int64(obj.V1)), keyHash(int64(obj.V2)), 'uint64');
         end
 
         function tf = keyMatch(objA, objB)
             tf = all(size(objA.V1) == size(objB.V1)) ...
                  && (   (matrixEquals(objA.V1, objB.V1) && matrixEquals(objA.V2, objB.V2)) ...
                      || (matrixEquals(objA.V1, objB.V2) && matrixEquals(objA.V2, objB.V1)));
+        end
+
+        function eq = eq(objA, objB)
+            eq = keyMatch(objA, objB);
         end
     end
 end

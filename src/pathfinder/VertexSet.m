@@ -22,7 +22,7 @@ classdef VertexSet < handle
         function index = getIndex(obj, vertex)
             index = -1;
             for i = 1:height(obj.vertices)
-                if matrixEquals(obj.vertices(i, :), vertex, 1e-5)
+                if matrixEquals(obj.vertices(i, :), vertex, 1e-3)
                     index = i;
                     break
                 end
@@ -34,6 +34,14 @@ classdef VertexSet < handle
             end
         end
 
+
+        function clear(obj)
+            obj.vertices = [];
+        end
+
+        function s = size(obj)
+            s = height(obj.vertices);
+        end
 
         function coords = extractCoords(obj, dimension)
             coords = obj.vertices(:, dimension);

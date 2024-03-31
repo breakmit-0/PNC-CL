@@ -1,6 +1,6 @@
 classdef EdgePathFinder < handle
-    %EDGEPATHFINDER Summary of this class goes here
-    %   Detailed explanation goes here
+    %EDGEPATHFINDER Path finder class that allows objects to move only on
+    %the edge of the partition.
     
     properties (Access = private)
         edges = configureDictionary("Edge", "int32"),
@@ -26,9 +26,11 @@ classdef EdgePathFinder < handle
                     end
                 end
 
-                obj.addEdgesOfPolyhedron(p, obstacle, src, dest, srcInside, destInside);
+                obj.addEdgesOfPolyhedron(p, p.Dim, obstacle, src, dest, srcInside, destInside);
             end
 
+
+            disp("Edges created. Creating graph.")
             vertexSet = VertexSet();
             startNodes = zeros(obj.edges.numEntries() + 4, 1);
             endNodes = zeros(obj.edges.numEntries() + 4, 1);
@@ -88,13 +90,13 @@ classdef EdgePathFinder < handle
     end
 
     methods (Access=private)
-        function obj = addEdgesOfPolyhedron(obj, polyhedron, obstacle, src, dest, srcInside, destInside)
-            assert(polyhedron.Dim >= 2)
+        function obj = addEdgesOfPolyhedron(obj, polyhedron, dim, obstacle, src, dest, srcInside, destInside)
+            assert(dim >= 2)
             polyhedron.minHRep();
-            if polyhedron.Dim == 2
+            if dim == 2
                 arrayfun(@(f) obj.addEdge(f, obstacle, src, dest, srcInside, destInside), polyhedron.getFacet());
             else
-                arrayfun(@(f) obj.addEdgesOfPolyhedron(obj, f, obstacle, src, dest, srcInside, destInside), polyhedron.getFacet());
+                arrayfun(@(f) obj.addEdgesOfPolyhedron(f, dim - 1, obstacle, src, dest, srcInside, destInside), polyhedron.getFacet());
             end
         end
 

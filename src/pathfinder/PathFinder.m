@@ -1,6 +1,5 @@
 classdef PathFinder < handle
-    %PATHFINDER Summary of this class goes here
-    %   Detailed explanation goes here
+    %PATHFINDER Base class for all path finder
  
     methods (Abstract)
         [G, path, vertexSet] = pathfinder(obj, src, dest, obstacles, partition)
