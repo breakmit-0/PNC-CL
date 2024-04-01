@@ -1,4 +1,4 @@
-classdef EdgePathFinder < handle
+classdef EdgePathFinder < PathFinder
     %EDGEPATHFINDER Path finder class that allows objects to move only on
     %the edge of the partition.
     
@@ -14,6 +14,8 @@ classdef EdgePathFinder < handle
 
     methods        
         function [G, path, vertexSet] = pathfinder(obj, src, dest, obstacles, partition)
+            obj.clean();
+
             for p = partition.'
                 srcInside = p.contains(src.');
                 destInside = p.contains(dest.');
@@ -86,11 +88,27 @@ classdef EdgePathFinder < handle
             
             G = graph(startNodes, endNodes, weights);
             [path, ~] = shortestpath(G, vertexSet.getIndex(src), vertexSet.getIndex(dest));
+
+            obj.clean();
         end
     end
 
     methods (Access=private)
+
+        function obj = clean(obj)
+            % CLEAN Clean EdgePathFinder: remove all edges and reset
+            % srcProjDist and destProjDist.
+
+            obj.edges.remove(obj.keys);
+            obj.srcProjDist = realmax;
+            obj.destProjDist = realmax;
+        end
+
+
         function obj = addEdgesOfPolyhedron(obj, polyhedron, dim, obstacle, src, dest, srcInside, destInside)
+            % ADDEDGESOFPOLYHEDRON Add all edges of polyhedron to the list
+            % of edges
+            
             assert(dim >= 2)
             polyhedron.minHRep();
             if dim == 2
@@ -101,6 +119,11 @@ classdef EdgePathFinder < handle
         end
 
         function obj = addEdge(obj, pEdge, obstacle, src, dest, srcInside, destInside)
+            % ADDEDGE Add pEdge to the list of edges
+            %
+            % If the source or the destination is inside the partition that
+            % contains pEdge, the projection of src (or dest) is added.
+
             V1 = pEdge.V(1, :);
             V2 = pEdge.V(2, :);
             edge = Edge(V1, V2);
@@ -122,7 +145,7 @@ classdef EdgePathFinder < handle
                 p = Polyhedron('V', dest, 'R', proj - dest);
 
                 % check if the projection is inside the line
-                if 0 <= alpha && alpha <= 1 && dist < obj.destProjDist  && p.intersect(obstacle).isEmptySet()
+                if 0 <= alpha && alpha <= 1 && dist < obj.destProjDist && p.intersect(obstacle).isEmptySet()
                     obj.destEdge = edge;
                     obj.destProj = proj;
                     obj.destProjDist = dist;
@@ -133,6 +156,18 @@ classdef EdgePathFinder < handle
 
     methods (Access=private, Static)
         function [proj, dist, alpha] = projectPointIntoLine(P, V1, V2)
+            % PROJECTPOINTINTOLINE Project P into the line defined by V1
+            % and V2
+            % 
+            % returns:
+            % proj: the projection of P into the line
+            % dist: the distance between P and proj
+            % alpha: a coefficient indicating where proj is on line the
+            % relative to V1 and V2: alpha equals to 0 means that proj =
+            % V1, alpha = 1 implies proj = V2, 0 < alpha < 1 implies
+            % proj is located between V1 and V2 in the lie whereas alpha <
+            % 0 or alpha > 1 implies that proj isn't between V1 and V2
+
             v = (V2 - V1) / norm(V2 - V1); % normalize vector from V1 to V2
             % dot(P - V1, v) is the distance between V1 and proj.
             d = dot(P - V1, v);

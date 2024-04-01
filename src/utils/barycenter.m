@@ -1,5 +1,10 @@
 function [center] = barycenter(polyhedron)
     V = polyhedron.V;
-    center = sum(V) ./ height(V);
+
+    if height(V) == 1
+        center = V;
+    else
+        center = sum(V) ./ height(V);
+    end
 end
 

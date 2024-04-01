@@ -8,8 +8,8 @@ classdef Edge
     
     methods
         function obj = Edge(V1, V2)
-            %EDGE Construct an instance of this class
-            %   Detailed explanation goes here
+            %EDGE Create a new edge.
+            %Size of V1 should be equals to V2.
             assert(all(size(V1) == size(V2)))
             obj.V1 = V1;
             obj.V2 = V2;

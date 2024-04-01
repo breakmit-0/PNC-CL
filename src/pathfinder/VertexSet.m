@@ -35,6 +35,25 @@ classdef VertexSet < handle
         end
 
 
+        function [index, new] = getIndexN(obj, vertex)
+            index = -1;
+            for i = 1:height(obj.vertices)
+                if matrixEquals(obj.vertices(i, :), vertex, 1e-3)
+                    index = i;
+                    break
+                end
+            end
+            
+            if index < 0
+                new = true;
+                obj.vertices = [obj.vertices; vertex];
+                index = height(obj.vertices);
+            else
+                new = false;
+            end
+        end
+
+
         function clear(obj)
             obj.vertices = [];
         end
