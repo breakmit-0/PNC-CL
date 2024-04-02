@@ -2,6 +2,12 @@
 
 ## About
 
+The purpose of this toolbox is to find a path in an environnment with obstacles, in any number of dimensions, using 
+the [Convex Lifting]() method.
+
+This toolbox requires [MPT]() and [tbxmanager]().
+
+
 
 ## Usage
 
@@ -28,6 +34,14 @@ and `mkdocs serve` to build and serve on `localhost`
 
 ## Modules
 
+**[lift](lift)**
+: This module contains functions to create and manipulate a convex lifting over a set of [Polyhedra]()
+
+**[util](util)**
+: Internal utility functions
+
+**[testing](testing)**
+: 
 
 ## Functions
 
