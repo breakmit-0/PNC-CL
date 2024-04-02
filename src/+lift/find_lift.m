@@ -9,11 +9,12 @@ function [oa, ob] = find_lift(Obstacles)
     import util.*;
 
     min_convexity = 1;
-    % upper_bound = 500;
+    upper_bound = 500;
 
     N = size(Obstacles, 1); % nombre d'obstacles
     D = Obstacles(1).Dim; % dimension de l'espace
-    
+   
+
     a = sdpvar(N, D);
     b = sdpvar(N, 1);
 
@@ -29,7 +30,7 @@ function [oa, ob] = find_lift(Obstacles)
                 end
             end
         end
-        %constraints = [constraints; mtimes(a(obs,:), Obstacles(obs).V(1, :)') + b(obs) <= upper_bound];
+        constraints = [constraints; mtimes(a(obs,:), Obstacles(obs).V(1, :)') + b(obs) <= upper_bound];
         % constraints = [constraints; mtimes(a(obs,:), Obstacles(obs).V(1, :)') + b(obs) >= 0]; 
     end
 
