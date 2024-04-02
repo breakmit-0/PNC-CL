@@ -1,4 +1,6 @@
-homothetie_factor = 0.5;
+function P1 = Counter_examples()
+import util.*;
+homothetie_factor = 0.9;
 
 pointA = [-1 -0.75; 0.1 0.75; 0 2];
 pointB = [-1 -0.75; -0.5 -0.25; 1 -0.75];
@@ -24,10 +26,5 @@ E1 = reduction(E,homothetie_factor);
 F1 = reduction(F,homothetie_factor);
 G1 = reduction(G,homothetie_factor);
 
-
-P = [A;B;C;D;E;F;G];
 P1 = [A1;B1;C1;D1;E1;F1;G1];
-
-plot(P)
-hold on
-plot(P1)
+end

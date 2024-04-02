@@ -1,10 +1,24 @@
 
-%% Calcule la fonction de lifting, depuis un Array<Polyhedron>
-% cherche une solution de la forme f(x) = max[i=1..N](a_i' * x + b_i)
-% avec les contraintes: 
-% - f est bornée sur l'espace utile
-% - le maximum est strict (f(x) >= a_j' * x + b_j)
-function [oa, ob] = find_lift(Obstacles)
+function [oa, ob] = find(Obstacles)
+    % lift.find The main function to compute a convex lifting for an array of obstacles [<a href="matlab:web('https://breakmit-0.github.io/lift-ppl/')">online docs</a>]
+    % 
+    %
+    % Usage:
+    %   [oa, ob] = lift.find(obstacles)
+    %
+    % Parameters:
+    %   obstacles should be a column vector of non intersecting, same dimensional Polyhedron objects
+    %   some outputs may be redundant if there are intersections
+    %
+    % Return Values:
+    %   ob is a column vector of dimension N
+    %   oa is a matrix of dimension NxD where D is the dimension of the obestacles
+    %
+    %   the outputs are such that z = max(oa * x + ob) is the convex lifting function
+    %   
+    %   the row k of the output is guaranteeed to be the plane around the obstacle at index k
+    %
+    % See also lift
 
     import util.*;
 
