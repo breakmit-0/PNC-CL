@@ -5,7 +5,7 @@ classdef VertexSet < handle
     properties
         vertices
     end
-    
+
     methods
         
         % Create an empty VertexSet
@@ -20,6 +20,7 @@ classdef VertexSet < handle
         % previously added vectors.
         % return: the index of vertex
         function index = getIndex(obj, vertex)
+            
             index = -1;
             for i = 1:height(obj.vertices)
                 if matrixEquals(obj.vertices(i, :), vertex, 1e-3)

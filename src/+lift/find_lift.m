@@ -5,6 +5,9 @@
 % - f est bornée sur l'espace utile
 % - le maximum est strict (f(x) >= a_j' * x + b_j)
 function [oa, ob] = find_lift(Obstacles)
+
+    import util.*;
+
     min_convexity = 1;
     % upper_bound = 500;
 
