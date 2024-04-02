@@ -1,6 +1,7 @@
 
 function plot_2d(a, oa, ob, space)
-    
+   import util.*;
+
     N = size(ob, 1);
     %[x, y] = meshgrid(-10:0.1:10, 10:0.1:10);
     x = linspace(0, space, 2);
@@ -37,7 +38,7 @@ function plot_2d(a, oa, ob, space)
         col(2, 1, :) = c;
         col(2, 2, :) = c;
 
-        z = (xx*oa(i,1) + yy*oa(i,2) + b);
+        z = (xx*oa(i,1) + yy*oa(i,2) + b) - maxv;
         assert_shape(z, [2 2]);
         surf(x, y, z, col);
     end

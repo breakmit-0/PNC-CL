@@ -5,7 +5,7 @@ classdef VertexSet < handle
     properties
         vertices
     end
-    
+
     methods
         
         % Create an empty VertexSet
