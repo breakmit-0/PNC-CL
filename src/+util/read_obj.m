@@ -1,6 +1,13 @@
 function [polyhedra] = read_obj(objFile, useHRep)
-    %OBJREADER Read a .obj file and returns a vector of polyhedron.
-    %   Detailed explanation goes here
+    % util.read_obj Read a .obj file and returns a column vector of polyhedra.
+    % 
+    % Parameters:
+    %     objFile: the file to read
+    %     useHRep: true if you want to have polyhedra directly in HRep
+    %     otherwise they will be in VRep.
+    %
+    % Return value:
+    %     polyhedra: the loaded polyhedra.
 
     if nargin < 2
         useHRep = false;

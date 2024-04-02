@@ -1,15 +1,22 @@
 classdef Edge
-    %EDGE An immutable object representating an edge.
+    % graph.Edge An immutable object representating an edge.
     
     properties(SetAccess=private, GetAccess=public)
+        % First point of the edge
         V1 double,
+
+        % Second point of the edge
         V2 double
     end
     
     methods
         function obj = Edge(V1, V2)
-            %EDGE Create a new edge.
-            %Size of V1 should be equals to V2.
+            % Edge Create a new edge.
+            % Size of V1 should be equals to V2.
+            %
+            % Parameters:
+            %     V1: matrix
+            %     V2: matrix
             assert(all(size(V1) == size(V2)))
             obj.V1 = V1;
             obj.V2 = V2;

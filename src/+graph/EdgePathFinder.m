@@ -1,6 +1,6 @@
 classdef EdgePathFinder < graph.PathFinder
-    %EDGEPATHFINDER Path finder class that allows objects to move only on
-    %the edge of the partition.
+    % graph.EdgePathFinder Path finder class that allows objects to move only on
+    % the edge of the partition.
     
     properties (Access = private)
         edges = configureDictionary("graph.Edge", "int32"),
@@ -32,7 +32,6 @@ classdef EdgePathFinder < graph.PathFinder
             end
 
 
-            disp("Edges created. Creating graph.")
             vertexSet = graph.VertexSet();
             startNodes = zeros(obj.edges.numEntries() + 4, 1);
             endNodes = zeros(obj.edges.numEntries() + 4, 1);
@@ -96,7 +95,7 @@ classdef EdgePathFinder < graph.PathFinder
     methods (Access=private)
 
         function obj = clean(obj)
-            % CLEAN Clean EdgePathFinder: remove all edges and reset
+            % Clean Clean EdgePathFinder: remove all edges and reset
             % srcProjDist and destProjDist.
 
             obj.edges.remove(obj.edges.keys);
@@ -106,8 +105,17 @@ classdef EdgePathFinder < graph.PathFinder
 
 
         function obj = add_edges_of_polyhedron(obj, polyhedron, dim, obstacle, src, dest, srcInside, destInside)
-            % ADDEDGESOFPOLYHEDRON Add all edges of polyhedron to the list
-            % of edges
+            % add_edges_of_polyhedron Add all edges of polyhedron to the 
+            % list of edges
+            %
+            % Parameters:
+            %     polyhedron: the polyhedron to extract edges from
+            %     dim: dimension of polyhedron.
+            %     obstacle: the obstacle contained by the polyhedron
+            %     src: the source point
+            %     dest: the destination point
+            %     srcInside: true if the polyhedron contains src
+            %     destInside: true if the polyhedron contains dest
             
             assert(dim >= 2)
             polyhedron.minHRep();
@@ -119,10 +127,18 @@ classdef EdgePathFinder < graph.PathFinder
         end
 
         function obj = add_edge(obj, pEdge, obstacle, src, dest, srcInside, destInside)
-            % ADDEDGE Add pEdge to the list of edges
+            % add_edge Add pEdge to the list of edges
             %
             % If the source or the destination is inside the partition that
             % contains pEdge, the projection of src (or dest) is added.
+            %
+            % Parameters:
+            %     pEdge: the edge to add. 
+            %     obstacle: the obstacle contained by the polyhedron
+            %     src: the source point
+            %     dest: the destination point
+            %     srcInside: true if the polyhedron contains src
+            %     destInside: true if the polyhedron contains dest
 
             import graph.EdgePathFinder.*;
 
@@ -158,17 +174,24 @@ classdef EdgePathFinder < graph.PathFinder
 
     methods (Access=private, Static)
         function [proj, dist, alpha] = project_point_into_line(P, V1, V2)
-            % PROJECTPOINTINTOLINE Project P into the line defined by V1
-            % and V2
+            % project_point_into_line Project P into the line defined by V1
+            % and V2.
             % 
-            % returns:
-            % proj: the projection of P into the line
-            % dist: the distance between P and proj
-            % alpha: a coefficient indicating where proj is on line the
-            % relative to V1 and V2: alpha equals to 0 means that proj =
-            % V1, alpha = 1 implies proj = V2, 0 < alpha < 1 implies
-            % proj is located between V1 and V2 in the lie whereas alpha <
-            % 0 or alpha > 1 implies that proj isn't between V1 and V2
+            % The function will fail if V1 = V2.
+            %
+            % Parameters:
+            %     P: the point to project
+            %     V1: first point of the line
+            %     V2: second point of the line
+            %
+            % Return values:
+            %     proj: the projection of P into the line
+            %     dist: the distance between P and proj
+            %     alpha: a coefficient indicating where proj is on line the
+            %     relative to V1 and V2: alpha equals to 0 means that proj =
+            %     V1, alpha = 1 implies proj = V2, 0 < alpha < 1 implies
+            %     proj is located between V1 and V2 in the lie whereas alpha <
+            %     0 or alpha > 1 implies that proj isn't between V1 and V2
 
             v = (V2 - V1) / norm(V2 - V1); % normalize vector from V1 to V2
             % dot(P - V1, v) is the distance between V1 and proj.
