@@ -2,10 +2,10 @@ disp("BarycenterPathFinder3DTest")
 
 hold on
 
-obstacles = util.readObj("EdgePathFinder3DTest_obstacles.obj", true);
+obstacles = util.readObj("src/+testing/EdgePathFinder3DTest_obstacles.obj", true);
 obstacles.plot()
 
-partition = util.readObj("EdgePathFinder3DTest_partition.obj", false);
+partition = util.readObj("src/+testing/EdgePathFinder3DTest_partition.obj", false);
 % partition.plot('FaceColor','b','FaceAlpha',.3,'EdgeAlpha',.3)
 % obstacles.plot()
 

@@ -9,6 +9,8 @@ function [polyhedra] = readObj(objFile, useHRep)
     end
     
     fid = fopen(objFile, 'r');
+    assert(fid ~= -1);
+
     polyhedra = [];
 
     if useHRep
