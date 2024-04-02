@@ -1,9 +1,9 @@
-classdef BarycenterPathFinder < PathFinder
+classdef BarycenterPathFinder < graph.PathFinder 
     %BARYCENTERPATHFINDER Summary of this class goes here
     %   Detailed explanation goes here
     
     properties
-        vertices = VertexSet(),
+        vertices = graph.VertexSet(),
 
         srcBarycenter double,
         srcBaryDist = realmax,
@@ -42,8 +42,8 @@ classdef BarycenterPathFinder < PathFinder
                 obj.vertices.getIndex(obj.srcBarycenter); 
                 obj.vertices.getIndex(obj.destBarycenter)];
             obj.weights = [obj.weights; 
-                distance(src, obj.srcBarycenter); 
-                distance(dest, obj.destBarycenter)];
+                util.distance(src, obj.srcBarycenter); 
+                util.distance(dest, obj.destBarycenter)];
 
             vertexSet = obj.vertices;
             G = graph(obj.startNodes, obj.endNodes, obj.weights);
@@ -55,7 +55,7 @@ classdef BarycenterPathFinder < PathFinder
 
     methods (Access=private)
         function obj = clean(obj)
-            obj.vertices = VertexSet();
+            obj.vertices = graph.VertexSet();
             obj.srcBaryDist = realmax;
             obj.destBaryDist = realmax;
         end
@@ -68,22 +68,22 @@ classdef BarycenterPathFinder < PathFinder
         function obj = addBarycenter(obj, facet, obstacle, src, dest, srcInside, destInside)
             facet.minHRep();
 
-            c = barycenter(facet);
+            c = util.barycenter(facet);
             [ci, new] = obj.vertices.getIndexN(c);
            
             if new % only add edges if it the first time we process this barycenter
                 for ridge = facet.getFacet().'
-                    rc = barycenter(ridge);
+                    rc = util.barycenter(ridge);
                     rci = obj.vertices.getIndex(rc);
                     
                     obj.startNodes = [obj.startNodes; ci];
                     obj.endNodes = [obj.endNodes; rci];
-                    obj.weights = [obj.weights; distance(c, rc)];
+                    obj.weights = [obj.weights; util.distance(c, rc)];
                 end
             end
 
             if srcInside
-                d = distance(src, c);
+                d = util.distance(src, c);
                 p = Polyhedron('V', src, 'R', c - src);
 
                 if d < obj.srcBaryDist  && p.intersect(obstacle).isEmptySet()
@@ -93,7 +93,7 @@ classdef BarycenterPathFinder < PathFinder
             end
 
             if destInside
-                d = distance(dest, c);
+                d = util.distance(dest, c);
                 p = Polyhedron('V', dest, 'R', c - dest);
 
                 if d < obj.destBaryDist  && p.intersect(obstacle).isEmptySet()

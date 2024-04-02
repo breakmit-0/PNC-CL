@@ -1,13 +1,13 @@
-classdef EdgePathFinder < PathFinder
+classdef EdgePathFinder < graph.PathFinder
     %EDGEPATHFINDER Path finder class that allows objects to move only on
     %the edge of the partition.
     
     properties (Access = private)
-        edges = configureDictionary("Edge", "int32"),
-        srcEdge Edge,
+        edges = configureDictionary("graph.Edge", "int32"),
+        srcEdge graph.Edge,
         srcProj double,
         srcProjDist = realmax,
-        destEdge Edge,
+        destEdge graph.Edge,
         destProj double,
         destProjDist = realmax
     end
@@ -33,7 +33,7 @@ classdef EdgePathFinder < PathFinder
 
 
             disp("Edges created. Creating graph.")
-            vertexSet = VertexSet();
+            vertexSet = graph.VertexSet();
             startNodes = zeros(obj.edges.numEntries() + 4, 1);
             endNodes = zeros(obj.edges.numEntries() + 4, 1);
             weights = zeros(obj.edges.numEntries() + 4, 1);
@@ -49,38 +49,38 @@ classdef EdgePathFinder < PathFinder
 
                     startNodes(i) = i1;
                     endNodes(i) = i4;
-                    weights(i) = distance(edge.V1, obj.srcProj);
+                    weights(i) = util.distance(edge.V1, obj.srcProj);
 
                     i = i + 1;
                     startNodes(i) = i2;
                     endNodes(i) = i4;
-                    weights(i) = distance(edge.V2, obj.srcProj);
+                    weights(i) = util.distance(edge.V2, obj.srcProj);
 
                     i = i + 1;
                     startNodes(i) = i3;
                     endNodes(i) = i4;
-                    weights(i) = distance(src, obj.srcProj);
+                    weights(i) = util.distance(src, obj.srcProj);
                 elseif edge == obj.destEdge
                     i3 = vertexSet.getIndex(dest);
                     i4 = vertexSet.getIndex(obj.destProj);
 
                     startNodes(i) = i1;
                     endNodes(i) = i4;
-                    weights(i) = distance(edge.V1, obj.destProj);
+                    weights(i) = util.distance(edge.V1, obj.destProj);
 
                     i = i + 1;
                     startNodes(i) = i2;
                     endNodes(i) = i4;
-                    weights(i) = distance(edge.V2, obj.destProj);
+                    weights(i) = util.distance(edge.V2, obj.destProj);
 
                     i = i + 1;
                     startNodes(i) = i3;
                     endNodes(i) = i4;
-                    weights(i) = distance(dest, obj.destProj);
+                    weights(i) = util.distance(dest, obj.destProj);
                 else
                     startNodes(i) = i1;
                     endNodes(i) = i2;
-                    weights(i) = distance(edge.V1, edge.V2);
+                    weights(i) = util.distance(edge.V1, edge.V2);
                 end
        
                 i = i + 1;
@@ -99,7 +99,7 @@ classdef EdgePathFinder < PathFinder
             % CLEAN Clean EdgePathFinder: remove all edges and reset
             % srcProjDist and destProjDist.
 
-            obj.edges.remove(obj.keys);
+            obj.edges.remove(obj.edges.keys);
             obj.srcProjDist = realmax;
             obj.destProjDist = realmax;
         end
@@ -126,11 +126,11 @@ classdef EdgePathFinder < PathFinder
 
             V1 = pEdge.V(1, :);
             V2 = pEdge.V(2, :);
-            edge = Edge(V1, V2);
+            edge = graph.Edge(V1, V2);
             obj.edges = obj.edges.insert(edge, obj.edges.numEntries(), Overwrite=false);
 
             if srcInside
-                [proj, dist, alpha] = EdgePathFinder.projectPointIntoLine(src, V1, V2);
+                [proj, dist, alpha] = graph.EdgePathFinder.projectPointIntoLine(src, V1, V2);
                 p = Polyhedron('V', src, 'R', proj - src);
 
                 % check if the projection is inside the line
@@ -141,7 +141,7 @@ classdef EdgePathFinder < PathFinder
                 end
             end
             if destInside
-                [proj, dist, alpha] = EdgePathFinder.projectPointIntoLine(dest, V1, V2);
+                [proj, dist, alpha] = graph.EdgePathFinder.projectPointIntoLine(dest, V1, V2);
                 p = Polyhedron('V', dest, 'R', proj - dest);
 
                 % check if the projection is inside the line

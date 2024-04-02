@@ -1,4 +1,6 @@
 function [polyhedra] = readObj(objFile, useHRep)
+    import graph.*;
+
     %OBJREADER Summary of this function goes here
     %   Detailed explanation goes here
 
