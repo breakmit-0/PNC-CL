@@ -2,7 +2,7 @@ classdef PathFinder < handle
     %PATHFINDER Base class for all path finder
  
     methods (Abstract)
-        [G, path, vertexSet] = pathfinder(obj, src, dest, obstacles, partition)
+        [G, path, vertices] = pathfinder(obj, src, dest, obstacles, partition)
         % Find a path between src and dest without going into
         % an obstacle and moving on the facets of partition
         % 
@@ -17,8 +17,8 @@ classdef PathFinder < handle
         % Returns:
         % G: graph
         % path: path in G
-        % vertexSet: an object mapping a vertex to an index in the vertices
-        % in G
+        % vertices: vertices(i, :) represents the position of the i-th node
+        % of the graph in the space.
     end
 end
 

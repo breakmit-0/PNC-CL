@@ -1,7 +1,5 @@
-function [polyhedra] = readObj(objFile, useHRep)
-    import graph.*;
-
-    %OBJREADER Summary of this function goes here
+function [polyhedra] = read_obj(objFile, useHRep)
+    %OBJREADER Read a .obj file and returns a vector of polyhedron.
     %   Detailed explanation goes here
 
     if nargin < 2
@@ -9,7 +7,7 @@ function [polyhedra] = readObj(objFile, useHRep)
     end
     
     fid = fopen(objFile, 'r');
-    assert(fid ~= -1);
+    assert(fid ~= -1, "Cannot open file");
 
     polyhedra = [];
 
@@ -18,7 +16,7 @@ function [polyhedra] = readObj(objFile, useHRep)
         % need to create A and b and keep every vertices in a set.
         A = [];
         b = [];
-        set = VertexSet();
+        vertices = [];
         offset = 0;
 
         while true    
@@ -29,12 +27,12 @@ function [polyhedra] = readObj(objFile, useHRep)
     
             switch ln
                 case 'v' % mesh vertexs
-                    set.getIndex( sscanf(tline(2:end),'%f')' );
+                    vertices = [vertices; sscanf(tline(2:end),'%f')'];
                 case 'f'
-                    vertices = sscanf(tline(2:end),'%d')';
-                    V1 = set.vertices(vertices(1) - offset, :);
-                    V2 = set.vertices(vertices(2) - offset, :);
-                    V3 = set.vertices(vertices(3) - offset, :);
+                    face = sscanf(tline(2:end),'%d')';
+                    V1 = vertices(face(1) - offset, :);
+                    V2 = vertices(face(2) - offset, :);
+                    V3 = vertices(face(3) - offset, :);
 
                     normal = cross(V2 - V1, V3 - V1);
                     A = [A; normal];
@@ -42,10 +40,10 @@ function [polyhedra] = readObj(objFile, useHRep)
                 case 'o' % new object
                     if height(A) > 0
                         polyhedra = [polyhedra; Polyhedron('A', A, 'b', b)];
+                        offset = offset + height(vertices);
                         A = [];
                         b = [];     
-                        offset = offset + set.size();
-                        set.clear();
+                        vertices = [];
                     end
             end
         end

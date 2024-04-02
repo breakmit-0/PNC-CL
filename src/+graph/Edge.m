@@ -29,11 +29,11 @@ classdef Edge
         end
 
         function tf = keyMatch(objA, objB)
-            import util.matrixEquals;
+            import util.matrix_equals;
 
             tf = all(size(objA.V1) == size(objB.V1)) ...
-                 && (   (matrixEquals(objA.V1, objB.V1) && matrixEquals(objA.V2, objB.V2)) ...
-                     || (matrixEquals(objA.V1, objB.V2) && matrixEquals(objA.V2, objB.V1)));
+                 && (   (matrix_equals(objA.V1, objB.V1) && matrix_equals(objA.V2, objB.V2)) ...
+                     || (matrix_equals(objA.V1, objB.V2) && matrix_equals(objA.V2, objB.V1)));
         end
 
         function eq = eq(objA, objB)

@@ -31,16 +31,16 @@ classdef BarycenterPathFinder < graph.PathFinder
                     end
                 end
 
-                obj.addBarycenters(p, obstacle, src, dest, srcInside, destInside);
+                obj.add_barycenters(p, obstacle, src, dest, srcInside, destInside);
             end
 
-            srcI = obj.vertices.getIndex(src);
-            destI = obj.vertices.getIndex(dest);
+            srcI = obj.vertices.get_index(src);
+            destI = obj.vertices.get_index(dest);
 
             obj.startNodes = [obj.startNodes; srcI; destI];
             obj.endNodes = [obj.endNodes; 
-                obj.vertices.getIndex(obj.srcBarycenter); 
-                obj.vertices.getIndex(obj.destBarycenter)];
+                obj.vertices.get_index(obj.srcBarycenter); 
+                obj.vertices.get_index(obj.destBarycenter)];
             obj.weights = [obj.weights; 
                 util.distance(src, obj.srcBarycenter); 
                 util.distance(dest, obj.destBarycenter)];
@@ -60,21 +60,23 @@ classdef BarycenterPathFinder < graph.PathFinder
             obj.destBaryDist = realmax;
         end
 
-        function obj = addBarycenters(obj, polyhedron, obstacle, src, dest, srcInside, destInside)
+        function obj = add_barycenters(obj, polyhedron, obstacle, src, dest, srcInside, destInside)
             polyhedron.minHRep();
-            arrayfun(@(f) obj.addBarycenter(f, obstacle, src, dest, srcInside, destInside), polyhedron.getFacet());
+            arrayfun(@(f) obj.add_barycenter(f, obstacle, src, dest, srcInside, destInside), polyhedron.getFacet());
         end
 
-        function obj = addBarycenter(obj, facet, obstacle, src, dest, srcInside, destInside)
+        function obj = add_barycenter(obj, facet, obstacle, src, dest, srcInside, destInside)
+            import util.barycenter;
+
             facet.minHRep();
 
-            c = util.barycenter(facet);
-            [ci, new] = obj.vertices.getIndexN(c);
+            c = barycenter(facet);
+            [ci, new] = obj.vertices.get_indexn(c);
            
             if new % only add edges if it the first time we process this barycenter
                 for ridge = facet.getFacet().'
-                    rc = util.barycenter(ridge);
-                    rci = obj.vertices.getIndex(rc);
+                    rc = barycenter(ridge);
+                    rci = obj.vertices.get_index(rc);
                     
                     obj.startNodes = [obj.startNodes; ci];
                     obj.endNodes = [obj.endNodes; rci];
@@ -83,7 +85,7 @@ classdef BarycenterPathFinder < graph.PathFinder
             end
 
             if srcInside
-                d = util.distance(src, c);
+                d = norm(src - c);
                 p = Polyhedron('V', src, 'R', c - src);
 
                 if d < obj.srcBaryDist  && p.intersect(obstacle).isEmptySet()
@@ -93,7 +95,7 @@ classdef BarycenterPathFinder < graph.PathFinder
             end
 
             if destInside
-                d = util.distance(dest, c);
+                d = norm(dest - c);
                 p = Polyhedron('V', dest, 'R', c - dest);
 
                 if d < obj.destBaryDist  && p.intersect(obstacle).isEmptySet()

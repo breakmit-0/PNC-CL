@@ -3,10 +3,10 @@ disp("EdgePathFinder3DTest")
 
 hold on
 
-obstacles = util.readObj("src/+testing/EdgePathFinder3DTest_obstacles.obj", true);
+obstacles = util.read_obj("src/+testing/EdgePathFinder3DTest_obstacles.obj", true);
 obstacles.plot()
 
-partition = util.readObj("src/+testing/EdgePathFinder3DTest_partition.obj", false);
+partition = util.read_obj("src/+testing/EdgePathFinder3DTest_partition.obj", false);
 % partition.plot('FaceColor','b','FaceAlpha',.3,'EdgeAlpha',.3)
 % obstacles.plot()
 
@@ -17,8 +17,8 @@ dest = [-1.5 -0 0];
 [G, path, vertexSet] = graph.EdgePathFinder().pathfinder(src, dest, obstacles, partition);
 
 p = plot(G, ...
-    'XData', vertexSet.extractCoords(1), ...
-    'YData', vertexSet.extractCoords(2), ...
-    'ZData', vertexSet.extractCoords(3), ...
+    'XData', vertexSet.extract_coords(1), ...
+    'YData', vertexSet.extract_coords(2), ...
+    'ZData', vertexSet.extract_coords(3), ...
     'EdgeLabel', G.Edges.Weight);
 highlight(p, path, 'EdgeColor', 'g')
