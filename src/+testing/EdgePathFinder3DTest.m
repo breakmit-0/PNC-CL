@@ -3,10 +3,10 @@ disp("EdgePathFinder3DTest")
 
 hold on
 
-obstacles = readObj("EdgePathFinder3DTest_obstacles.obj", true);
+obstacles = util.readObj("src/+testing/EdgePathFinder3DTest_obstacles.obj", true);
 obstacles.plot()
 
-partition = readObj("EdgePathFinder3DTest_partition.obj", false);
+partition = util.readObj("src/+testing/EdgePathFinder3DTest_partition.obj", false);
 % partition.plot('FaceColor','b','FaceAlpha',.3,'EdgeAlpha',.3)
 % obstacles.plot()
 
@@ -14,7 +14,7 @@ partition = readObj("EdgePathFinder3DTest_partition.obj", false);
 src = [4.5 1 0];
 dest = [-1.5 -0 0];
 
-[G, path, vertexSet] = EdgePathFinder().pathfinder(src, dest, obstacles, partition);
+[G, path, vertexSet] = graph.EdgePathFinder().pathfinder(src, dest, obstacles, partition);
 
 p = plot(G, ...
     'XData', vertexSet.extractCoords(1), ...

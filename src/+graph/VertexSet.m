@@ -23,7 +23,7 @@ classdef VertexSet < handle
             
             index = -1;
             for i = 1:height(obj.vertices)
-                if matrixEquals(obj.vertices(i, :), vertex, 1e-3)
+                if util.matrixEquals(obj.vertices(i, :), vertex, 1e-3)
                     index = i;
                     break
                 end
@@ -39,7 +39,7 @@ classdef VertexSet < handle
         function [index, new] = getIndexN(obj, vertex)
             index = -1;
             for i = 1:height(obj.vertices)
-                if matrixEquals(obj.vertices(i, :), vertex, 1e-3)
+                if util.matrixEquals(obj.vertices(i, :), vertex, 1e-3)
                     index = i;
                     break
                 end

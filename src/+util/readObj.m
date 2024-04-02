@@ -1,4 +1,6 @@
 function [polyhedra] = readObj(objFile, useHRep)
+    import graph.*;
+
     %OBJREADER Summary of this function goes here
     %   Detailed explanation goes here
 
@@ -7,6 +9,8 @@ function [polyhedra] = readObj(objFile, useHRep)
     end
     
     fid = fopen(objFile, 'r');
+    assert(fid ~= -1);
+
     polyhedra = [];
 
     if useHRep
