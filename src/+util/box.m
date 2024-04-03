@@ -1,5 +1,20 @@
-% Generate a cube around center
 function out = box(center, radius, sh)
+    % util.box Generates a hypercube Polyhedron
+    %
+    % Usage:
+    %   p = box(center, radius)             generates a hypercube around center
+    %   p = box(center, radius, height)     uses a different value for the last dimension of the hypercube
+    %
+    % Parameters:
+    %   center is a row vector, the dimension of the output Polyhedron is the size of center 
+    %   radius is a scalar, the cubes edges have length 2*radius
+    %   height (optional) has the same effect as radius for the last dimension
+    %
+    % Return Value:
+    %   A Polyhedron object in H representation with 2*length(center) faces is returned
+    %
+    % See also util
+
     arguments
         center;
         radius;
