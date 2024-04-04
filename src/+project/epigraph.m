@@ -5,7 +5,7 @@ function out = epigraph(oa, ob, space)
     P = Polyhedron(A, -ob); 
     P.minHRep();
 
-    bbx = util.box(space/2*ones(1,D+1), space/2, lift.max(oa,ob,space));
+    bbx = util.box(zeros(1,D+1), space/2, lift.max(oa,ob,space));
     
     out = P.intersect(bbx);
     out.minHRep();
