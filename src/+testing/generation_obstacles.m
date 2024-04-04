@@ -58,7 +58,7 @@ end
     count_iterations=1;
     while i<=Number_of_obstacles && count_iterations<max_iterations
         %Centers are uniformly distribued in the space considering the space length 
-        centers(:,i) = rand(dimension,1)*space_length;
+        centers(:,i) = (rand(dimension,1)*2.-1)*space_length/2;
 
         %The number of points of a polyhedron is randomly chosen and takes value
         %from dimension+1 to dimension + 11 with more polyhedra with few points
