@@ -1,7 +1,7 @@
 dimension = 2;
 space_length = 30;
-src = [0 0];
-dest = [space_length space_length];
+src = [-space_length/2 -space_length/2];
+dest = [space_length/2 space_length/2];
 finder = graph.EdgePathFinder();
 
 %obstacles = testing.Counter_examples();
