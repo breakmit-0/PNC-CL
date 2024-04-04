@@ -6,8 +6,8 @@ function out = reduction(polyhedron,homothetie_factor)
     %   P = util.reduction(polyhedron, homothetie_facor)
     %
     % Parameters:
-    %   a Polyhedron object, polyhedron 
-    %   a scalar, homothetie_factor 
+    %   polyhedron should be a Polyhedron object
+    %   homothetie_factor should be a scalar
     %
     % Return Values:
     %   P is a Polyhedron object of the same dimension as polyhedron
