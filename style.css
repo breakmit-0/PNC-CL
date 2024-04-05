@@ -1,0 +1,16 @@
+
+.kw {
+    color: purple;
+}
+
+.mod {
+    color: green;
+}
+
+.code {
+    font-family: Fira Code, Noto Mono, monspace;
+}
+
+.indent {
+    padding-left: 20px;
+}

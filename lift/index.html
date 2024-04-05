@@ -5,20 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>lift - My Docs</title>
+    <title><span class="code"> <span class="mod">module</span> lift </span> - My Docs</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../style.css" rel="stylesheet" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "lift";
+        var mkdocs_page_name = "\u003cspan class=\"code\"\u003e \u003cspan class=\"mod\"\u003emodule\u003c/span\u003e lift \u003c/span\u003e";
         var mkdocs_page_input_path = "lift.md";
         var mkdocs_page_url = null;
       </script>
     
     <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
-    <![endif]--> 
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -40,24 +44,30 @@
                 <li class="toctree-l1"><a class="reference internal" href="..">Path Planning using Convex Lifting</a>
                 </li>
               </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../graph/"><span class="code"> <span class="mod">module</span> graph </span></a>
+                </li>
+              </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">lift</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="./"><span class="code"> <span class="mod">module</span> lift </span></a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#find-polyhedronn-f64nd-f64n1">**find** : (Polyhedron[N]) -&gt; [f64[N,D], f64[N,1]]</a>
+    <li class="toctree-l2"><a class="reference internal" href="#function-find"> function find </a>
     </li>
-        </ul>
+    <li class="toctree-l2"><a class="reference internal" href="#function-max"> function max </a>
     </li>
     </ul>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                <li class="toctree-l1"><a class="reference internal" href="../project/"><span class="code"> <span class="mod">module</span> project </span></a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../util/">Util</a>
+                <li class="toctree-l1"><a class="reference internal" href="../testing/"><span class="code"> <span class="mod">module</span> testing </span></a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../util/"><span class="code"> <span class="mod">module</span> util </span></a>
                 </li>
               </ul>
       </div>
@@ -74,7 +84,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">lift</li>
+      <li class="breadcrumb-item active"><span class="code"> <span class="mod">module</span> lift </span></li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -83,16 +93,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="lift">lift</h1>
+                <h1 id="module-lift"><span class="code"> <span class="mod">module</span> lift </span></h1>
 <p>This modules contains functions to create and operate on a convex lifting</p>
-<h2 id="functions">Functions</h2>
-<h3 id="find-polyhedronn-f64nd-f64n1"><code>**find** : (Polyhedron[N]) -&gt; [f64[N,D], f64[N,1]]</code></h3>
+<h3 id="function-find"><span class="code"> <span class="kw">function</span> find </span></h3>
+<p>Find a convex lifting over a set of obstacles,</p>
+<p><strong>Usage</strong></p>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>[oa,<span style="color: #bbbbbb"> </span>ob]<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>lift.find(obstacles)
+</code></pre></div>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>obstacles</code></dt>
+<dd>An array of <code>Polyhedron</code> of length <code>N</code>. All the elements must be of the same dimension <code>D</code></dd>
+</dl>
+<p><strong>Return Values</strong></p>
+<p>The returned values define the found convex lifting, they are such that the lifting function
+is defined by <code>z(x) = max(oa * x + ob)</code>.</p>
+<dl>
+<dt><code>oa</code></dt>
+<dd>A matrix with <code>N</code> lines and '<code>D</code> columns</dd>
+<dt><code>ob</code></dt>
+<dd>A column vector with <code>N</code> lines</dd>
+</dl>
+<h3 id="function-max"><span class="code"> <span class="kw">function</span> max </span></h3>
+<p>Find the maximum of the convex lifting function in a given space, used 
+internally when tracing the lifting function to place the obstacles above it.</p>
+<p><strong>Usage</strong>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>max_value<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>lift.max(oa,<span style="color: #bbbbbb"> </span>ob,<span style="color: #bbbbbb"> </span>space)
+</code></pre></div></p>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>oa</code> and <code>ob</code></dt>
+<dd>The values returned by <code>lift.find</code></dd>
+<dt><code>space</code></dt>
+<dd>Where to look for the maximum, currently a scalar representing the radius
+of a hypercube</dd>
+</dl>
+<p><strong>Return Values</strong></p>
+<dl>
+<dt><code>max_value</code></dt>
+<dd>The maximum of the convex lifting</dd>
+</dl>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href=".." class="btn btn-neutral float-left" title="Path Planning using Convex Lifting"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../testing/" class="btn btn-neutral float-right" title="Testing">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../graph/" class="btn btn-neutral float-left" title="<span class="code"> <span class="mod">module</span> graph </span>"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../project/" class="btn btn-neutral float-right" title="<span class="code"> <span class="mod">module</span> project </span>">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -115,10 +161,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../graph/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../testing/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../project/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

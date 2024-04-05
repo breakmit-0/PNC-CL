@@ -5,20 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Util - My Docs</title>
+    <title><span class="code"> <span class="mod">module</span> util </span> - My Docs</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../style.css" rel="stylesheet" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Util";
+        var mkdocs_page_name = "\u003cspan class=\"code\"\u003e \u003cspan class=\"mod\"\u003emodule\u003c/span\u003e util \u003c/span\u003e";
         var mkdocs_page_input_path = "util.md";
         var mkdocs_page_url = null;
       </script>
     
     <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
-    <![endif]--> 
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,15 +45,41 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../lift/">lift</a>
+                <li class="toctree-l1"><a class="reference internal" href="../graph/"><span class="code"> <span class="mod">module</span> graph </span></a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                <li class="toctree-l1"><a class="reference internal" href="../lift/"><span class="code"> <span class="mod">module</span> lift </span></a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../project/"><span class="code"> <span class="mod">module</span> project </span></a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../testing/"><span class="code"> <span class="mod">module</span> testing </span></a>
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Util</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="./"><span class="code"> <span class="mod">module</span> util </span></a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#function-assert_shape"> function assert_shape </a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-barycenter"> function barycenter </a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-box"> function box </a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-is_near_unit"> function is_near_unit </a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-matrix_equals"> function matrix_equals </a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-read_obj"> function read_obj </a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-reduction"> function reduction </a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-unit_vec"> function unit_vec </a>
+    </li>
+    </ul>
                 </li>
               </ul>
       </div>
@@ -66,7 +96,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Util</li>
+      <li class="breadcrumb-item active"><span class="code"> <span class="mod">module</span> util </span></li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -75,12 +105,133 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="module-util"><span class="code"> <span class="mod">module</span> util </span></h1>
+<p>This modules contains internal functions that are not meant to be used
+by the end user.</p>
+<h3 id="function-assert_shape"><span class="code"> <span class="kw">function</span> assert_shape </span></h3>
+<p>Causes an error if <code>size(x)</code> is different from <code>shape</code>.</p>
+<p><strong>Usage</strong></p>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>util.assert_shape(x,<span style="color: #bbbbbb"> </span>shape)
+</code></pre></div>
+<h3 id="function-barycenter"><span class="code"> <span class="kw">function</span> barycenter </span></h3>
+<p><strong>Usage</strong>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>center<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.barycenter(<span style="color: #008000">poly</span>)
+</code></pre></div></p>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>poly</code></dt>
+<dd>Any bounded, non empty <code>Polyhedron</code> of dimension <code>D</code></dd>
+</dl>
+<p><strong>Return Values</strong></p>
+<dl>
+<dt><code>center</code></dt>
+<dd>A <code>D</code> dimensional row vector representing the barycenter of <code>poly</code> </dd>
+</dl>
+<h3 id="function-box"><span class="code"> <span class="kw">function</span> box </span></h3>
+<p>Returns a hypercube of a given radius, potentially stretch vertically</p>
+<p><strong>Usage</strong>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000">poly</span><span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.box(center,<span style="color: #bbbbbb"> </span>radius)
+<span style="color: #008000">poly</span><span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.box(center,<span style="color: #bbbbbb"> </span>radius,<span style="color: #bbbbbb"> </span>z_size)
+</code></pre></div></p>
+<p><strong>Parameters</strong></p>
+<p>Calculates the barycenter of a polyhedron : the average of all its vertices.</p>
+<dl>
+<dt><code>center</code></dt>
+<dd>A row vector of dimension <code>D</code></dd>
+<dt><code>radius</code></dt>
+<dd>A Scalar, he distance in each dimension  from <code>center</code> to the edge of the cube</dd>
+<dt><code>z_size</code></dt>
+<dd>If given, overrides <code>radius</code> for the last dimension</dd>
+</dl>
+<p><strong>Return Values</strong></p>
+<dl>
+<dt><code>poly</code></dt>
+<dd>A <code>D</code> dimensional hypercube, stretched if z_size is different from radius</dd>
+</dl>
+<h3 id="function-is_near_unit"><span class="code"> <span class="kw">function</span> is_near_unit </span></h3>
+<p>Tests wether a vector is nearly colinear to any of the unit vectors of 
+the canonical basis. The exact formula used is <code>N(v/N(v) - u) &lt;= epsilon</code>
+where <code>v</code> is the tested vector, <code>u</code> the unit vector and <code>N</code> is the euclidian norm.</p>
+<p><strong>Usage</strong>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>test<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.is_near_unit(vector)
+test<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.is_near_unit(vector,<span style="color: #bbbbbb"> </span>epsilon)
+</code></pre></div></p>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>vector</code></dt>
+<dd>Any row vector</dd>
+<dt><code>epsilon</code></dt>
+<dd>The error margin, defaults to <code>0.001</code></dd>
+</dl>
+<h3 id="function-matrix_equals"><span class="code"> <span class="kw">function</span> matrix_equals </span></h3>
+<p>Tests wether two matrixes are equal within a given margin of error
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>test<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.matrix_equals(A,<span style="color: #bbbbbb"> </span>B)
+test<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.matrix_equals(A,<span style="color: #bbbbbb"> </span>B,<span style="color: #bbbbbb"> </span>epsilon)
+</code></pre></div></p>
+<dl>
+<dt><strong>Parameters</strong></dt>
+<dt><code>A</code> and <code>B</code></dt>
+<dd>Two matrices to test</dd>
+<dt><code>epsilon</code></dt>
+<dd>The margin of error, defaults to <code>0.001</code></dd>
+</dl>
+<h3 id="function-read_obj"><span class="code"> <span class="kw">function</span> read_obj </span></h3>
+<p>Reads a set of polyhedra from a <code>.obj</code> (blender) file.</p>
+<p><strong>Usage</strong>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000">poly</span><span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.read_obj(file)
+<span style="color: #008000">poly</span><span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.read_obj(file,<span style="color: #bbbbbb"> </span>useHRep)
+</code></pre></div></p>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>file</code></dt>
+<dd>The name of a file to load polyhedra from, relative to the <code>cwd</code></dd>
+<dt><code>useHrep</code></dt>
+<dd>If <code>true</code>, the polyhedra are returned in hrep, defaults to <code>false</code></dd>
+</dl>
+<p><strong>Return Values</strong></p>
+<dl>
+<dt><code>poly</code></dt>
+<dd>A column vector of <code>Polyhedron</code> objects</dd>
+</dl>
+<h3 id="function-reduction"><span class="code"> <span class="kw">function</span> reduction </span></h3>
+<p>Scales a polyhedron by some factor around its barycenter.</p>
+<p><strong>Usage</strong>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>scaled<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.reduction(<span style="color: #008000">poly</span>,<span style="color: #bbbbbb"> </span><span style="color: #008000">factor</span>)
+</code></pre></div></p>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>poly</code></dt>
+<dd>Any <code>Polyhedron</code></dd>
+<dt><code>factor</code></dt>
+<dd>A scalar to scale <code>poly</code> by</dd>
+</dl>
+<p><strong>Return Values</strong></p>
+<dl>
+<dt><code>scaled</code></dt>
+<dd>A new <code>Polyhedron</code></dd>
+</dl>
+<h3 id="function-unit_vec"><span class="code"> <span class="kw">function</span> unit_vec </span></h3>
+<p>Creates nth <code>n</code>-th unit vector of the canonical base in dimension <code>dim</code>.</p>
+<p><strong>Usage</strong>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>u<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>util.unit_vec(dim,<span style="color: #bbbbbb"> </span>n)
+</code></pre></div></p>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>dim</code></dt>
+<dd>The dimension of the output vector</dd>
+<dt><code>n</code></dt>
+<dd>An integer in <code>1:dim</code></dd>
+</dl>
+<p><strong>Return value</strong></p>
+<dl>
+<dt><code>u</code></dt>
+<dd>A <code>dim</code> dimensional unit row vector, its only non zero component is th <code>n</code>-th</dd>
+</dl>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../testing/" class="btn btn-neutral float-left" title="Testing"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../testing/" class="btn btn-neutral float-left" title="<span class="code"> <span class="mod">module</span> testing </span>"><span class="icon icon-circle-arrow-left"></span> Previous</a>
     </div>
 
   <hr/>
