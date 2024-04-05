@@ -42,13 +42,13 @@ classdef BarycenterPathFinder < graph.PathFinder
                 obj.vertices.get_index(obj.srcBarycenter); 
                 obj.vertices.get_index(obj.destBarycenter)];
             obj.weights = [obj.weights; 
-                util.distance(src, obj.srcBarycenter); 
-                util.distance(dest, obj.destBarycenter)];
+                norm(src - obj.srcBarycenter); 
+                norm(dest - obj.destBarycenter)];
 
             vertexSet = obj.vertices;
             G = graph(obj.startNodes, obj.endNodes, obj.weights);
-            [path, ~] = shortestpath(G, srcI, destI);
-
+            [path, dist] = shortestpath(G, srcI, destI);
+            disp(dist)
             obj.clean();
         end
     end
@@ -80,7 +80,7 @@ classdef BarycenterPathFinder < graph.PathFinder
                     
                     obj.startNodes = [obj.startNodes; ci];
                     obj.endNodes = [obj.endNodes; rci];
-                    obj.weights = [obj.weights; util.distance(c, rc)];
+                    obj.weights = [obj.weights; norm(c - rc)];
                 end
             end
 

@@ -86,8 +86,8 @@ classdef EdgePathFinder < graph.PathFinder
             end
             
             G = graph(startNodes, endNodes, weights);
-            [path, ~] = shortestpath(G, vertexSet.get_index(src), vertexSet.get_index(dest));
-
+            [path, dist] = shortestpath(G, vertexSet.get_index(src), vertexSet.get_index(dest));
+            disp(dist)
             obj.clean();
         end
     end

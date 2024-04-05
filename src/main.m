@@ -1,4 +1,4 @@
-function [G, path, vertexSet] = main(obstacles, space_length, src, dest, finder)
+function [P, G, path, vertexSet] = main(obstacles, space_length, src, dest, finder)
 % main [<a href="matlab:web('https://breakmit-0.github.io/testing-ppl/')">online docs</a>]
     %
     % Usage:
