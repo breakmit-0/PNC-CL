@@ -13,4 +13,5 @@ p = plot(G, ...
     'YData', vertexSet.extract_coords(2));
 highlight(p, path, 'EdgeColor', 'red', 'LineWidth', 3)
 hold on 
+plot(P,'alpha',0.5)
 plot(obstacles)
