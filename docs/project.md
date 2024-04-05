@@ -1,4 +1,4 @@
-# <span class="code"> <span class="mod">module</span> testing </span>
+# <span class="code"> <span class="mod">module</span> project </span>
 
 Functions for testing this library.
 

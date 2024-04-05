@@ -1,7 +1,7 @@
 site_name: My Docs
 theme: 
   name: readthedocs
-  highlightjs: false
+  highlightjs: true
 markdown_extensions:
   - pymdownx.highlight:
       use_pygments: true
@@ -14,4 +14,4 @@ markdown_extensions:
   - pymdownx.extra:
       def_list: true
 site_dir: "build/site"
-      
+extra_css: [style.css]      
