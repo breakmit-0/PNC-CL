@@ -15,7 +15,7 @@ classdef ReadObjTest < matlab.unittest.TestCase
             polyhedra = util.read_obj("src/+testing/obj/multi.obj");
             expected1 = Polyhedron('V', [1 1 0; 1 -1 0; -1 1 0; -1 -1 0]);
             expected2 = Polyhedron('V', [1 1 1; 1 -1 1; -1 1 1; -1 -1 1]);
-            testCase.assertTrue(all(size(polyhedra) == [2 1]), "Bad array size");
+            testCase.assertTrue(all(size(polyhedra) == [1 2]), "Bad array size");
             testCase.assertTrue(polyhedra(1) == expected1, "Polyhedron not equals");
             testCase.assertTrue(polyhedra(2) == expected2, "Polyhedron not equals");
         end

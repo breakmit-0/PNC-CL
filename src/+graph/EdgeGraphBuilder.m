@@ -1,5 +1,5 @@
-classdef EdgePathFinder < graph.PathFinder
-    % graph.EdgePathFinder Path finder class that allows objects to move only on
+classdef EdgeGraphBuilder < graph.GraphBuilder
+    % graph.EdgeGraphBuilder Graph builder that create a graph based on
     % the edge of the partition.
     
     properties (Access = private)
@@ -13,11 +13,11 @@ classdef EdgePathFinder < graph.PathFinder
     end
 
     methods        
-        function [G, path, vertexSet] = pathfinder(obj, src, dest, obstacles, partition)
+        function [G, vertexSet] = buildGraph(obj, src, dest, obstacles, partition)
             obj.clean();
 
             [srcPolyhedronI, destPolyhedronI, obstaclesSorted] = ...
-                graph.PathFinder.validate(src, dest, obstacles, partition);
+                graph.GraphBuilder.validate(src, dest, obstacles, partition);
 
             for i = 1:width(partition)
                 p = partition(i);
@@ -41,12 +41,12 @@ classdef EdgePathFinder < graph.PathFinder
 
             i = 1;
             for edge = obj.edges.keys().'
-                i1 = vertexSet.get_index(edge.V1);
-                i2 = vertexSet.get_index(edge.V2);
+                i1 = vertexSet.getIndex(edge.V1);
+                i2 = vertexSet.getIndex(edge.V2);
 
                 if edge == obj.src_edge
-                    i3 = vertexSet.get_index(src);
-                    i4 = vertexSet.get_index(obj.src_proj);
+                    i3 = vertexSet.getIndex(src);
+                    i4 = vertexSet.getIndex(obj.src_proj);
 
                     startNodes(i) = i1;
                     endNodes(i) = i4;
@@ -62,8 +62,8 @@ classdef EdgePathFinder < graph.PathFinder
                     endNodes(i) = i4;
                     weights(i) = norm(src - obj.src_proj);
                 elseif edge == obj.dest_edge
-                    i3 = vertexSet.get_index(dest);
-                    i4 = vertexSet.get_index(obj.dest_proj);
+                    i3 = vertexSet.getIndex(dest);
+                    i4 = vertexSet.getIndex(obj.dest_proj);
 
                     startNodes(i) = i1;
                     endNodes(i) = i4;
@@ -88,8 +88,6 @@ classdef EdgePathFinder < graph.PathFinder
             end
             
             G = graph(startNodes, endNodes, weights);
-            [path, dist] = shortestpath(G, vertexSet.get_index(src), vertexSet.get_index(dest));
-            disp(dist)
             obj.clean();
         end
     end
@@ -144,7 +142,7 @@ classdef EdgePathFinder < graph.PathFinder
             %     srcInside: true if the polyhedron contains src
             %     destInside: true if the polyhedron contains dest
 
-            import graph.EdgePathFinder.*;
+            import graph.EdgeGraphBuilder.*;
 
             V1 = pEdge.V(1, :);
             V2 = pEdge.V(2, :);
@@ -152,7 +150,7 @@ classdef EdgePathFinder < graph.PathFinder
             obj.edges = obj.edges.insert(edge, obj.edges.numEntries(), Overwrite=false);
 
             if srcInside
-                [proj, dist, alpha] = project_point_into_line(src, V1, V2);
+                [proj, dist, alpha] = projectPointIntoLine(src, V1, V2);
                 p = Polyhedron('V', src, 'R', proj - src);
 
                 % check if the projection is inside the line
@@ -163,7 +161,7 @@ classdef EdgePathFinder < graph.PathFinder
                 end
             end
             if destInside
-                [proj, dist, alpha] = project_point_into_line(dest, V1, V2);
+                [proj, dist, alpha] = projectPointIntoLine(dest, V1, V2);
                 p = Polyhedron('V', dest, 'R', proj - dest);
 
                 % check if the projection is inside the line
@@ -177,8 +175,8 @@ classdef EdgePathFinder < graph.PathFinder
     end
 
     methods (Access=private, Static)
-        function [proj, dist, alpha] = project_point_into_line(P, V1, V2)
-            % project_point_into_line Project P into the line defined by V1
+        function [proj, dist, alpha] = projectPointIntoLine(P, V1, V2)
+            % PROJECTPOINTINTOLINE Project P into the line defined by V1
             % and V2.
             % 
             % The function will fail if V1 = V2.

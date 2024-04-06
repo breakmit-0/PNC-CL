@@ -88,7 +88,7 @@ classdef Node < handle
             head = graph.Node(vector(1));
             node = head;
             for i = 2:width(vector)
-                node = node.insert_after(vector(i));
+                node = node.insertAfter(vector(i));
             end
         end
     end

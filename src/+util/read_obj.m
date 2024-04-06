@@ -1,5 +1,5 @@
 function [polyhedra] = read_obj(objFile)
-    % util.read_obj Read a .obj file and returns a column vector of polyhedra.
+    % util.read_obj Read a .obj file and returns a row vector of polyhedra.
     % 
     % Parameters:
     %     objFile: the file to read
@@ -26,16 +26,17 @@ function [polyhedra] = read_obj(objFile)
                 vertices = [vertices; sscanf(tline(2:end),'%f')' ];
             case 'o' % new object
                 if height(vertices) > 0
-                    polyhedra = [polyhedra; Polyhedron('V', vertices)];
+                    polyhedra = [polyhedra, Polyhedron('V', vertices)];
                     vertices = [];
                 end
         end
     end
 
     if height(vertices) > 0
-        polyhedra = [polyhedra; Polyhedron('V', vertices)];
+        polyhedra = [polyhedra, Polyhedron('V', vertices)];
     end
    
     fclose(fid);
+    polyhedra = polyhedra.';
 end
 

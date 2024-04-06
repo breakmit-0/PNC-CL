@@ -1,10 +1,10 @@
-classdef PathFinder < handle
-    % graph.PathFinder Base class for all path finder
+classdef GraphBuilder < handle
+    % graph.GraphBuilder Base class for all graph builder
 
     methods (Access=protected, Static)
         function [srcPolyhedronI, destPolyhedronI, obstaclesSorted] ...
             = validate(src, dest, obstacles, partition)
-            % VALIDATE Validate entries for pathfinder
+            % VALIDATE Validate entries for build_graph
             % 
             % Check that:
             % * obstacles and partiton have the same dimension and they are
@@ -12,7 +12,6 @@ classdef PathFinder < handle
             % * src and dest are inside at least on polyhedron of partition
             % * all partition contains one and only one polyhedron of
             % obstacles
-            %
 
             % check obstacles and partition size
             [R, C] = size(obstacles);
@@ -30,7 +29,7 @@ classdef PathFinder < handle
             % check a polyhedron of partition contains one polyhedron of
             % obstacles
             % convert the vector of obstacles to a linked list
-            ob_head = graph.Node.row_vector_to_linked_list(obstacles);
+            ob_head = graph.Node.rowVectorToLinkedList(obstacles);
             obstaclesSorted = repmat(Polyhedron(), 1, width(obstacles));
             srcPolyhedronI = -1;
             destPolyhedronI = -1;
@@ -103,7 +102,7 @@ classdef PathFinder < handle
 
  
     methods (Abstract)
-        [G, path, vertexSet] = pathfinder(obj, src, dest, obstacles, partition)
+        [G, vertexSet] = buildGraph(obj, src, dest, obstacles, partition)
         % Find a path between src and dest without going into
         % an obstacle and moving on the facets of partition
         % 
