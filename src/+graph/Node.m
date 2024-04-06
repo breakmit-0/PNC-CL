@@ -1,19 +1,35 @@
 classdef Node < handle
-    %LINKEDLIST Summary of this class goes here
-    %   Detailed explanation goes here
+    %NODE Simple linked list
+    %   Used by graph.GraphBuilder.validate.
     
     properties
+        % value hold by this Node
         value
     end
 
     properties (SetAccess = private)
+        % previous node
         prev = graph.Node.empty
+        % next node
         next = graph.Node.empty
     end
     
-    methods        
-        function node = insert_after(obj, value)
-            node = graph.Node();
+    methods
+        function obj = Node(value)
+            obj.value = value;
+        end
+
+        function node = insertAfter(obj, value)
+            % INSERTAFTER Insert a node with value 'value' just after this
+            % node.
+            % 
+            % Paramaters:
+            %     value: the value to add after
+            % 
+            % Return value:
+            %     node: the node inserted after.
+
+            node = graph.Node(value);
             node.prev = obj;
             
             if ~isempty(obj.next)
@@ -21,11 +37,18 @@ classdef Node < handle
                 node.next.prev = node;
             end
 
-            node.value = value;
             obj.next = node;
         end
 
         function node = remove(obj)
+            % REMOVE Remove this node from the linked list
+            % 
+            % If the linked list only contains this node, the function
+            % fail. Zero-length linked list aren't supported.
+            %
+            % Return value:
+            %     node: the node after this node
+
             if isempty(obj.prev) && isempty(obj.next)
                 error("Cannot remove node from a 1-sized linked list")
             end
@@ -48,13 +71,21 @@ classdef Node < handle
     end
 
     methods (Static)
-        function head = row_vector_to_linked_list(vector)
+        function head = rowVectorToLinkedList(vector)
+            % ROWVECTORTOLINKEDLIST convert a row vector to a linked
+            % list
+            %
+            % Parameter:
+            %     vector: a row vector
+            % 
+            % Return values:
+            %     head: the head of the linked list created
+
             if height(vector) ~= 1
                 error("Not a row vector")
             end
 
-            head = graph.Node();
-            head.value = vector(1);
+            head = graph.Node(vector(1));
             node = head;
             for i = 2:width(vector)
                 node = node.insert_after(vector(i));
