@@ -17,6 +17,6 @@ function [P, G, path, vertexSet] = main(obstacles, space_length, src, dest, find
 [oa,ob] = lift.find(obstacles);
 epi = project.epigraph(oa,ob,space_length);
 P = project.partition(epi);
-[G, path, vertexSet] = finder.pathfinder(src,dest,obstacles,P);
+[G, path, vertexSet] = finder.pathfinder(src, dest, obstacles.', P.');
 
 end

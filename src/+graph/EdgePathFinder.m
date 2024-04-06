@@ -16,21 +16,23 @@ classdef EdgePathFinder < graph.PathFinder
         function [G, path, vertexSet] = pathfinder(obj, src, dest, obstacles, partition)
             obj.clean();
 
-            for p = partition.'
-                src_inside = p.contains(src.');
-                dest_inside = p.contains(dest.');
+            [srcPolyhedronI, destPolyhedronI, obstaclesSorted] = ...
+                graph.PathFinder.validate(src, dest, obstacles, partition);
 
-                obstacle = obstacles(1);
-                for o = obstacles.'
-                    if p.contains(o.randomPoint())
-                        obstacle = o;
-                        break
-                    end
-                end
+            for i = 1:width(partition)
+                p = partition(i);
 
-                obj.add_edges_of_polyhedron(p, p.Dim, obstacle, src, dest, src_inside, dest_inside);
+                obj.add_edges_of_polyhedron(p, ...
+                    p.Dim, ...
+                    obstaclesSorted(i), ...
+                    src, dest, ...
+                    i == srcPolyhedronI, ...
+                    i == destPolyhedronI);
             end
 
+            if isempty(obj.src_edge) || isempty(obj.dest_edge)
+                error("Failed to link src or dest point to graph")
+            end
 
             vertexSet = graph.VertexSet();
             startNodes = zeros(obj.edges.numEntries() + 4, 1);
@@ -96,11 +98,13 @@ classdef EdgePathFinder < graph.PathFinder
 
         function obj = clean(obj)
             % Clean Clean EdgePathFinder: remove all edges and reset
-            % srcProjDist and destProjDist.
+            % properties
 
             obj.edges.remove(obj.edges.keys);
             obj.src_proj_dist = realmax;
             obj.dest_proj_dist = realmax;
+            obj.src_edge = graph.Edge.empty;
+            obj.dest_edge = graph.Edge.empty;
         end
 
 
@@ -148,7 +152,7 @@ classdef EdgePathFinder < graph.PathFinder
             obj.edges = obj.edges.insert(edge, obj.edges.numEntries(), Overwrite=false);
 
             if srcInside
-                [proj, dist, alpha] = graph.EdgePathFinder.project_point_into_line(src, V1, V2);
+                [proj, dist, alpha] = project_point_into_line(src, V1, V2);
                 p = Polyhedron('V', src, 'R', proj - src);
 
                 % check if the projection is inside the line
@@ -159,7 +163,7 @@ classdef EdgePathFinder < graph.PathFinder
                 end
             end
             if destInside
-                [proj, dist, alpha] = graph.EdgePathFinder.project_point_into_line(dest, V1, V2);
+                [proj, dist, alpha] = project_point_into_line(dest, V1, V2);
                 p = Polyhedron('V', dest, 'R', proj - dest);
 
                 % check if the projection is inside the line

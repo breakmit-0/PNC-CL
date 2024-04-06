@@ -19,19 +19,15 @@ classdef BarycenterPathFinder < graph.PathFinder
         function [G, path, vertexSet] = pathfinder(obj, src, dest, obstacles, partition)
             obj.clean();
 
-            for p = partition.'
-                srcInside = p.contains(src.');
-                destInside = p.contains(dest.');
+            [srcPolyhedronI, destPolyhedronI, obstaclesSorted] = ...
+                graph.PathFinder.validate(src, dest, obstacles, partition);
 
-                obstacle = obstacles(1);
-                for o = obstacles.'
-                    if p.contains(o.randomPoint())
-                        obstacle = o;
-                        break
-                    end
-                end
-
-                obj.add_barycenters(p, obstacle, src, dest, srcInside, destInside);
+            for i = 1:width(partition)
+                obj.add_barycenters(partition(i), ...
+                    obstaclesSorted(i), ...
+                    src, dest, ...
+                    i == srcPolyhedronI, ...
+                    i == destPolyhedronI);
             end
 
             srcI = obj.vertices.get_index(src);
