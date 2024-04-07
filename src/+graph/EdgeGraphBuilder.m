@@ -150,22 +150,18 @@ classdef EdgeGraphBuilder < graph.GraphBuilder
             obj.edges = obj.edges.insert(edge, obj.edges.numEntries(), Overwrite=false);
 
             if srcInside
-                [proj, dist, alpha] = projectPointIntoLine(src, V1, V2);
-                p = Polyhedron('V', src, 'R', proj - src);
+                [proj, dist] = isBetterEdge(src, dest, V1, V2, obstacle, obj.src_proj_dist);
 
-                % check if the projection is inside the line
-                if 0 <= alpha && alpha <= 1 && dist < obj.src_proj_dist && p.intersect(obstacle).isEmptySet()
+                if dist >= 0 % if positive, it is always better
                     obj.src_edge = edge;
                     obj.src_proj = proj;
                     obj.src_proj_dist = dist;
                 end
             end
             if destInside
-                [proj, dist, alpha] = projectPointIntoLine(dest, V1, V2);
-                p = Polyhedron('V', dest, 'R', proj - dest);
+                [proj, dist] = isBetterEdge(dest, src, V1, V2, obstacle, obj.dest_proj_dist);
 
-                % check if the projection is inside the line
-                if 0 <= alpha && alpha <= 1 && dist < obj.dest_proj_dist && p.intersect(obstacle).isEmptySet()
+                if dist >= 0 % if positive, it is always better
                     obj.dest_edge = edge;
                     obj.dest_proj = proj;
                     obj.dest_proj_dist = dist;
@@ -175,6 +171,41 @@ classdef EdgeGraphBuilder < graph.GraphBuilder
     end
 
     methods (Access=private, Static)
+        function [proj, dist] = isBetterEdge(src, dest, V1, V2, obstacle, best_dist)
+            % ISBETTEREDGE Return positive distance if the edge defined by
+            % V1 and V2 is better for minimizing distance between src and
+            % dest.
+            %
+            % This function projects src into the line defined by V1 and
+            % V2. If the projection is between V1 and V2, it calculates an
+            % approximation of the distance between src and dest in the
+            % graph: norm(src - proj) + norm(dest - proj). If this distance
+            % is less than best_dist and if the ray starting at src and
+            % pointing to proj doesn't intersect with obstacle, then 'dist'
+            % is set to the approximative distance. Otherwise 'dist' is set
+            % to -1.
+            
+            import graph.EdgeGraphBuilder.*;
+
+            dist = -1;
+            [proj, d, alpha] = projectPointIntoLine(src, V1, V2);
+
+            % check if the projection is inside the line
+            if 0 <= alpha && alpha <= 1
+                d = d + norm(dest - proj);
+
+                % check distance
+                if d < best_dist 
+                    p = Polyhedron('V', src, 'R', proj - src);
+
+                    % check no obstacles
+                    if p.intersect(obstacle).isEmptySet()
+                        dist = d;
+                    end
+                end
+            end
+        end
+
         function [proj, dist, alpha] = projectPointIntoLine(P, V1, V2)
             % PROJECTPOINTINTOLINE Project P into the line defined by V1
             % and V2.

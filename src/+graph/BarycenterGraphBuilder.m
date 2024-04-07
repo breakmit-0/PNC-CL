@@ -68,6 +68,7 @@ classdef BarycenterGraphBuilder < graph.GraphBuilder
 
         function obj = add_barycenter(obj, facet, obstacle, src, dest, srcInside, destInside)
             import util.barycenter;
+            import graph.BarycenterGraphBuilder.*;
 
             facet.minHRep();
 
@@ -86,22 +87,33 @@ classdef BarycenterGraphBuilder < graph.GraphBuilder
             end
 
             if srcInside
-                d = norm(src - c);
-                p = Polyhedron('V', src, 'R', c - src);
+                d = isBetterBarycenter(src, dest, c, obstacle, obj.srcBaryDist);
 
-                if d < obj.srcBaryDist  && p.intersect(obstacle).isEmptySet()
+                if d >= 0
                     obj.srcBarycenter = c;
                     obj.srcBaryDist = d;
                 end
             end
-
             if destInside
-                d = norm(dest - c);
-                p = Polyhedron('V', dest, 'R', c - dest);
-
-                if d < obj.destBaryDist  && p.intersect(obstacle).isEmptySet()
+                d = isBetterBarycenter(dest, src, c, obstacle, obj.destBaryDist);
+                
+                if d >= 0
                     obj.destBarycenter = c;
                     obj.destBaryDist = d;
+                end
+            end
+        end
+    end
+
+    methods (Access=private, Static)
+        function [dist] = isBetterBarycenter(src, dest, center, obstacle, best_dist)
+            dist = -1;
+            d = norm(src - center) + norm(center - dest);
+
+            if d < best_dist
+                p = Polyhedron('V', dest, 'R', center - dest);
+                if p.intersect(obstacle).isEmptySet()
+                    dist = d;
                 end
             end
         end

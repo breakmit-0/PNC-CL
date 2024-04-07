@@ -2,7 +2,7 @@ dimension = 3;
 space_length = 30;
 src = [-space_length/2 -space_length/2 -space_length/2];
 dest = [space_length/2 space_length/2 space_length/2];
-gBuilder = graph.EdgeGraphBuilder();
+gBuilder = graph.BarycenterGraphBuilder();
 
 obstacles = testing.generation_obstacles(dimension,10,3,0,0,space_length,100);
 
@@ -15,6 +15,5 @@ obstacles.plot('color', 'r');
 p = plot(G, ...
     'XData', vertexSet.extractCoords(1), ...
     'YData', vertexSet.extractCoords(2), ...
-    'ZData', vertexSet.extractCoords(3), ...
-    'EdgeLabel', G.Edges.Weight);
+    'ZData', vertexSet.extractCoords(3));
 highlight(p, path, 'EdgeColor', 'g', 'LineWidth', 2);
