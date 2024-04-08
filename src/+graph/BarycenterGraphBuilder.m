@@ -1,4 +1,4 @@
-classdef BarycenterPathFinder < graph.PathFinder 
+classdef BarycenterGraphBuilder < graph.GraphBuilder 
     %BARYCENTERPATHFINDER Summary of this class goes here
     %   Detailed explanation goes here
     
@@ -16,39 +16,33 @@ classdef BarycenterPathFinder < graph.PathFinder
     end
     
     methods
-        function [G, path, vertexSet] = pathfinder(obj, src, dest, obstacles, partition)
+        function [G, vertexSet] = buildGraph(obj, src, dest, obstacles, partition)
             obj.clean();
 
-            for p = partition.'
-                srcInside = p.contains(src.');
-                destInside = p.contains(dest.');
+            [srcPolyhedronI, destPolyhedronI, obstaclesSorted] = ...
+                graph.GraphBuilder.validate(src, dest, obstacles, partition);
 
-                obstacle = obstacles(1);
-                for o = obstacles.'
-                    if p.contains(o.randomPoint())
-                        obstacle = o;
-                        break
-                    end
-                end
-
-                obj.add_barycenters(p, obstacle, src, dest, srcInside, destInside);
+            for i = 1:width(partition)
+                obj.add_barycenters(partition(i), ...
+                    obstaclesSorted(i), ...
+                    src, dest, ...
+                    i == srcPolyhedronI, ...
+                    i == destPolyhedronI);
             end
 
-            srcI = obj.vertices.get_index(src);
-            destI = obj.vertices.get_index(dest);
+            srcI = obj.vertices.getIndex(src);
+            destI = obj.vertices.getIndex(dest);
 
             obj.startNodes = [obj.startNodes; srcI; destI];
             obj.endNodes = [obj.endNodes; 
-                obj.vertices.get_index(obj.srcBarycenter); 
-                obj.vertices.get_index(obj.destBarycenter)];
+                obj.vertices.getIndex(obj.srcBarycenter); 
+                obj.vertices.getIndex(obj.destBarycenter)];
             obj.weights = [obj.weights; 
-                util.distance(src, obj.srcBarycenter); 
-                util.distance(dest, obj.destBarycenter)];
+                norm(src - obj.srcBarycenter); 
+                norm(dest - obj.destBarycenter)];
 
             vertexSet = obj.vertices;
             G = graph(obj.startNodes, obj.endNodes, obj.weights);
-            [path, ~] = shortestpath(G, srcI, destI);
-
             obj.clean();
         end
     end
@@ -56,8 +50,15 @@ classdef BarycenterPathFinder < graph.PathFinder
     methods (Access=private)
         function obj = clean(obj)
             obj.vertices = graph.VertexSet();
+
             obj.srcBaryDist = realmax;
             obj.destBaryDist = realmax;
+            obj.srcBarycenter = double.empty;
+            obj.destBarycenter = double.empty;
+
+            obj.startNodes = double.empty;
+            obj.endNodes = double.empty;
+            obj.weights = double.empty;
         end
 
         function obj = add_barycenters(obj, polyhedron, obstacle, src, dest, srcInside, destInside)
@@ -67,40 +68,52 @@ classdef BarycenterPathFinder < graph.PathFinder
 
         function obj = add_barycenter(obj, facet, obstacle, src, dest, srcInside, destInside)
             import util.barycenter;
+            import graph.BarycenterGraphBuilder.*;
 
             facet.minHRep();
 
             c = barycenter(facet);
-            [ci, new] = obj.vertices.get_indexn(c);
+            [ci, new] = obj.vertices.getIndexn(c);
            
             if new % only add edges if it the first time we process this barycenter
                 for ridge = facet.getFacet().'
                     rc = barycenter(ridge);
-                    rci = obj.vertices.get_index(rc);
+                    rci = obj.vertices.getIndex(rc);
                     
                     obj.startNodes = [obj.startNodes; ci];
                     obj.endNodes = [obj.endNodes; rci];
-                    obj.weights = [obj.weights; util.distance(c, rc)];
+                    obj.weights = [obj.weights; norm(c - rc)];
                 end
             end
 
             if srcInside
-                d = norm(src - c);
-                p = Polyhedron('V', src, 'R', c - src);
+                d = isBetterBarycenter(src, dest, c, obstacle, obj.srcBaryDist);
 
-                if d < obj.srcBaryDist  && p.intersect(obstacle).isEmptySet()
+                if d >= 0
                     obj.srcBarycenter = c;
                     obj.srcBaryDist = d;
                 end
             end
-
             if destInside
-                d = norm(dest - c);
-                p = Polyhedron('V', dest, 'R', c - dest);
-
-                if d < obj.destBaryDist  && p.intersect(obstacle).isEmptySet()
+                d = isBetterBarycenter(dest, src, c, obstacle, obj.destBaryDist);
+                
+                if d >= 0
                     obj.destBarycenter = c;
                     obj.destBaryDist = d;
+                end
+            end
+        end
+    end
+
+    methods (Access=private, Static)
+        function [dist] = isBetterBarycenter(src, dest, center, obstacle, best_dist)
+            dist = -1;
+            d = norm(src - center) + norm(center - dest);
+
+            if d < best_dist
+                p = Polyhedron('V', dest, 'R', center - dest);
+                if p.intersect(obstacle).isEmptySet()
+                    dist = d;
                 end
             end
         end

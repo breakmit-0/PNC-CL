@@ -3,6 +3,7 @@ function equals = matrix_equals(A, B, epsilon)
     % 
     % This function returns false if A and B don't have the same size.
     % epsilon is optional and the default value is 1e-3.
+    % Two empty matrix are considered equals.
     %
     % Parameters:
     %     A: matrix
@@ -23,7 +24,7 @@ function equals = matrix_equals(A, B, epsilon)
     else
         one = ones(size(B));
         
-        equals = all((A <= B + epsilon * one) & (A >= B - epsilon * one));
+        equals = all((A <= B + epsilon * one) & (A >= B - epsilon * one), 'all');
     end
 end
 

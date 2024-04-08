@@ -19,7 +19,7 @@ classdef VertexSet < handle
         % * vertex: a column vector, it should have the same size as the
         % previously added vectors.
         % return: the index of vertex
-        function index = get_index(obj, vertex)
+        function index = getIndex(obj, vertex)
             index = -1;
             for i = 1:height(obj.vertices)
                 if util.matrix_equals(obj.vertices(i, :), vertex, 1e-3)
@@ -35,7 +35,7 @@ classdef VertexSet < handle
         end
 
 
-        function [index, new] = get_indexn(obj, vertex)
+        function [index, new] = getIndexn(obj, vertex)
             index = -1;
             for i = 1:height(obj.vertices)
                 if util.matrix_equals(obj.vertices(i, :), vertex, 1e-3)
@@ -62,7 +62,7 @@ classdef VertexSet < handle
             s = height(obj.vertices);
         end
 
-        function coords = extract_coords(obj, dimension)
+        function coords = extractCoords(obj, dimension)
             coords = obj.vertices(:, dimension);
         end
     end

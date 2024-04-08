@@ -1,5 +1,5 @@
-classdef EdgePathFinder < graph.PathFinder
-    % graph.EdgePathFinder Path finder class that allows objects to move only on
+classdef EdgeGraphBuilder < graph.GraphBuilder
+    % graph.EdgeGraphBuilder Graph builder that create a graph based on
     % the edge of the partition.
     
     properties (Access = private)
@@ -13,24 +13,26 @@ classdef EdgePathFinder < graph.PathFinder
     end
 
     methods        
-        function [G, path, vertexSet] = pathfinder(obj, src, dest, obstacles, partition)
+        function [G, vertexSet] = buildGraph(obj, src, dest, obstacles, partition)
             obj.clean();
 
-            for p = partition.'
-                src_inside = p.contains(src.');
-                dest_inside = p.contains(dest.');
+            [srcPolyhedronI, destPolyhedronI, obstaclesSorted] = ...
+                graph.GraphBuilder.validate(src, dest, obstacles, partition);
 
-                obstacle = obstacles(1);
-                for o = obstacles.'
-                    if p.contains(o.randomPoint())
-                        obstacle = o;
-                        break
-                    end
-                end
+            for i = 1:width(partition)
+                p = partition(i);
 
-                obj.add_edges_of_polyhedron(p, p.Dim, obstacle, src, dest, src_inside, dest_inside);
+                obj.add_edges_of_polyhedron(p, ...
+                    p.Dim, ...
+                    obstaclesSorted(i), ...
+                    src, dest, ...
+                    i == srcPolyhedronI, ...
+                    i == destPolyhedronI);
             end
 
+            if isempty(obj.src_edge) || isempty(obj.dest_edge)
+                error("Failed to link src or dest point to graph")
+            end
 
             vertexSet = graph.VertexSet();
             startNodes = zeros(obj.edges.numEntries() + 4, 1);
@@ -39,12 +41,12 @@ classdef EdgePathFinder < graph.PathFinder
 
             i = 1;
             for edge = obj.edges.keys().'
-                i1 = vertexSet.get_index(edge.V1);
-                i2 = vertexSet.get_index(edge.V2);
+                i1 = vertexSet.getIndex(edge.V1);
+                i2 = vertexSet.getIndex(edge.V2);
 
                 if edge == obj.src_edge
-                    i3 = vertexSet.get_index(src);
-                    i4 = vertexSet.get_index(obj.src_proj);
+                    i3 = vertexSet.getIndex(src);
+                    i4 = vertexSet.getIndex(obj.src_proj);
 
                     startNodes(i) = i1;
                     endNodes(i) = i4;
@@ -60,8 +62,8 @@ classdef EdgePathFinder < graph.PathFinder
                     endNodes(i) = i4;
                     weights(i) = norm(src - obj.src_proj);
                 elseif edge == obj.dest_edge
-                    i3 = vertexSet.get_index(dest);
-                    i4 = vertexSet.get_index(obj.dest_proj);
+                    i3 = vertexSet.getIndex(dest);
+                    i4 = vertexSet.getIndex(obj.dest_proj);
 
                     startNodes(i) = i1;
                     endNodes(i) = i4;
@@ -86,8 +88,6 @@ classdef EdgePathFinder < graph.PathFinder
             end
             
             G = graph(startNodes, endNodes, weights);
-            [path, ~] = shortestpath(G, vertexSet.get_index(src), vertexSet.get_index(dest));
-
             obj.clean();
         end
     end
@@ -96,11 +96,13 @@ classdef EdgePathFinder < graph.PathFinder
 
         function obj = clean(obj)
             % Clean Clean EdgePathFinder: remove all edges and reset
-            % srcProjDist and destProjDist.
+            % properties
 
             obj.edges.remove(obj.edges.keys);
             obj.src_proj_dist = realmax;
             obj.dest_proj_dist = realmax;
+            obj.src_edge = graph.Edge.empty;
+            obj.dest_edge = graph.Edge.empty;
         end
 
 
@@ -140,7 +142,7 @@ classdef EdgePathFinder < graph.PathFinder
             %     srcInside: true if the polyhedron contains src
             %     destInside: true if the polyhedron contains dest
 
-            import graph.EdgePathFinder.*;
+            import graph.EdgeGraphBuilder.*;
 
             V1 = pEdge.V(1, :);
             V2 = pEdge.V(2, :);
@@ -148,22 +150,18 @@ classdef EdgePathFinder < graph.PathFinder
             obj.edges = obj.edges.insert(edge, obj.edges.numEntries(), Overwrite=false);
 
             if srcInside
-                [proj, dist, alpha] = graph.EdgePathFinder.project_point_into_line(src, V1, V2);
-                p = Polyhedron('V', src, 'R', proj - src);
+                [proj, dist] = isBetterEdge(src, dest, V1, V2, obstacle, obj.src_proj_dist);
 
-                % check if the projection is inside the line
-                if 0 <= alpha && alpha <= 1 && dist < obj.src_proj_dist && p.intersect(obstacle).isEmptySet()
+                if dist >= 0 % if positive, it is always better
                     obj.src_edge = edge;
                     obj.src_proj = proj;
                     obj.src_proj_dist = dist;
                 end
             end
             if destInside
-                [proj, dist, alpha] = graph.EdgePathFinder.project_point_into_line(dest, V1, V2);
-                p = Polyhedron('V', dest, 'R', proj - dest);
+                [proj, dist] = isBetterEdge(dest, src, V1, V2, obstacle, obj.dest_proj_dist);
 
-                % check if the projection is inside the line
-                if 0 <= alpha && alpha <= 1 && dist < obj.dest_proj_dist && p.intersect(obstacle).isEmptySet()
+                if dist >= 0 % if positive, it is always better
                     obj.dest_edge = edge;
                     obj.dest_proj = proj;
                     obj.dest_proj_dist = dist;
@@ -173,8 +171,43 @@ classdef EdgePathFinder < graph.PathFinder
     end
 
     methods (Access=private, Static)
-        function [proj, dist, alpha] = project_point_into_line(P, V1, V2)
-            % project_point_into_line Project P into the line defined by V1
+        function [proj, dist] = isBetterEdge(src, dest, V1, V2, obstacle, best_dist)
+            % ISBETTEREDGE Return positive distance if the edge defined by
+            % V1 and V2 is better for minimizing distance between src and
+            % dest.
+            %
+            % This function projects src into the line defined by V1 and
+            % V2. If the projection is between V1 and V2, it calculates an
+            % approximation of the distance between src and dest in the
+            % graph: norm(src - proj) + norm(dest - proj). If this distance
+            % is less than best_dist and if the ray starting at src and
+            % pointing to proj doesn't intersect with obstacle, then 'dist'
+            % is set to the approximative distance. Otherwise 'dist' is set
+            % to -1.
+            
+            import graph.EdgeGraphBuilder.*;
+
+            dist = -1;
+            [proj, d, alpha] = projectPointIntoLine(src, V1, V2);
+
+            % check if the projection is inside the line
+            if 0 <= alpha && alpha <= 1
+                d = d + norm(dest - proj);
+
+                % check distance
+                if d < best_dist 
+                    p = Polyhedron('V', src, 'R', proj - src);
+
+                    % check no obstacles
+                    if p.intersect(obstacle).isEmptySet()
+                        dist = d;
+                    end
+                end
+            end
+        end
+
+        function [proj, dist, alpha] = projectPointIntoLine(P, V1, V2)
+            % PROJECTPOINTINTOLINE Project P into the line defined by V1
             % and V2.
             % 
             % The function will fail if V1 = V2.

@@ -1,4 +1,4 @@
-function [G, path, vertexSet] = main(obstacles, space_length, src, dest, finder)
+function [P, G, vertexSet, path, dist] = main(obstacles, space_length, src, dest, graphBuilder)
 % main [<a href="matlab:web('https://breakmit-0.github.io/testing-ppl/')">online docs</a>]
     %
     % Usage:
@@ -17,6 +17,11 @@ function [G, path, vertexSet] = main(obstacles, space_length, src, dest, finder)
 [oa,ob] = lift.find(obstacles);
 epi = project.epigraph(oa,ob,space_length);
 P = project.partition(epi);
-[G, path, vertexSet] = finder.pathfinder(src,dest,obstacles,P);
+
+tic
+[G, vertexSet] = graphBuilder.buildGraph(src, dest, obstacles.', P.');
+toc
+
+[path, dist] = shortestpath(G, vertexSet.getIndex(src), vertexSet.getIndex(dest));
 
 end
