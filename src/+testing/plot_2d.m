@@ -4,8 +4,8 @@ function plot_2d(a, oa, ob, space)
 
     N = size(ob, 1);
     %[x, y] = meshgrid(-10:0.1:10, 10:0.1:10);
-    x = linspace(0, space, 2);
-    y = linspace(0, space, 2);
+    x = linspace(-space, space, 2);
+    y = linspace(-space, space, 2);
     [xx,yy] = meshgrid(x,y);
 
     figure;
@@ -19,13 +19,7 @@ function plot_2d(a, oa, ob, space)
     maxv = ob(1);
 
     for i = 1:N
-        v = ob(i);
-        maxv = max(maxv, v);
-        v = ob(i) + space * oa(i, 1);
-        maxv = max(maxv, v);
-        v = ob(i) + space * oa(i, 2);
-        maxv = max(maxv, v);
-        v = ob(i) + space *(oa(i,1) + oa(i, 2));
+        v = ob(i) + abs(space * oa(i,1)) + abs(space * oa(i,2));
         maxv = max(maxv, v);
     end
 
@@ -39,6 +33,9 @@ function plot_2d(a, oa, ob, space)
         col(2, 2, :) = c;
 
         z = (xx*oa(i,1) + yy*oa(i,2) + b) - maxv;
+
+        disp(z);
+
         assert_shape(z, [2 2]);
         surf(x, y, z, col);
     end
