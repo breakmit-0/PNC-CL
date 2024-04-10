@@ -22,17 +22,10 @@ function P = partition(epigraph)
 faces = epigraph.getFacet;
 pass = project.filter_vh(faces);
 
-%Initialization of the polyhedral partition of the space
-h = height(pass);
-P = repmat(Polyhedron(), h, 1);
-s = size(pass(1).V);
-dimension = s(2) - 1;
-
 %Projection of each face on the initial space
-for i=1:h
-     points = pass(i).V;
-     projected_points = points(:,1:dimension);
-     P(i) = Polyhedron(projected_points).minHRep();
-end
+dimension = pass(1).Dim - 1;
+p = pass.projection(1:dimension);
+p.minHRep;
+P = p';
 
 end
