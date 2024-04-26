@@ -5,6 +5,7 @@ function [oa, ob] = find(Obstacles)
     tic
 
     min_convexity = sdpvar(1,1);
+    upper_bound = 500;
 
     N = size(Obstacles, 1); % nombre d'obstacles
     D = Obstacles(1).Dim; % dimension de l'espace
@@ -12,57 +13,30 @@ function [oa, ob] = find(Obstacles)
 
     a = sdpvar(N, D);
     b = sdpvar(N, 1);
-   
-    % vectors of every variable sequentially
-    % find a_i at index 1 + (D+1)*(i-1)
-    % find b_i at index (D+1)*i - 1
-    % length is N * (D+1) + 1
-    e_ab = reshape(cat(2, a, b)', [], 1);
-    e = cat(1, e_ab, min_convexity);
 
-
-    N_constr = 0;
-    for obs = 1:N
-        N_constr = N_constr + (N-1) * size(Obstacles(obs).V, 1);
-    end
-
-    cmat = zeros(N_constr, N * (D+1) + 1);
-    i = 0;
+    %constraints = [];
+    constraints = [];
 
     for obs = 1:N
-        
+        bc = util.barycenter(Obstacles(obs));
+
         for vertex_id = 1:size(Obstacles(obs).V, 1)
             vertex = Obstacles(obs).V(vertex_id, :)';
 
             assert_shape(vertex, [D 1]);
             for other = 1:N
                 if other ~= obs
-                    
-                    i = i+1;
-
-                    cmat(i, (D+1)*obs) = 1;
-                    cmat(i, (D+1)*other) = -1;
-                    cmat(i, (D+1)*(obs-1)+1 : (D+1)*(obs-1)+D) = vertex';
-                    cmat(i, (D+1)*(other-1)+1 : (D+1)*(other-1)+D) = -vertex';
-                    cmat(i, (D+1) * N + 1) = -1;
-                    
+                    constraints = [constraints; mtimes(a(obs,:),vertex) + b(obs) >= mtimes(a(other,:), vertex) + b(other) + min_convexity];
                 end
             end
         end
-        fprintf("done #%d\n", obs);
     end
     
-    assert(i == N_constr);
-
     dt = toc;
-    fprintf("constraint constr time = %d\n", dt);
-    tic;
-
-    constraints = cmat * e >= 0;
-
-    dt = toc;
-    fprintf("constraint time = %d\n", dt);
     tic
+
+    fprintf("constraint time = %d\n", dt);
+    
         
     e = cat(2, a, b);
     opt = sdpsettings();
