@@ -1,6 +1,6 @@
 function [box] = bounding_box(polyhedra, margin, convex_hull)
     if convex_hull
-        box = util.reduction(PolyUnion(polyhedra).convexHull(), margin);
+        box = PolyUnion(polyhedra).convexHull();
     else
         minPoint = [];
         maxPoint = [];
@@ -17,5 +17,7 @@ function [box] = bounding_box(polyhedra, margin, convex_hull)
 
         box = Polyhedron('lb', minPoint, 'ub', maxPoint);
     end
+
+    box = util.reduction(box, margin);
 end
 
