@@ -1,4 +1,4 @@
-function P = generation_obstacles(dimension, Number_of_obstacles, average_size, standard_deviation_size, points_standard_deviation, space_length,max_iterations)
+function P = generation_obstacles(dimension, Number_of_obstacles, average_size, standard_deviation_size, points_standard_deviation, space_length, max_iterations)
 arguments
     dimension=3
     Number_of_obstacles=30
@@ -52,6 +52,9 @@ end
 
     %Initialization of the matrix which associates a center to a polyhedron
     centers = zeros(dimension, Number_of_obstacles);
+
+    %Center of the workspace
+    center = zeros(dimension,1);
     
     %Generation of Number_of_obstacles disjunct obstacles
     i=1;
@@ -82,6 +85,10 @@ end
             points(:,j) = vector(:,j)/norm(vector(:,j))*size*(1+point_deviation);
         end
 
+        %center is added to the list to ensure that at least one point of the 
+        %polyhedron is in the workspace
+        points = [points center];
+        
         %The new polyhedron is saved in the array P if it doesn't have a 
         %non-empty intersection with a previous one
         new_polyhedron = Polyhedron(points') + centers(:,i);

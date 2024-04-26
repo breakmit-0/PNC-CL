@@ -111,7 +111,7 @@ classdef BarycenterGraphBuilder < graph.GraphBuilder
             d = norm(src - center) + norm(center - dest);
 
             if d < best_dist
-                p = Polyhedron('V', dest, 'R', center - dest);
+                p = Polyhedron('V', src, 'R', center - src);
                 if p.intersect(obstacle).isEmptySet()
                     dist = d;
                 end
