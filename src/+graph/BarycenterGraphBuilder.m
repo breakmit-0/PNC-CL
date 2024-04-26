@@ -70,8 +70,6 @@ classdef BarycenterGraphBuilder < graph.GraphBuilder
             import util.barycenter;
             import graph.BarycenterGraphBuilder.*;
 
-            facet.minHRep();
-
             c = barycenter(facet);
             [ci, new] = obj.vertices.getIndexn(c);
            

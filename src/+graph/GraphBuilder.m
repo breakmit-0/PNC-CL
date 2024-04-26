@@ -13,6 +13,8 @@ classdef GraphBuilder < handle
             % * all partition contains one and only one polyhedron of
             % obstacles
 
+            import graph.GraphBuilder.*;
+
             % check obstacles and partition size
             [R, C] = size(obstacles);
             if R ~= 1
@@ -89,13 +91,29 @@ classdef GraphBuilder < handle
 
             % check that src and dest are inside a partition
             if srcPolyhedronI < 0
-                error("Source point not in a polyhedron")
+                %error("Source point not in a polyhedron")
+                srcPolyhedronI = nearestPolyhedron(src, partition);
             end
             if destPolyhedronI < 0
-                error("Destination point not in a polyhedron")
+                %error("Destination point not in a polyhedron")
+                destPolyhedronI = nearestPolyhedron(dest, partition);
             end
         end
     
+
+        function polyhedronI = nearestPolyhedron(point, polyhedra)
+            polyhedronI = 1;
+            dist = norm(point - util.barycenter(polyhedra(1)));
+
+            for i = 2:width(polyhedra)
+                d = norm(point - util.barycenter(polyhedra(i)));
+
+                if d < dist
+                    polyhedronI = i;
+                    dist = d;
+                end
+            end
+        end
     end
 
 

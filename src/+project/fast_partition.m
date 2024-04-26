@@ -1,10 +1,10 @@
-function P = fast_partition(oa,ob,space_length)
+function P = fast_partition(oa,ob,bbx)
 
     %Definition and creation of the workspace we wish to partition according 
     %to obstacles, centered at 0 and of size space_length
     [N, D] = size(oa);
     center  = zeros([1,D]);
-    bbx = util.box(center,space_length/2,space_length/2);
+    %bbx = util.box(center,space_length/2,space_length/2);
     
     %Creation of the polyhedral partition of the workspace according to the
     %convex lifting function

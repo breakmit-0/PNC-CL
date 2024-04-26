@@ -6,8 +6,9 @@ gBuilder = graph.BarycenterGraphBuilder();
 
 %obstacles = testing.Counter_examples();
 obstacles = testing.generation_obstacles(dimension,10,3,0,0,space_length,100);
+bbx = util.bounding_box(obstacles, 1.25, true);
 
-[P, G, vertexSet, path, dist] = main(obstacles, 1.5 * space_length, src, dest, gBuilder);
+[P, G, vertexSet, path, dist] = main(obstacles, bbx, src, dest, gBuilder);
 
 disp("Path length: " + dist)
 P.plot('color', 'lightblue')

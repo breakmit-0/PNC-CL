@@ -1,4 +1,4 @@
-function [P, G, vertexSet, path, dist] = main(obstacles, space_length, src, dest, graphBuilder)
+function [P, G, vertexSet, path, dist] = main(obstacles, bbx, src, dest, graphBuilder)
 % main [<a href="matlab:web('https://breakmit-0.github.io/testing-ppl/')">online docs</a>]
     %
     % Usage:
@@ -14,14 +14,20 @@ function [P, G, vertexSet, path, dist] = main(obstacles, space_length, src, dest
     %
     % See also lift, project, testing, util, graph
 
+tic
 [oa,ob] = lift.find(obstacles);
-epi = project.epigraph(oa,ob,space_length);
-P = project.partition(epi);
+disp("Lift computed in " + toc + "s")
+
+tic
+P = project.fast_partition(oa,ob,bbx);
+disp("Partition computed in " + toc + "s")
 
 tic
 [G, vertexSet] = graphBuilder.buildGraph(src, dest, obstacles.', P.');
-toc
+disp("Graph build in " + toc + "s")
 
+tic
 [path, dist] = shortestpath(G, vertexSet.getIndex(src), vertexSet.getIndex(dest));
+disp("Path found in " + toc + "s")
 
 end
