@@ -11,30 +11,23 @@ function [oa, ob] = new_find(Obstacles)
 
     a = sdpvar(N, D);
     b = sdpvar(N, 1);
-    %s = sdpvar(N, 1);
-    %assign(s, ones(N, 1));
-    s = ones(N,1);
 
     %constraints = [];
     constraints = [];
 
     for obs = 1:N
         bc = util.barycenter(Obstacles(obs));
-        constraints = [constraints; 0.9 <= s(obs) <= 10;];
 
         for vertex_id = 1:size(Obstacles(obs).V, 1)
-            vertex = Obstacles(obs).V(vertex_id, :);
-            vertex = (bc + s(obs) * (vertex - bc))'; % column vec
+            vertex = Obstacles(obs).V(vertex_id, :)';
 
             assert_shape(vertex, [D 1]);
             for other = 1:N
                 if other ~= obs
-                    constraints = [constraints; upper_bound >= mtimes(a(obs,:),vertex) + b(obs) >= mtimes(a(other,:), vertex) + b(other) + min_convexity];
+                    constraints = [constraints; mtimes(a(obs,:),vertex) + b(obs) >= mtimes(a(other,:), vertex) + b(other) + min_convexity];
                 end
             end
         end
-        % constraints = [constraints; mtimes(a(obs,:), Obstacles(obs).V(1, :)') + b(obs) <= upper_bound];
-        % constraints = [constraints; mtimes(a(obs,:), Obstacles(obs).V(1, :)') + b(obs) >= 0]; 
     end
 
     disp("optimizing now");
