@@ -49,20 +49,12 @@ function [oa, ob] = find(Obstacles)
                 end
             end
         end
-        fprintf("done #%d\n", obs);
     end
     
     assert(i == N_constr);
-
-    dt = toc;
-    fprintf("constraint constr time = %d\n", dt);
-    tic;
-
     constraints = cmat * e >= 0;
+    constraints = [constraints; -1000 <= e <= 1000]
 
-    dt = toc;
-    fprintf("constraint time = %d\n", dt);
-    tic
         
     e = cat(2, a, b);
     opt = sdpsettings();
@@ -71,9 +63,10 @@ function [oa, ob] = find(Obstacles)
     dt = toc;
 
     disp(diag);
+    fprintf("--------------\n --- OPTIMIZE RESULT ---\n");
     fprintf("success = %d\n", diag.problem)
     fprintf("convexity = %d\n", value(min_convexity));
-    fprintf("opt time = %d\n", dt);
+    fprintf("opt time = %d\n\n\n\n\n", dt);
 
     % disp(diag);
     %
