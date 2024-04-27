@@ -1,5 +1,5 @@
 
-function [oa, ob] = find(Obstacles)
+function [oa, ob, cvx] = find(Obstacles)
     import util.*;
 
     tic
@@ -53,20 +53,21 @@ function [oa, ob] = find(Obstacles)
     
     assert(i == N_constr);
     constraints = cmat * e >= 0;
-    constraints = [constraints; -1000 <= e <= 1000]
 
+    % adding a constraint to force convexity strictly positive actually makes things lees efficient
+    ops = sdpsettings;
+    ops.solver = "glpk";
+    constraints = [constraints; -1000 <= e <= 1000]
         
-    e = cat(2, a, b);
-    opt = sdpsettings();
-    diag = optimize(constraints, -min_convexity, []);
+    diag = optimize(constraints, -min_convexity, ops);
   
     dt = toc;
 
-    disp(diag);
-    fprintf("--------------\n --- OPTIMIZE RESULT ---\n");
-    fprintf("success = %d\n", diag.problem)
-    fprintf("convexity = %d\n", value(min_convexity));
-    fprintf("opt time = %d\n\n\n\n\n", dt);
+    fprintf("\n--- OPTIMIZE RESULT ---\n");
+    fprintf("%s\n", diag.info);
+    fprintf("error code = %d\n", diag.problem)
+    fprintf("convexity = %.3f\n", value(min_convexity));
+    fprintf("opt time = %.3f\n", dt);
 
     % disp(diag);
     %
@@ -77,5 +78,6 @@ function [oa, ob] = find(Obstacles)
     %optimize(constraints, norm(b) + norm(a));
     oa = value(a);
     ob = value(b);
+    cvx = value(min_convexity);
     % os = value(s);
 end
