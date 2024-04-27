@@ -1,4 +1,4 @@
-function [P, G, vertexSet, path, dist] = main(obstacles, bbx, src, dest, graphBuilder)
+function [P, G, vertexSet, path, dist, corridors, d] = main(obstacles, bbx, src, dest, graphBuilder)
 % main [<a href="matlab:web('https://breakmit-0.github.io/testing-ppl/')">online docs</a>]
     %
     % Usage:
@@ -29,5 +29,9 @@ disp("Graph build in " + toc + "s")
 tic
 [path, dist] = shortestpath(G, vertexSet.getIndex(src), vertexSet.getIndex(dest));
 disp("Path found in " + toc + "s")
+
+tic
+[corridors, d] = corridor(vertexSet,path,obstacles,100);
+disp("Corridors computed in " + toc + "s")
 
 end
