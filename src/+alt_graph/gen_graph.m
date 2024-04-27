@@ -4,14 +4,14 @@ function out = gen_graph(edges)
     N = size(edges, 1);
     dim = edges.Dim;
 
-    vertices = [];
+    vertices = zeros(N, dim);
 
     % len / dim should be a decent guess for number of actual edges
     % although a slight underestimate as world edges are not duplicated
-    num_edges = -ones(round(N/dim), 2, "uint32");
+    num_edges = zeros(N, 2, "uint32");
 
     
-    store = 1;
+    storeV = 0;
     for i = 1:N
         v1 = edges(i).V(1, :);
         v2 = edges(i).V(2, :);
@@ -21,13 +21,11 @@ function out = gen_graph(edges)
 
         % fprintf("--\nstarting with %d vertices\n", size(vertices, 1));
         
-        for j = 1:size(vertices, 1)
+        for j = 1:storeV
             if norm(v1 - vertices(j, :)) < EPS
-                % fprintf("assign n1 = %d\n", j);
                 n1 = j;
             end
             if norm(v2 - vertices(j, :)) < EPS
-                % fprintf("assign n2 = %d\n", j);
                 n2 = j;
             end
             if n1 > 0 && n2 > 0
@@ -36,30 +34,29 @@ function out = gen_graph(edges)
         end
 
         if n1 == 0
-            vertices(end+1, :) = v1;
-            n1 = size(vertices, 1);
+            storeV = storeV + 1;
+            vertices(storeV, :) = v1;
+            n1 = storeV;
             % fprintf("creating new for n1 (%d)\n", n1);
         end
 
         if n2 == 0
-            vertices(end+1, :) = v2;
-            n2 = size(vertices, 1);
+            storeV = storeV + 1;
+            vertices(storeV, :) = v2;
+            n2 = storeV;
             % fprintf("creating new for n2 (%d)\n", n2);
         end
    
-        num_edges(store, 1) = min(n1, n2);
-        num_edges(store, 2) = max(n1, n2);
-        store = store + 1;
+        num_edges(i, 1) = min(n1, n2);
+        num_edges(i, 2) = max(n1, n2);
     end
-
-    % disp(num_edges);
-
-    node_data = table(vertices, 'VariableNames', {'position'});
-
+    
+    vertices = vertices(1:storeV, :);
     edges = unique(num_edges, 'rows');
+
     distances = sqrt(sum((vertices(edges(:,1), :) - vertices(edges(:,2), :)).^2, 2));
 
-    % add weights with a 'Weight' property
+    node_data = table(vertices, 'VariableNames', {'position'});
     edge_table = table(edges, distances, 'VariableNames', {'EndNodes', 'Weight'});
 
     out = graph(edge_table, node_data);
