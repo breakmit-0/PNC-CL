@@ -59,7 +59,7 @@ end
     %Generation of Number_of_obstacles disjunct obstacles
     i=1;
     count_iterations=1;
-    while i<=Number_of_obstacles && count_iterations<max_iterations
+    while i<=Number_of_obstacles && count_iterations< Number_of_obstacles + max_iterations
         %Centers are uniformly distribued in the space considering the space length 
         centers(:,i) = (rand(dimension,1)*2.-1)*space_length/2;
 
