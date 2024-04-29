@@ -31,7 +31,7 @@ path = alt_graph.path(G, src, dest, obstacles);
 disp("Path found in " + toc + "s")
 
 tic
-[corridors, d] = corridor(G.Nodes.position, path, obstacles, 100);
+[corridors, d] = corridor(G.Nodes.position, G.Edges, obstacles, 100);
 disp("Corridors computed in " + toc + "s")
 
 end
