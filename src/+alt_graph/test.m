@@ -1,14 +1,14 @@
 
-dim = 3;
-space_size = 100;
+dim = 2;
+space_size = 200;
 
-obs = testing.generation_obstacles(dim, 10, 2, 0.1, 0.1, space_size);
+obs = testing.generation_obstacles(dim, 50, 5, 0.1, 0.1, space_size);
 obs = obs([obs.Dim] > 0);
 
 fprintf("\n--- FINDING LIFT ---\n");
 fprintf("number of obstacles = %d\n\n", size(obs, 1));
 
-[oa, ob, cvx] = lift.find(obs);
+[oa, ob, cvx] = lift.find_iter(obs, 5);
 
 if ~(cvx > 0) 
     error("failed to find a convex lifting");
@@ -26,7 +26,7 @@ fprintf("took %.2f s\n", dt);
 tic
 fprintf("\n--- GENERATING EDGES ---\n");
 
-r = alt_graph.flatten_facets(part);
+r = alt_graph.find_edges(part);
 
 dt = toc;
 fprintf("took %.2f s\n", dt);

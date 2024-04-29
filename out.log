@@ -1,0 +1,61 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2023 The MathWorks, Inc.
+             R2023b Update 6 (23.2.0.2485118) 64-bit (glnxa64)
+                             December 28, 2023
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+Toolbox "mptdoc:3.0.4:all" added to the Matlab path.
+Toolbox "cddmex:1.0.1:glnxa64" added to the Matlab path.
+Toolbox "fourier:1.0:glnxa64" added to the Matlab path.
+Toolbox "glpkmex:1.0:glnxa64" added to the Matlab path.
+Toolbox "hysdel:2.0.6:glnxa64" added to the Matlab path.
+Toolbox "lcp:1.0.3:glnxa64" added to the Matlab path.
+Toolbox "yalmip:R20230609:all" added to the Matlab path.
+Toolbox "sedumi:1.3:glnxa64" added to the Matlab path.
+Toolbox "espresso:1.0:glnxa64" added to the Matlab path.
+Toolbox "mpt:3.2.1:all" added to the Matlab path.
+MPT searches for solvers on the path ...
+ 
+ GLPK .................................................. glpkcc 
+ CDD ................................................... cddmex 
+ LCP ...................................................... lcp 
+ SEDUMI .............................................. sedumi.m 
+ PLCP .............................................. mpt_plcp.m 
+ MPQP .............................................. mpt_mpqp.m 
+ MPLP .............................................. mpt_mplp.m 
+ ENUMPLCP ..................................... mpt_enum_plcp.m 
+ ENUMPQP ....................................... mpt_enum_pqp.m 
+ RLENUMPQP ..................................... mpt_enum_pqp.m 
+
+MPT toolbox @version@ initialized...
+Copyright (C) 2003-2024 by M. Kvasnica, C.N. Jones, and M. Herceg
+For news, visit the MPT web page at http://control.ee.ethz.ch/~mpt/
+            LP solver: LCP
+            QP solver: LCP
+          MILP solver: GLPK
+ parametric LP solver: PLCP
+ parametric QP solver: PLCP
+ 
+These default options can be changed. See "help mptopt" for more details.
+
+--- FINDING LIFT ---
+number of obstacles = 100
+
+
+--- PROJECTION ---
+took 1.64 s
+
+--- GENERATING EDGES ---
+took 0.39 s
+generated 574 edges
+
+--- GENERATING GRAPH ---
+took 2.03 s
+graph has 214 nodes and 313 edges
+
+--- FINDING PATH ---
+took 0.28 s
