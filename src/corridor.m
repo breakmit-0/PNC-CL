@@ -91,7 +91,7 @@ function [P,width] = corridor(coords,path,obstacles,n)
             end
         end
         
-        R = Polyhedron([points + A' points + B']');
-        P(i) = R.minHRep();
+        P(i) = Polyhedron([points + A' points + B']');
+        % P(i) = R.minHRep();
     end
 end
