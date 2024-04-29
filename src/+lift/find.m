@@ -64,7 +64,7 @@ function [oa, ob, cvx] = find(Obstacles)
 
     diag = optimize(constraints, -min_convexity, ops);
 
-    dt = toc;
+    % dt = toc;
     %
     % fprintf("\n--- OPTIMIZE RESULT ---\n");
     % fprintf("%s\n", diag.info);

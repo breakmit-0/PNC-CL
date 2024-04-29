@@ -9,10 +9,19 @@ function out = gen_graph(edges)
     % len / dim should be a decent guess for number of actual edges
     % although a slight underestimate as world edges are not duplicated
     num_edges = zeros(N, 2, "uint32");
+    %
+    % plot(edges);
+    % uiwait;
 
-    
     storeV = 0;
     for i = 1:N
+        edges(i).minVRep();
+
+        if size(edges(i).V, 1) ~= 2
+            fprintf("skipped %d with %d\n", i, size(edges(i).V, 1));
+            continue;
+        end
+
         v1 = edges(i).V(1, :);
         v2 = edges(i).V(2, :);
 
@@ -54,7 +63,8 @@ function out = gen_graph(edges)
     vertices = vertices(1:storeV, :);
     edges = unique(num_edges, 'rows');
 
-    distances = sqrt(sum((vertices(edges(:,1), :) - vertices(edges(:,2), :)).^2, 2));
+    sq_distances =  (vertices(edges(:,1), :) - vertices(edges(:,2), :) ).^2;
+    distances = sqrt(sum(sq_distances, 2));
 
     node_data = table(vertices, 'VariableNames', {'position'});
     edge_table = table(edges, distances, 'VariableNames', {'EndNodes', 'Weight'});

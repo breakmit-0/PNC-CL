@@ -2,7 +2,7 @@
 dim = 2;
 space_size = 100;
 
-obs = testing.generation_obstacles(dim, 100, 2, 0.1, 0.1, space_size);
+obs = testing.generation_obstacles(dim, 50, 10, 0.1, 0.1, space_size*2);
 obs = obs([obs.Dim] > 0);
 
 fprintf("\n--- FINDING LIFT ---\n");
@@ -26,7 +26,7 @@ fprintf("took %.2f s\n", dt);
 tic
 fprintf("\n--- GENERATING EDGES ---\n");
 
-r = alt_graph.flatten_facets(part);
+r = alt_graph.find_edges(part);
 
 dt = toc;
 fprintf("took %.2f s\n", dt);
@@ -45,8 +45,8 @@ fprintf("graph has %.0f nodes and %.0f edges\n", size(g.Nodes, 1), size(g.Edges,
 tic
 fprintf("\n--- FINDING PATH ---\n");
 
-start = -space_size*ones(1, dim);
-target = space_size*ones(1, dim);
+start = -space_size*0.7*ones(1, dim);
+target = space_size*0.7*ones(1, dim);
 p = alt_graph.path(g, start, target, obs);
 
 dt = toc;
