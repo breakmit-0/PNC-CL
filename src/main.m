@@ -1,4 +1,4 @@
-function [P, G, vertexSet, path, dist, corridors, d] = main(obstacles, bbx, src, dest, graphBuilder)
+function [P, G, path, corridors, d] = main(obstacles, bbx, src, dest, graphBuilder)
 % main [<a href="matlab:web('https://breakmit-0.github.io/testing-ppl/')">online docs</a>]
     %
     % Usage:
@@ -23,15 +23,15 @@ P = project.fast_partition(oa,ob,bbx);
 disp("Partition computed in " + toc + "s")
 
 tic
-[G, vertexSet] = graphBuilder.buildGraph(src, dest, obstacles.', P.');
+G = graphBuilder.buildGraph(P);
 disp("Graph build in " + toc + "s")
 
 tic
-[path, dist] = shortestpath(G, vertexSet.getIndex(src), vertexSet.getIndex(dest));
+path = alt_graph.path(G, src, dest, obstacles);
 disp("Path found in " + toc + "s")
 
 tic
-[corridors, d] = corridor(vertexSet,path,obstacles,100);
+[corridors, d] = corridor(G.Nodes.position, path, obstacles, 100);
 disp("Corridors computed in " + toc + "s")
 
 end

@@ -120,7 +120,7 @@ classdef GraphBuilder < handle
 
  
     methods (Abstract)
-        [G, vertexSet] = buildGraph(obj, src, dest, obstacles, partition)
+        G = buildGraph(obj, partition)
         % Find a path between src and dest without going into
         % an obstacle and moving on the facets of partition
         % 
@@ -134,9 +134,6 @@ classdef GraphBuilder < handle
         %
         % Return values:
         %     G: graph
-        %     path: path in G
-        %     vertices: vertices(i, :) represents the position of the i-th node
-        %     of the graph in the space.
     end
 end
 

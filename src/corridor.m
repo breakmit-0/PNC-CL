@@ -1,4 +1,4 @@
-function [P,d] = corridor(VertexSet,path,obstacles,n)
+function [P,d] = corridor(Coords,path,obstacles,n)
     
     l = length(path);
     N = length(obstacles);
@@ -15,8 +15,6 @@ function [P,d] = corridor(VertexSet,path,obstacles,n)
     else
         error("Corridors make sense only in 2D and in 3D")
     end
-
-    Coords = VertexSet.extractCoords(':');
 
     for i=1:(l-1)
         A = [Coords(path(i),:)];

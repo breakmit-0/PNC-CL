@@ -1,8 +1,8 @@
 
-dim = 2;
+dim = 3;
 space_size = 100;
 
-obs = testing.generation_obstacles(dim, 100, 2, 0.1, 0.1, space_size);
+obs = testing.generation_obstacles(dim, 10, 2, 0.1, 0.1, space_size);
 obs = obs([obs.Dim] > 0);
 
 fprintf("\n--- FINDING LIFT ---\n");
