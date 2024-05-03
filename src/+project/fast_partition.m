@@ -16,7 +16,7 @@ function P = fast_partition(oa,ob,bbx)
             Ai(j,:) = (oa(j,:) - oa(i,:))';
             bi(j) = ob(i) - ob(j);
         end
-        Q = Polyhedron('A',Ai,'b',bi).minHRep();
-        P(i) = Q.intersect(bbx).minHRep();
+        Q = Polyhedron('A',Ai,'b',bi);
+        P(i) = Q.intersect(bbx);
     end
 end

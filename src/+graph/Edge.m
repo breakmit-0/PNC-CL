@@ -1,7 +1,7 @@
 classdef Edge
-    % graph.Edge An immutable object representating an edge.
+    % graph.Edge An object representating an edge.
     
-    properties(SetAccess=private, GetAccess=public)
+    properties
         % First point of the edge
         V1 double,
 

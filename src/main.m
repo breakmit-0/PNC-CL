@@ -1,8 +1,8 @@
-function [P, G, vertexSet, path, dist, corridors, d] = main(obstacles, bbx, src, dest, graphBuilder)
+function [P, G, path, Corridors, width] = main(obstacles, bbx, src, dest, graphBuilder)
 % main [<a href="matlab:web('https://breakmit-0.github.io/testing-ppl/')">online docs</a>]
     %
     % Usage:
-    %   P = main(obstales, space_length, src, dest, barycenterpath)
+    %   P = main(obstales, bbx, src, dest, graphBuilder)
     %
     % Parameters:
     %
@@ -23,15 +23,23 @@ P = project.fast_partition(oa,ob,bbx);
 disp("Partition computed in " + toc + "s")
 
 tic
-[G, vertexSet] = graphBuilder.buildGraph(src, dest, obstacles.', P.');
+G = graphBuilder.buildGraph(P);
 disp("Graph build in " + toc + "s")
 
 tic
-[path, dist] = shortestpath(G, vertexSet.getIndex(src), vertexSet.getIndex(dest));
+G = corridors.corridor_width(G, obstacles);
+disp("Corridors width computed in " + toc + "s")
+
+tic
+G = corridors.edge_weight(G);
+disp("Edges weight adjusted in " + toc + "s")
+
+tic
+path = alt_graph.path(G, src, dest, obstacles);
 disp("Path found in " + toc + "s")
 
 tic
-[corridors, d] = corridor(vertexSet,path,obstacles,100);
-disp("Corridors computed in " + toc + "s")
+[Corridors, width] = corridors.corridor(G, path, 100);
+disp("Corridors described in " + toc + "s")
 
 end
