@@ -1,16 +1,16 @@
-function [P,width] = corridor(coords,path,obstacles,n)
-% corridor - The function to compute the safety corridors corresponding to the chosen path, depending on the distance between the path and the obstacles  [<a href="matlab:web('https://breakmit-0.github.io/')">online docs</a>]
+function [P,width] = old_corridor(coords, edges, obstacles, n)
+% corridor - The function to compute the safety corridors corresponding to the graph, depending on the distance between the edges and the obstacles  [<a href="matlab:web('https://breakmit-0.github.io/')">online docs</a>]
     % 
     %
     % Usage:
-    %   [P,width] = corridor(coords,path,obstacles,smooth_number)
+    %   [P,width] = corridor(coords, edges, obstacles,smooth_number)
     %
     % Parameters:
-    %   coords should be the coordinates of the points inside the graph in
+    %   coords should be the coordinates of the points of the graph in
     %   the D-dimensionnal workspace;
     %
-    %   path should be the array which describes the l points of the chosen path. 
-    %   [path, dist] are the returned values by shortestpath.
+    %   edges should be a l X 2 matrix which contains the edges of the
+    %   graph
     %
     %   Obstacles should be an array of N Polyhedron object of dimension D
     % 
@@ -18,20 +18,19 @@ function [P,width] = corridor(coords,path,obstacles,n)
     %   corridors extremities.
     %
     % Return Values:
-    %   P is an array of l polyhedra which represent the safety corridors
-    %   width is the width of the path : it's the width of the narrowest
-    %   corridor of the path.
+    %   P is an array of l polyhedra which represent the safety corridors.
+    %   width is the array of the width of each corridor.
     %
     %   Warning - For now, the function only works in 2D and 3D cases ! -  
     %
     % See also main, graph
     
-    %Initialization of the values of interest (described above) 
-    l = length(path);
+    %Initialization of the values of interest (described above)
+    l = height(edges);
     N = length(obstacles);
     D = obstacles(1).Dim;
     P = repmat(Polyhedron(), l-1, 1);
-    width = +inf; 
+    width = zeros(l-1,1); 
     
     %Uniform discretisation of the angles of a circle in 2D/ a sphere in 3D
     %rotate90 is a rotation matrix of angle 90°
@@ -49,7 +48,7 @@ function [P,width] = corridor(coords,path,obstacles,n)
     end
     
     %Initialization of the array of distances between the current edge of 
-    %the path and each obstacle
+    %and each obstacle
     d_obstacles = zeros(N,1);
 
     %Initialization of the matrix of the points of the polyhedron 
@@ -57,19 +56,19 @@ function [P,width] = corridor(coords,path,obstacles,n)
     points = zeros(D,n);
    
     for i=1:(l-1)
-        %For each edge of the path, the function calculates the distance
+        %For each edge of the graph, the function calculates the distance
         %between this edge and each obstacle, and took the minimum for the
-        %width of the corresponding corridor. Then global width of all
-        %corridors is updated given that new data
-        A = [coords(path(i),:)];
-        B = [coords(path(i+1),:)];
+        %width of the corresponding corridor.
+        edge = edges(i,:);
+        extremities = edge.EndNodes;
+        A = [coords(extremities(1),:)];
+        B = [coords(extremities(2),:)];
         Q = Polyhedron('V',[A;B]);
         for j=1:N
             ret = distance(obstacles(j),Q);
             d_obstacles(j) = ret.dist;
         end
-        d = min(d_obstacles);
-        width = min(width, d);
+        width(i) = min(d_obstacles);
         
         %Unit vector of the edge
         normalized = (B-A)/norm(B-A);
@@ -79,19 +78,17 @@ function [P,width] = corridor(coords,path,obstacles,n)
         if D == 2
             ortho = normalized * rotate90;
             for k=1:n
-                points(:,k) = (cos(phi(k))*ortho*d+sin(phi(k))*normalized*d)';
+                points(:,k) = (cos(phi(k))*ortho*width(i)+sin(phi(k))*normalized*width(i))';
             end
         elseif D == 3 
             ortho1 = normalized * rotate90;
             ortho2 = cross(normalized,ortho1);
             for k=1:num
                 for m=1:num
-                    points(:,k*num+m) = (cos(phi(m))*(cos(theta(k))*ortho1*d + sin(theta(k))*ortho2*d)+sin(phi(m))*normalized*d)';
+                    points(:,k*num+m) = (cos(phi(m))*(cos(theta(k))*ortho1*width(i) + sin(theta(k))*ortho2*width(i))+sin(phi(m))*normalized*width(i))';
                 end
             end
         end
-        
         P(i) = Polyhedron([points + A' points + B']');
-        % P(i) = R.minHRep();
     end
 end

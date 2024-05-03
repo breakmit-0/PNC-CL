@@ -1,14 +1,16 @@
 
 dim = 2;
-space_size = 200;
+space_size = 10;
 
-obs = testing.generation_obstacles(dim, 50, 5, 0.1, 0.1, space_size);
+% obs = testing.generation_obstacles(dim, 50, 5, 0.1, 0.1, space_size);
+obs = testing.maze();
 obs = obs([obs.Dim] > 0);
 
 fprintf("\n--- FINDING LIFT ---\n");
 fprintf("number of obstacles = %d\n\n", size(obs, 1));
 
-[oa, ob, cvx] = lift.find_iter(obs, 5);
+[oa, ob, cvx] = lift.find(obs);
+
 
 if ~(cvx > 0) 
     error("failed to find a convex lifting");
@@ -45,7 +47,7 @@ fprintf("graph has %.0f nodes and %.0f edges\n", size(g.Nodes, 1), size(g.Edges,
 tic
 fprintf("\n--- FINDING PATH ---\n");
 
-start = -space_size*ones(1, dim);
+start = -space_size*zeros(1, dim);
 target = space_size*ones(1, dim);
 p = alt_graph.path(g, start, target, obs);
 
