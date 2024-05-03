@@ -57,7 +57,7 @@ function [oa, ob, cvx] = find(Obstacles)
     % adding a constraint to force convexity strictly positive actually makes things lees efficient
     ops = sdpsettings;
     ops.solver = "glpk";
-    ops.debug = false;
+    ops.debug = true;
     ops.verbose = false;
 
     constraints = [constraints; -1000 <= e <= 1000];
