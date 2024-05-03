@@ -1,0 +1,47 @@
+function G = corridor_width(G, obstacles)
+% corridor_width - The function to compute the width of the safety corridors corresponding to the graph, depending on the distance between the edges and the obstacles  [<a href="matlab:web('https://breakmit-0.github.io/corridors/')">online docs</a>]
+    % 
+    %
+    % Usage:
+    %    G = corridor(G, obstacles)
+    %
+    % Parameters:
+    %   G should be the graph returned by graphBuilder.buildGraph
+    %   Obstacles should be an array of N Polyhedron objects of dimension D
+    % 
+    %
+    % Return Values:
+    %   G is the edited graph with 
+    %   G.Edges.info = [corridor_length  corridor_width]
+    %
+    % See also corridors, edge_weight
+    
+    %Edges of the graph and coordinates of its nodes
+    edges = G.Edges;
+    coords = G.Nodes.position;
+
+    %Initialization of the values of interest
+    l = height(edges);
+    N = length(obstacles);
+    G.Edges.info = zeros(l,2);
+    
+    %Initialization of the array of distances between the current edge of 
+    %and each obstacle
+    d_obstacles = zeros(N,1);
+   
+    for i=1:l
+        %For each edge of the graph, the function calculates the distance
+        %between this edge and each obstacle, and took the minimum for the
+        %width of the corresponding corridor.
+        edge = edges(i,:);
+        extremities = edge.EndNodes;
+        A = [coords(extremities(1),:)];
+        B = [coords(extremities(2),:)];
+        Q = Polyhedron('V',[A;B]);
+        for j=1:N
+            ret = distance(obstacles(j),Q);
+            d_obstacles(j) = ret.dist;
+        end
+        G.Edges.info(i,:) = [edge.Weight min(d_obstacles)];
+    end
+end
