@@ -1,8 +1,8 @@
-classdef (Abstract) Lifting
+classdef Lifting
 
-    methods
-        function self = Lifting(obstacles, options) 
-            if nargin > 0
+    methods(Static)
+        function self = find(obstacles, options) 
+            if nargin > 1 && isfield(options, "strategy")
                 switch options.strategy
                     case "convex"
                         self = lift.LiftingConvex(obstacles, options);
@@ -11,8 +11,12 @@ classdef (Abstract) Lifting
                     case "cluster"
                         self = lift.LiftingCluster(obstacles, options);
                     otherwise
-                        error("Bad lifting strategy");
+                        error("unrecognised strategy");
                 end
+                return;
+            end
+            if nargin > 0
+                self = lift.LiftingLinear(obstacles, struct());
             end
         end
     end

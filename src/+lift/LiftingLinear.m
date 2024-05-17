@@ -36,7 +36,7 @@ classdef LiftingLinear < Lifting
             if (bbox.Dim ~= 0)
                 self.bbox = bbox;
             end
-            
+
             if (self.bbox.Dim == 0)
                 error("Cannot get partition from LiftingLinear without a boundiing box")
             end
@@ -52,13 +52,15 @@ classdef LiftingLinear < Lifting
                 options (1, 1);
             end
 
+            import util.*;
+
             if (isfield(options, "bbox"))
                 self.bbox = options.bbox;
             end
- 
+
             N = size(Obstacles, 1);
             D = Obstacles(1).Dim;
-           
+
             min_convexity = sdpvar(1,1);
             a = sdpvar(N, D);
             b = sdpvar(N, 1);

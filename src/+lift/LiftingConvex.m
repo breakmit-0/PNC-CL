@@ -18,7 +18,7 @@ classdef LiftingConvex < Lifting
 
         function out = isSuccess(self)
             %% Success is achieved if the minimal convexity is greater than 0
-            out = (self.cvx > 0);
+            error("not implemented")
         end
 
 
@@ -53,6 +53,8 @@ classdef LiftingConvex < Lifting
                 Obstacles (:, 1) Polyhedron;
                 options (1, 1);
             end
+
+            import util.*;
 
             if (isfield(options, "bbox"))
                 self.bbox = options.bbox;
@@ -94,7 +96,6 @@ classdef LiftingConvex < Lifting
                             cmat(i, (D+1)*other) = -1;
                             cmat(i, (D+1)*(obs-1)+1 : (D+1)*(obs-1)+D) = vertex';
                             cmat(i, (D+1)*(other-1)+1 : (D+1)*(other-1)+D) = -vertex';
-                            cmat(i, (D+1) * N + 1) = -1;
 
                         end
                     end
@@ -124,7 +125,6 @@ classdef LiftingConvex < Lifting
             self.diag = optimize(constraints, norm(e, 2), ops);
             self.oa = value(a);
             self.ob = value(b);
-            self.cvx = value(min_convexity);
         end
     end
 end
