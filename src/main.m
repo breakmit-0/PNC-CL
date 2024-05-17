@@ -1,8 +1,8 @@
-function [P, G, path, Corridors, width] = main(obstacles, bbx, src, dest, graphBuilder)
+function [P, G, path, Corridors, width, path_length] = main(obstacles, bbx, src, dest, graphBuilder)
 % main [<a href="matlab:web('https://breakmit-0.github.io/testing-ppl/')">online docs</a>]
     %
     % Usage:
-    %   P = main(obstales, bbx, src, dest, graphBuilder)
+    %   P = main(obstales, space_length, src, dest, barycenterpath)
     %
     % Parameters:
     %
@@ -39,7 +39,7 @@ path = alt_graph.path(G, src, dest, obstacles);
 disp("Path found in " + toc + "s")
 
 tic
-[Corridors, width] = corridors.corridor(G, path, 100);
+[Corridors, width, path_length] = corridors.corridor_post_processing(G, path, 100);
 disp("Corridors described in " + toc + "s")
 
 end
