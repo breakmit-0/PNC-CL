@@ -1,13 +1,12 @@
-function [P, min_width] = corridor(G, path, n)
+function [P, min_width, path_length] = corridor_post_processing(G, path, n)
 % corridor - The function to describes the safety corridors of the path with Polyhedra  [<a href="matlab:web('https://breakmit-0.github.io/corridors/')">online docs</a>]
     % 
     %
     % Usage:
-    %    [P, min_width] = corridor(G, path, smooth_number)
+    %    [P, min_width, path_length] = corridor(G, path, smooth_number)
     %
     % Parameters:
-    %   G should be the graph returned by edge_weight with
-    %   G.Edges.info = [corridor_length  corridor_width]
+    %   G should be the graph returned by edge_weight
     %
     %   path should be the array of l points returned by alt_graph.path 
     %
@@ -20,15 +19,18 @@ function [P, min_width] = corridor(G, path, n)
     %
     %   min_width is the width of the narrowest corridor in the path
     %
+    %   path_length is the length of the path
+    %
     %
     % Warning - For now, the function only works in 2D and 3D cases ! 
     %
     % See also corridors, edge_weight, alt_graph.path
     
-    %Coordinates of the nodes of the graph, corridor width and extremities
+    %Coordinates of the nodes of the graph, corridor width and length
     %for each edge of the graph
     coords = G.Nodes.position;
-    corridors_width = G.Edges.info(:,2);
+    corridors_width = G.Edges.width;
+    edge_length = G.Edges.length;
     extremities = G.Edges.EndNodes;
     L = height(extremities);
 
@@ -37,6 +39,7 @@ function [P, min_width] = corridor(G, path, n)
     D = width(G.Nodes.position);
     P = repmat(Polyhedron(), l-1, 1);
     min_width = +inf;
+    path_length = 0;
 
     %Uniform discretisation of the angles of a circle in 2D/ a sphere in 3D
     %rotate90 is a rotation matrix of angle 90°
@@ -60,17 +63,11 @@ function [P, min_width] = corridor(G, path, n)
     for i=1:(l-1)
         %Finding the edge corresponding to (path(i) path(i+1)) in the
         %graph to have the correct index for corridors_width
-        index = 1;
-        for j=1:L
-            a = all([path(i) path(i+1)] == extremities(j,:));
-            b = all([path(i+1) path(i)] == extremities(j,:));
-            if a || b
-                index = j;
-            end
-        end
+        index = findedge(G, path(i), path(i+1));
 
-        %min_width updated with the new corridor
+        %min_width and path_length updated with the new corridor/edge
         min_width = min(min_width, corridors_width(index));
+        path_length = path_length + edge_length(index);
         
         %Unit vector of the edge
         A = [coords(path(i),:)];

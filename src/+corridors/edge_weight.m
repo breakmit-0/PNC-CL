@@ -6,14 +6,13 @@ function G = edge_weight(G)
     %    G = edge_weight(G)
     %
     % Parameters:
-    %   G should be the graph returned by corridor_width with 
-    %   G.Edges.info = [corridor_length  corridor_width]
+    %   G should be the graph returned by corridor_width 
     %
     % Return Values:
     %   G is the edited graph with G.Edges.Weight adjusted 
     %
     % See also corridors, corridor, corridor_width
 
-    G.Edges.weight = G.Edges.info(:,1).^2 + (G.Edges.info(:,2)).^(-2);
+    G.Edges.weight = (1+G.Edges.length).^2 + (1+G.Edges.width).^(-2);
 
 end
