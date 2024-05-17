@@ -31,8 +31,6 @@ function [P, min_width, path_length] = corridor_post_processing(G, path, n)
     coords = G.Nodes.position;
     corridors_width = G.Edges.width;
     edge_length = G.Edges.length;
-    extremities = G.Edges.EndNodes;
-    L = height(extremities);
 
     %Initialization of the values of interest (described above)
     l = length(path);
@@ -47,7 +45,6 @@ function [P, min_width, path_length] = corridor_post_processing(G, path, n)
         rotate90 = [0 -1; 1 0];
         phi = linspace(0, 2*pi, n);
     elseif D==3
-        rotate90 = [0 -1 0; 1 0 0; 0 0 1];
         num = floor(sqrt(n));
         n = num*num;
         phi = linspace(0, 2*pi, num);
@@ -82,7 +79,14 @@ function [P, min_width, path_length] = corridor_post_processing(G, path, n)
                 points(:,k) = (cos(phi(k))*ortho*corridors_width(index)+sin(phi(k))*normalized*corridors_width(index))';
             end
         elseif D == 3 
-            ortho1 = normalized * rotate90;
+            xvector = [1 0 0];
+            yvector = [0 1 0];
+            if abs(dot(xvector,normalized))<abs(dot(xvector,normalized))
+                ortho = xvector - dot(xvector,normalized)*normalized;
+            else
+                ortho = yvector - dot(yvector,normalized)*normalized;
+            end
+            ortho1 = ortho/norm(ortho);
             ortho2 = cross(normalized,ortho1);
             for k=1:num
                 for m=1:num
