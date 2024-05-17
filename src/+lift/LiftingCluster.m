@@ -53,7 +53,7 @@ classdef LiftingCluster < Lifting
             
             [g, h] = list.cluster(obstacles, k, options.space_min, options.space_max);
             self.hulls = h;
-            self.goups = g;
+            self.groups = g;
 
             meta_opts = options;
             meta_opts.strategy = options.fallback;
