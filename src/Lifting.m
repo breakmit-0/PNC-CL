@@ -8,6 +8,7 @@ classdef (Abstract) Lifting
     %   depth (1, 1) uint32 = 0             % for cluster strategy, how many steps until fallback
     %   fallback (1, 1) string = "linear"   % the end strategy for clustering, "cluster" WILL create an infinite loop
     %   min_cvx (1, 1) double = 0.001       % the minimum convexity for the convex strategy
+    %   solver (1, 1) string                % override the solver only
 
     methods(Static)
         function self = find(obstacles, options) 
@@ -15,7 +16,7 @@ classdef (Abstract) Lifting
             obstacles (:, 1) Polyhedron;    
             options (1, 1) struct;
         end
-            if nargin > 1 && isfield(options, "strategy")
+            if isfield(options, "strategy")
                 switch options.strategy
                     case "convex"
                         self = lift.LiftingConvex(obstacles, options);
@@ -26,11 +27,32 @@ classdef (Abstract) Lifting
                     otherwise
                         error("unrecognised strategy");
                 end
-                return;
+            else
+                error("Lifting.find : the strategy field MUST be provided");
             end
-            if nargin > 0
-                self = lift.LiftingLinear(obstacles, struct());
-            end
+
+        end
+
+        function opts = linearDefault()
+            opts.strategy = "linear";
+            opts.debug = false;
+            opts.verbose = false;
+        end
+
+        function opts = convexDefault()
+            opts.strategy = "convex";
+            opts.debug = false;
+            opts.verbose = false;
+            opts.min_cvx = 0.001;
+        end
+
+        function opts = clusterDefault()
+            opts.debug = false;
+            opts.verbose = false;
+            opts.strategy = "cluster";
+            opts.fallback = "linear";
+            opts.cluster_count = 5;
+            opts.depth = 0;
         end
     end
     methods (Abstract)

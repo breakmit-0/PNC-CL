@@ -3,8 +3,8 @@ classdef LiftingCluster < Lifting
     properties
         hulls (:, 1) Polyhedron;
         groups (:, 1) uint32;
-        meta (1, 1) Lifting;
-        children (:, 1) Lifting;
+        meta (1, 1) Lifting = lift.EmptyLifting();
+        children (:, 1) Lifting = lift.EmptyLifting();
         partition (:, 1) = [];
     end
 
