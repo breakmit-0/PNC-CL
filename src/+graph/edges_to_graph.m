@@ -1,4 +1,4 @@
-function out = gen_graph(edges)
+function out = edges_to_graph(edges)
     EPS = 0.001;
 
     N = size(edges, 1);

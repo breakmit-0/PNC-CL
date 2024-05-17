@@ -1,4 +1,4 @@
-classdef EdgeGraphBuilder < graph.GraphBuilder
+classdef EdgeGraphBuilder < graph.IGraphBuilder
 
     properties
         parallel logical
@@ -9,13 +9,13 @@ classdef EdgeGraphBuilder < graph.GraphBuilder
             obj.parallel = false;
         end
 
-        function G = buildGraph(obj, partition)
+        function G = buildGraph(obj, src, dest, obstacles, partition)
             if obj.parallel
-                edges = alt_graph.parallel_find_edges(partition);
+                edges = graph.parallel_find_edges(partition);
             else
-                edges = alt_graph.find_edges(partition);
+                edges = graph.find_edges(partition);
             end
-            G = alt_graph.gen_graph(edges);
+            G = graph.edges_to_graph(edges);
         end
     end
 end

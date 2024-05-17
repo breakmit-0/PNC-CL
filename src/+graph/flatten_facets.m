@@ -1,4 +1,4 @@
-function facets = flatten_facets2(polyhedra)
+function facets = flatten_facets(polyhedra)
     n = height(polyhedra);
     facets_cell = cell(n, 1);
 

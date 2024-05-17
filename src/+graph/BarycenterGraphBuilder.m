@@ -1,24 +1,24 @@
-classdef BarycenterGraphBuilder < graph.GraphBuilder 
+classdef BarycenterGraphBuilder < graph.IGraphBuilder 
 
     methods
-        function G = buildGraph(obj, partition)
+        function G = buildGraph(obj, src, dest, obstacles, partition)
             import graph.BarycenterGraphBuilder.*;
 
-            facets = alt_graph.flatten_facets(partition);
-            subFacets = alt_graph.flatten_facets(facets);
+            facets = graph.flatten_facets(partition);
+            subFacets = graph.flatten_facets(facets);
 
             edges = createEdges(partition, facets, subFacets);
-            G = alt_graph.gen_graph(edges);
+            G = graph.edges_to_graph(edges);
         end
     end
 
-    methods (Access=private, Static)
+    methods (Access=protected, Static)
         function edges = createEdges(partition, facets, subFacets)
             import util.barycenter;
 
             n = height(subFacets);
             edges = repmat(Polyhedron(), n, 1);
-            i = 1; % index of the edge (also the index of the sub facet
+            i = 1; % index of the edge (also the index of the sub facet)
             fi = 1; % index of the facet
 
             for p = partition.'

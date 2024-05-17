@@ -1,8 +1,8 @@
-classdef GraphBuilder < handle
+classdef IGraphBuilder < handle
     % graph.GraphBuilder Base class for all graph builder
 
     methods (Abstract)
-        G = buildGraph(obj, partition)
+        G = buildGraph(obj, src, dest, obstacles, partition)
         % Find a path between src and dest without going into
         % an obstacle and moving on the facets of partition
         % 

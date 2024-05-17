@@ -23,7 +23,7 @@ P = project.fast_partition(oa,ob,bbx);
 disp("Partition computed in " + toc + "s")
 
 tic
-G = graphBuilder.buildGraph(P);
+G = graphBuilder.buildGraph(src, dest, obstacles, P);
 disp("Graph build in " + toc + "s")
 
 tic

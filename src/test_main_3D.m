@@ -1,10 +1,10 @@
 dimension = 3;
-space_length = 100;
+space_length = 10;
 src = [-space_length/2 -space_length/2 -space_length/2];
 dest = [space_length/2 space_length/2 space_length/2];
-gBuilder = graph.ParallelBarycenterGraphBuilder();
+gBuilder = graph.BarycenterGraphBuilder();
 
-obstacles = testing.generation_obstacles(dimension,100,3,0,0,space_length,100);
+obstacles = testing.generation_obstacles(dimension,10,3,0,0,space_length,100);
 %obstacles = util.read_obj("src/+testing/obj/3_cubes.obj").';
 bbx = util.bounding_box(obstacles, 1.25, false);
 

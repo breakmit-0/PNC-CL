@@ -51,8 +51,8 @@ function [P, min_width] = corridor(G, path, n)
         theta = linspace(0, 2*pi, num);
     else
         error("Corridors make sense only in 2D and in 3D")
-    end
-    
+    end   
+
     %Initialization of the matrix of the points of the polyhedron 
     %that will describe the current corridor
     points = zeros(D,n);
@@ -60,14 +60,7 @@ function [P, min_width] = corridor(G, path, n)
     for i=1:(l-1)
         %Finding the edge corresponding to (path(i) path(i+1)) in the
         %graph to have the correct index for corridors_width
-        index = 1;
-        for j=1:L
-            a = all([path(i) path(i+1)] == extremities(j,:));
-            b = all([path(i+1) path(i)] == extremities(j,:));
-            if a || b
-                index = j;
-            end
-        end
+        index = findedge(G, path(i), path(i + 1));
 
         %min_width updated with the new corridor
         min_width = min(min_width, corridors_width(index));
