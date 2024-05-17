@@ -12,7 +12,8 @@ function G = corridor_width(G, obstacles)
     %
     % Return Values:
     %   G is the edited graph with 
-    %   G.Edges.info = [corridor_length  corridor_width]
+    %   G.Edges.length = corridor_length  
+    %   G.Edges.width = corridor_width
     %
     % See also corridors, edge_weight
     
@@ -23,7 +24,8 @@ function G = corridor_width(G, obstacles)
     %Initialization of the values of interest
     l = height(edges);
     N = length(obstacles);
-    G.Edges.info = zeros(l,2);
+    G.Edges.length = zeros(l,1);
+    G.Edges.width = zeros(l,1);
     
     %Initialization of the array of distances between the current edge of 
     %and each obstacle
@@ -42,6 +44,7 @@ function G = corridor_width(G, obstacles)
             ret = distance(obstacles(j),Q);
             d_obstacles(j) = ret.dist;
         end
-        G.Edges.info(i,:) = [edge.Weight min(d_obstacles)];
+        G.Edges.length(i) = edge.Weight; 
+        G.Edges.width(i) = min(d_obstacles);
     end
 end
