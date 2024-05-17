@@ -1,13 +1,21 @@
 function P = fast_partition(oa,ob,bbx)
-
-    %Definition and creation of the workspace we wish to partition according 
-    %to obstacles, centered at 0 and of size space_length
-    [N, D] = size(oa);
-    center  = zeros([1,D]);
-    %bbx = util.box(center,space_length/2,space_length/2);
+% project.fast_partition The function to compute the partition of the space from the convex-lifting function [<a href="matlab:web('https://breakmit-0.github.io/project-ppl/')">online docs</a>]
+    %
+    %
+    % Usage : 
+    %    P = fast_partition(oa,ob,bbx)
+    %
+    % Parameters :
+    %    [oa,ob] are the values returned by lift.find
+    %    oa is a matrix of dimension N x D while ob is an array of N scalars
+    %    bbx is the value returned by util.bounding_box 
+    %
+    % Return Values :  
+    %    P is an array of N polyhedra which represents the partition of the space
+    %
+    % See also project
     
-    %Creation of the polyhedral partition of the workspace according to the
-    %convex lifting function
+    [N, D] = size(oa);
     P = repmat(Polyhedron(), N, 1);
     for i=1:N
         Ai = zeros([N, D]);
