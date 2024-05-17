@@ -1,4 +1,4 @@
-function [P, min_width, path_length] = corridor(G, path, n)
+function [P, min_width, path_length] = corridor_post_processing(G, path, n)
 % corridor - The function to describes the safety corridors of the path with Polyhedra  [<a href="matlab:web('https://breakmit-0.github.io/corridors/')">online docs</a>]
     % 
     %
