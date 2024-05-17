@@ -1,4 +1,5 @@
-classdef Lifting
+classdef (Abstract) Lifting
+    %% An interface for the output of convex lifting
 
     methods(Static)
         function self = find(obstacles, options) 
