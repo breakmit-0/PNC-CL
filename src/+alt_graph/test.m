@@ -1,15 +1,15 @@
 
 dim = 2;
-space_size = 10;
+space_size = 100;
 
-% obs = testing.generation_obstacles(dim, 50, 5, 0.1, 0.1, space_size);
-obs = testing.maze();
+obs = testing.generation_obstacles(dim, 50, 2, 0.1, 0.1, space_size);
+% obs = testing.maze();
 obs = obs([obs.Dim] > 0);
 
 fprintf("\n--- FINDING LIFT ---\n");
 fprintf("number of obstacles = %d\n\n", size(obs, 1));
 
-[oa, ob, cvx] = lift.find(obs);
+[oa, ob, cvx] = lift.clustered(obs, 5, -100, 100);
 
 
 if ~(cvx > 0) 
