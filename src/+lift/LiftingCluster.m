@@ -3,7 +3,7 @@ classdef LiftingCluster < Lifting
     properties
         hulls (:, 1) Polyhedron;
         groups (:, 1) uint32;
-        meta (1, 1) lift.Lifting;
+        meta (1, 1) Lifting;
         children (:, 1) Lifting;
         partition (:, 1) = [];
     end
@@ -15,7 +15,13 @@ classdef LiftingCluster < Lifting
         end
 
         function part = getPartition(self, bbox)
+            self.partition = self.meta.getPartition(bbox);
+            
+            for i = 1:size(self.children, 1)
+                self.children(i).getPartition(self.partition(i));
+            end
 
+            part = self.partition;
         end
 
         function succ = isSuccess(self)
