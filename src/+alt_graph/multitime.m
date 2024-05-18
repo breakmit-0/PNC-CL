@@ -1,6 +1,6 @@
 function result = mutitime(destfile)
 
-    range = 5:5:100;
+    range = 5:5:30;
     N = size(range, 2);
     result = [];
 
