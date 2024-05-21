@@ -8,7 +8,7 @@ gBuilder = graph.BarycenterGraphBuilder();
 obstacles = testing.generation_obstacles(dimension,10,5,0,0,space_length,100);
 bbx = util.bounding_box(obstacles, 1.25, true);
 
-[P, G, path, corridors, width, dist] = main(obstacles, bbx, src, dest, gBuilder);
+[P, G, path, corridors, width, dist] = testing.main(obstacles, bbx, src, dest, gBuilder);
 
 disp("Path length: " + dist)
 disp("Path width: " + width)

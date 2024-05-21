@@ -55,6 +55,12 @@ classdef (Abstract) Lifting
             opts.depth = 0;
         end
     end
+
+    methods
+        function getGraph(self, options)
+        end
+    end
+
     methods (Abstract)
         getPartition(self, bbox);
         getDiagnostics(self);

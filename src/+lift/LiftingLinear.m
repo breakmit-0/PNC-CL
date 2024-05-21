@@ -1,4 +1,3 @@
-
 classdef LiftingLinear < Lifting
     properties
         oa (:, :) double;
@@ -23,12 +22,9 @@ classdef LiftingLinear < Lifting
 
         function part = getPartition(self, bbox)
             %% Calculates the partition for this lifting, possibly overwriting the bounding box
-            arguments
-                self (1, 1) LiftingLinear;
-                bbox (1, 1) Polyhedron = Polyhedron();
-            end
-
-            if (size(self.partition, 1) > 0 && (bbox.Dim == 0 || self.bbox.eq(bbox)))
+            disp(self.bbox);
+            disp(bbox);
+            if (size(self.partition, 1) > 0 && (bbox.Dim == 0 || (self.bbox.Dim == bbox.Dim && self.bbox.eq(bbox))))
                 part = self.partition;
                 return;
             end

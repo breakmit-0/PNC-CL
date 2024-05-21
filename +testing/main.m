@@ -15,11 +15,11 @@ function [P, G, path, Corridors, width, path_length] = main(obstacles, bbx, src,
     % See also lift, project, testing, util, graph
 
 tic
-[oa,ob] = lift.find(obstacles);
+lifting = Lifting.find(obstacles, Lifting.linearDefault());
 disp("Lift computed in " + toc + "s")
 
 tic
-P = project.fast_partition(oa,ob,bbx);
+P = lifting.getPartition(bbx);
 disp("Partition computed in " + toc + "s")
 
 tic
