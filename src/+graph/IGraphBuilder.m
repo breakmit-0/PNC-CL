@@ -1,15 +1,15 @@
 classdef IGraphBuilder < handle
-    % graph.GraphBuilder Base class for all graph builder
+    % graph.IGraphBuilder Base class for all graph builder.
+    % A graph builder is a convenience object for creating a graph
+    % with the partition resulting from a lifting.
 
     methods (Abstract)
-        G = buildGraph(obj, partition)
-        % Find a path between src and dest without going into
-        % an obstacle and moving on the facets of partition
+        G = buildGraph(obj, polyhedra)
+        % Build a graph based on multiple polyhedra. Typically, these
+        % polyhedra are the result of a lifting.
         % 
         % Parameters:
-        %     partition: column vector of Polyhedron, it forms a partition 
-        %     of the space. One Polyhedron of paritition contains one and 
-        %     only one obstacle.
+        %     polyhedra: column vector of Polyhedron
         %
         % Return values:
         %     G: graph

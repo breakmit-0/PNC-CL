@@ -2,7 +2,7 @@ dimension = 2;
 space_length = 40;
 src = [-space_length/2 -space_length/2];
 dest = [space_length/2 space_length/2];
-gBuilder = graph.EdgeGraphBuilder();
+gBuilder = graph.BarycenterGraphBuilder();
 
 %obstacles = testing.Counter_examples();
 obstacles = testing.generation_obstacles(dimension,10,5,0,0,space_length,100);
