@@ -23,7 +23,7 @@ P = lifting.getPartition(bbx);
 disp("Partition computed in " + toc + "s")
 
 tic
-G = graphBuilder.buildGraph(P);
+G = lifting.getGraph(graphBuilder);
 disp("Graph build in " + toc + "s")
 
 tic

@@ -23,9 +23,14 @@ classdef (Abstract) Lifting
     end
 
     methods
-        function getGraph(self, options)
-            p = self.getPartition(options.bbox);
-            
+        function graph = getGraph(self, builder, bbox)
+            arguments
+                self (1, 1) Lifting;
+                builder (1, 1) graph.IGraphBuilder;
+                bbox (1, 1) Polyhedron = Polyhedron();
+            end
+            p = self.getPartition(bbox);
+            graph = builder.buildGraph(p);
         end
     end
 
