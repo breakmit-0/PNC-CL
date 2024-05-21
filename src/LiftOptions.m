@@ -2,7 +2,7 @@
 classdef LiftOptions
     properties
         sdp (1, 1) struct = sdpsettings();   % override sdpsettings for optimizer
-        debug (1, 1) locical = false;        % enable debug mode
+        debug (1, 1) logical = false;        % enable debug mode
         verbose (1, 1) logical = false;      % enable verbose mode
         strategy (1, 1) string = "linear";   % the lifting strategy to use
         cluster_count (1, 1) uint32 = 5;     % for cluster strategy, how may clusters to create
