@@ -15,7 +15,7 @@ function [P, G, path, Corridors, width, path_length] = main(obstacles, bbx, src,
     % See also lift, project, testing, util, graph
 
 tic
-lifting = Lifting.find(obstacles, Lifting.linearDefault());
+lifting = Lifting.find(obstacles, LiftOptions.linearDefault());
 disp("Lift computed in " + toc + "s")
 
 tic
