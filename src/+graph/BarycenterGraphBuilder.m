@@ -80,15 +80,15 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
 
         function center = barycenter_of_edge(edge)
             if height(edge.A) == 2
-                V1 = [edge.Ae; edge.A(1, :)] \ [edge.be; edge.b(1,:)];
-                V2 = [edge.Ae; edge.A(2, :)] \ [edge.be; edge.b(2,:)];
+                V1 = linsolve([edge.Ae; edge.A(1, :)], [edge.be; edge.b(1,:)]);
+                V2 = linsolve([edge.Ae; edge.A(2, :)], [edge.be; edge.b(2,:)]);
 
                 center = ((V1 + V2) / 2).';
             else
                 V1 = [];
 
                 for i = 1:height(edge.A)
-                    V = [edge.Ae; edge.A(i, :)] \ [edge.be; edge.b(i,:)];
+                    [V, ~] = linsolve([edge.Ae; edge.A(i, :)], [edge.be; edge.b(i,:)]);
 
                     if ~anynan(V) && all(V ~= inf) && edge.contains(V)
                         if isempty(V1)
