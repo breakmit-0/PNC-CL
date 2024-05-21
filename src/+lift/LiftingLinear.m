@@ -22,8 +22,6 @@ classdef LiftingLinear < Lifting
 
         function part = getPartition(self, bbox)
             %% Calculates the partition for this lifting, possibly overwriting the bounding box
-            disp(self.bbox);
-            disp(bbox);
             if (size(self.partition, 1) > 0 && (bbox.Dim == 0 || (self.bbox.Dim == bbox.Dim && self.bbox.eq(bbox))))
                 part = self.partition;
                 return;
