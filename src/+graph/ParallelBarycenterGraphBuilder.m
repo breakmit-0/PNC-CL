@@ -1,7 +1,7 @@
 classdef ParallelBarycenterGraphBuilder < graph.BarycenterGraphBuilder 
 
     methods
-        function G = buildGraph(obj, src, dest, obstacles, partition)
+        function G = buildGraph(obj, partition)
             import graph.BarycenterGraphBuilder.*;
 
             n = height(partition);

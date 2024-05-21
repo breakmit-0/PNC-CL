@@ -1,7 +1,7 @@
 classdef BarycenterGraphBuilder < graph.IGraphBuilder 
 
     methods
-        function G = buildGraph(obj, src, dest, obstacles, partition)
+        function G = buildGraph(obj, partition)
             import graph.BarycenterGraphBuilder.*;
 
             facets = graph.flatten_facets(partition);

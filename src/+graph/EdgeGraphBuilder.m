@@ -9,7 +9,7 @@ classdef EdgeGraphBuilder < graph.IGraphBuilder
             obj.parallel = false;
         end
 
-        function G = buildGraph(obj, src, dest, obstacles, partition)
+        function G = buildGraph(obj, partition)
             if obj.parallel
                 edges = graph.parallel_find_edges(partition);
             else
