@@ -1,6 +1,22 @@
 classdef GraphBuilder
     % graph.GraphBuilder Base class for all graph builder
 
+
+    methods (Static)
+        function gb = default()
+            gb = graph.EdgeBuilder();
+
+        end
+
+        function gb = edges(obstacles)
+            gb = graph.EdgeBuilder(obstacles);
+        end
+
+        function gb = barycenters(obstacles)
+            gb = graph.BaryBuilder(obstacles);
+        end
+    end
+
     methods (Abstract)
         G = buildGraph(obj, partition)
         % Find a path between src and dest without going into
