@@ -1,4 +1,4 @@
-function [P, min_width, path_length] = corridor_post_processing(G, path, n)
+function [P, min_width] = corridor_post_processing(G, path, n)
 % corridor - The function to describes the safety corridors of the path with Polyhedra  [<a href="matlab:web('https://breakmit-0.github.io/corridors/')">online docs</a>]
     % 
     %
@@ -30,14 +30,12 @@ function [P, min_width, path_length] = corridor_post_processing(G, path, n)
     %for each edge of the graph
     coords = G.Nodes.position;
     corridors_width = G.Edges.width;
-    edge_length = G.Edges.length;
 
     %Initialization of the values of interest (described above)
     l = length(path);
     D = width(G.Nodes.position);
     P = repmat(Polyhedron(), l-1, 1);
     min_width = +inf;
-    path_length = 0;
 
     %Uniform discretisation of the angles of a circle in 2D/ a sphere in 3D
     %rotate90 is a rotation matrix of angle 90°
@@ -64,7 +62,6 @@ function [P, min_width, path_length] = corridor_post_processing(G, path, n)
 
         %min_width and path_length updated with the new corridor/edge
         min_width = min(min_width, corridors_width(index));
-        path_length = path_length + edge_length(index);
         
         %Unit vector of the edge
         A = [coords(path(i),:)];
