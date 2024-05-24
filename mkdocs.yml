@@ -19,3 +19,5 @@ nav:
   - Home: "index.md"
   - "class Lifting": "Lifting.md"
   - "class LiftOptions": "LiftOptions.md"
+  - "class GraphBuilder": "GraphBuilder.md"
+  - "class LiftGraph": "LiftGraph.md"
