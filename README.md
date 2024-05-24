@@ -9,7 +9,7 @@ This toolbox requires [MPT]() and [tbxmanager]().
 
 First, install both dependencies :
 
-    * [MPT]()
+* [MPT]()
 * [tbxmanager]()
 
     You may also install the [Matlab Optimisation Toolbox]() to speed up some calculations.
@@ -81,15 +81,4 @@ First, install both dependencies :
     and `mkdocs serve` to build and serve on `localhost`
 
 
-
-# API Documentation
-
-    Most of the information in this section is also available as doc comments inside the code of the toolbox.
-    It can be acessed with `help <name>` or `doc <name>` inside matlab.
-
-##### <span class="code"> <span class="kw"> class </span> [Lifting](Lifting.md) </span>
-    : A class to perform a convex lifting and create a partition of the space
-
-##### <span class="code"> <span class="kw"> class </span> [LiftOptions](LiftOptions.md) </span>
-    : A simple structure that holds all the options to create a [Lifting] object
 
