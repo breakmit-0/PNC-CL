@@ -149,7 +149,7 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
                 end
 
                 disp("fail")
-                center = graph.util.barycenter(edge);
+                center = util.barycenter(edge);
             end
         end
     end

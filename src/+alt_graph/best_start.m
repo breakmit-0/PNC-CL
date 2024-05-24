@@ -1,33 +1,33 @@
-function best_n = best_start(g, start, obstacles)
+function best_n = best_start(g, start, target, obstacles)
 arguments
     g (1, 1) graph;
     start (1, :) double;
-    obstacles (:, 1) Polyhedron, 
+    target (1, :) double;
+    obstacles (:, 1) Polyhedron
 end
-    N = size(g.Nodes.position, 1);
+    dist = sqrt (sum((g.Nodes.position - start).^2, 2)) + ...
+           sqrt (sum((g.Nodes.position - target).^2, 2));
+    [~, I] = sort(dist);
 
+    for i = 1:size(I)
+        point = g.Nodes.position(I(i), :);
+        sline = Polyhedron('V', [start; point]);
 
-    d2 = sum((g.Nodes.position - start).^2, 2);
-
-    best_n = 0;
-    best_d2 = NaN;
-    % find the non crossing path best aligned with the goal
-    for i = 1:N
-        sline = Polyhedron('V', [start; g.Nodes.position(i, :)]);
         intersects = false;
-
-        for obs = 1:size(obstacles, 1)
-            if ~obstacles(obs).and(sline).isEmptySet()
+        for obs = obstacles.'
+            if ~obs.and(sline).isEmptySet()
                 intersects = true;
                 break;
             end
         end
         
-        if ~intersects && ~(d2(i) >= best_d2)
-            best_n = i;
-            best_d2 = d2(i);
+        if ~intersects
+            best_n = I(i);
+            return
         end
     end
+
+    best_n = -1;
 end
 
 
