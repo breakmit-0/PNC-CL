@@ -103,4 +103,12 @@ end
             end
         end
     end
+    
+    %Removing empty obstacles
+    A = zeros(Number_of_obstacles,1);
+    for j=1:Number_of_obstacles
+        A(j) = P(j).Dim;
+    end
+    P = P(A > 0);
+    
 end
