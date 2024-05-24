@@ -12,25 +12,25 @@ First, install both dependencies :
 * [MPT]()
 * [tbxmanager]()
 
-    You may also install the [Matlab Optimisation Toolbox]() to speed up some calculations.
+You may also install the [Matlab Optimisation Toolbox]() to speed up some calculations.
 
 
-    To use the tooblox, download the [latest release]() from github and add the `toolbox` directory to your matlab path, for example by adding
-    ```matlab
-    add_path("/home/... path to the toolbox ../toolbox");
-    ```
-    to `startup.m` in your project directory.
+To use the tooblox, download the [latest release]() from github and add the `toolbox` directory to your matlab path, for example by adding
+```matlab
+add_path("/home/... path to the toolbox ../toolbox");
+```
+to `startup.m` in your project directory.
 
-    Before calling any function from this toolbox (or MPT), call 
-    ```matlab
-    mpt_init;
-    ```
+Before calling any function from this toolbox (or MPT), call 
+```matlab
+mpt_init;
+```
 
 # Usage
 
 ### Basic Usage
 
-    ```matlab
+```matlab
     % required before using mpt
     mpt_init; 
 
@@ -52,33 +52,33 @@ First, install both dependencies :
 
     % get information about the path
     [corridors, path_width, path_length] = corridors.corridor_post_processing(G, found_path, 100);
-    ```
+```
 
 ### Examples
 
-    More example programs are available in the `examples` directory as scripts. To run them, simply add the `examples` to the matlab path.
+More example programs are available in the `examples` directory as scripts. To run them, simply add the `examples` to the matlab path.
 
 
 # Building
 
-    This section is relevant for developpers only and not necessary to use the toolbox
+This section is relevant for developpers only and not necessary to use the toolbox
 
 ### Toolbox
 
-    To create a release of the toolbox, run `make release`
+To create a release of the toolbox, run `make release`
 
 
 ### Documentation
 
-    This documentation is built with `mkdocs`, the following python packages are required:
+This documentation is built with `mkdocs`, the following python packages are required:
 
-    * `mkdocs`
-    * `pymdown-extensions`
-    * `pygments`
+* `mkdocs`
+* `pymdown-extensions`
+* `pygments`
 
 
-    run ` mkdocs build`  to build the html documentation to use with github pages in `site/`
-    and `mkdocs serve` to build and serve on `localhost`
+run ` mkdocs build`  to build the html documentation to use with github pages in `site/`
+and `mkdocs serve` to build and serve on `localhost`
 
 
 
