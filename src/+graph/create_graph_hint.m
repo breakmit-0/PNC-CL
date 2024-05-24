@@ -28,5 +28,4 @@ function g = create_graph_hint(edges, vpos, poly_hints)
     edge_table = table(edges, distances, hints, 'VariableNames', {'EndNodes', 'Weight', 'PolyHints'});
 
     g = graph(edge_table, node_data);
-    
 end
