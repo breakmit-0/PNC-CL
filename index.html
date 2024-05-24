@@ -8,21 +8,18 @@
     <title>My Docs</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
         <link href="style.css" rel="stylesheet" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Path Planning using Convex Lifting";
+        var mkdocs_page_name = "Home";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = null;
       </script>
     
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
-    <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-      <script>hljs.highlightAll();</script> 
+    <![endif]--> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,59 +38,17 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href=".">Path Planning using Convex Lifting</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#about">About</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#in-matlab">In Matlab</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#building">Building</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#lift"> lift </a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#util"> util </a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#testing"> testing </a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#project"> project </a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#graph"> graph </a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a>
-    </li>
     </ul>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="graph/"><span class="code"> <span class="mod">module</span> graph </span></a>
+                <li class="toctree-l1"><a class="reference internal" href="Lifting/">class Lifting</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="lift/"><span class="code"> <span class="mod">module</span> lift </span></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="project/"><span class="code"> <span class="mod">module</span> project </span></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="testing/"><span class="code"> <span class="mod">module</span> testing </span></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="util/"><span class="code"> <span class="mod">module</span> util </span></a>
+                <li class="toctree-l1"><a class="reference internal" href="LiftOptions/">class LiftOptions</a>
                 </li>
               </ul>
       </div>
@@ -110,7 +65,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Path Planning using Convex Lifting</li>
+      <li class="breadcrumb-item active">Home</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -120,14 +75,53 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="path-planning-using-convex-lifting">Path Planning using Convex Lifting</h1>
-<h2 id="about">About</h2>
-<p>The purpose of this toolbox is to find a path in an environnment with obstacles, in any number of dimensions, using 
-the <a href="">Convex Lifting</a> method.</p>
+<p>This is a <a href="https://mathworks.com">MATLAB</a> toolbox for pathplanning, or finding a path in a continuous environment with obstacles, in two or three dimensions.
+It uses the novel <a href="">Convex Lifting</a> method to construct a graph of possible paths in the environment.</p>
 <p>This toolbox requires <a href="">MPT</a> and <a href="">tbxmanager</a>.</p>
-<h2 id="usage">Usage</h2>
-<p>documentation is available <a href="https://breakmit-0.github.io/lift-ppl/">here</a></p>
-<h3 id="in-matlab">In Matlab</h3>
-<h2 id="building">Building</h2>
+<h1 id="installation">Installation</h1>
+<p>First, install both dependencies :</p>
+<ul>
+<li><a href="">MPT</a></li>
+<li><a href="">tbxmanager</a></li>
+</ul>
+<p>You may also install the <a href="">Matlab Optimisation Toolbox</a> to speed up some calculations.</p>
+<p>To use the tooblox, download the <a href="">latest release</a> from github and add the <code>toolbox</code> directory to your matlab path, for example by adding
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>add_path(<span style="color: #BA2121">&quot;/home/... path to the toolbox ../toolbox&quot;</span>);
+</code></pre></div>
+to <code>startup.m</code> in your project directory.</p>
+<p>Before calling any function from this toolbox (or MPT), call 
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>mpt_init;
+</code></pre></div></p>
+<h1 id="usage">Usage</h1>
+<h3 id="basic-usage">Basic Usage</h3>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #3D7B7B; font-style: italic">% required before using mpt</span>
+mpt_init;<span style="color: #bbbbbb"> </span>
+
+<span style="color: #3D7B7B; font-style: italic">% let obstacles be a column vector of Polyhedron objects</span>
+
+<span style="color: #3D7B7B; font-style: italic">% returns a lifting object</span>
+lifting<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>Lifting.find(obstacles,<span style="color: #bbbbbb"> </span>LiftOptions.linearDefault());
+
+<span style="color: #3D7B7B; font-style: italic">% choose the method to construct the graph then build it</span>
+buider<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span><span style="color: #008000">graph</span>.EdgeGraphBuilder();
+g<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>builder.getGraph(lifting.getPartition());
+
+<span style="color: #3D7B7B; font-style: italic">% TODO : make a better API</span>
+g<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>corridors.corridor_width(g,<span style="color: #bbbbbb"> </span>obstacles);
+g<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>corridors.edge_weigth(g);
+
+<span style="color: #3D7B7B; font-style: italic">% find the shortest path</span>
+found_path<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>alt_graph.path(g,<span style="color: #bbbbbb"> </span>src,<span style="color: #bbbbbb"> </span>dst);
+
+<span style="color: #3D7B7B; font-style: italic">% get information about the path</span>
+[corridors,<span style="color: #bbbbbb"> </span>path_width,<span style="color: #bbbbbb"> </span>path_length]<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>corridors.corridor_post_processing(G,<span style="color: #bbbbbb"> </span>found_path,<span style="color: #bbbbbb"> </span><span style="color: #666666">100</span>);
+</code></pre></div>
+<h3 id="examples">Examples</h3>
+<p>More example programs are available in the <code>examples</code> directory as scripts. To run them, simply add the <code>examples</code> to the matlab path.</p>
+<h1 id="building">Building</h1>
+<p>This section is relevant for developpers only and not necessary to use the toolbox</p>
+<h3 id="toolbox">Toolbox</h3>
+<p>To create a release of the toolbox, run <code>make release</code></p>
 <h3 id="documentation">Documentation</h3>
 <p>This documentation is built with <code>mkdocs</code>, the following python packages are required:</p>
 <ul>
@@ -135,35 +129,24 @@ the <a href="">Convex Lifting</a> method.</p>
 <li><code>pymdown-extensions</code></li>
 <li><code>pygments</code></li>
 </ul>
-<p>run <code>mkdocs build</code>  to build html documentation in <code>site/</code>
+<p>run <code>mkdocs build</code>  to build the html documentation to use with github pages in <code>site/</code>
 and <code>mkdocs serve</code> to build and serve on <code>localhost</code></p>
-<h2 id="modules">Modules</h2>
-<h5 id="lift"><span class="code"> <a href="lift/">lift</a> </span></h5>
+<h1 id="api-documentation">API Documentation</h1>
+<p>Most of the information in this section is also available as doc comments inside the code of the toolbox.
+It can be acessed with <code>help &lt;name&gt;</code> or <code>doc &lt;name&gt;</code> inside matlab.</p>
+<h5 id="class-lifting"><span class="code"> <span class="kw"> class </span> <a href="Lifting/">Lifting</a> </span></h5>
 <dl>
-<dd>Functions related to calculating and maipulating a convex lifting </dd>
+<dd>A class to perform a convex lifting and create a partition of the space</dd>
 </dl>
-<h5 id="util"><span class="code"> <a href="util/">util</a> </span></h5>
+<h5 id="class-liftoptions"><span class="code"> <span class="kw"> class </span> <a href="LiftOptions/">LiftOptions</a> </span></h5>
 <dl>
-<dd>Internal utility functions</dd>
+<dd>A simple structure that holds all the options to create a [Lifting] object</dd>
 </dl>
-<h5 id="testing"><span class="code"> <a href="testing/">testing</a> </span></h5>
-<dl>
-<dd>Functions for testing this library</dd>
-</dl>
-<h5 id="project"><span class="code"> <a href="project/">project</a> </span></h5>
-<dl>
-<dd>Functions to convert a lifting generated by the <a href="lift/">lift</a> into a graph that can be navigated</dd>
-</dl>
-<h5 id="graph"><span class="code"> <a href="graph/">graph</a> </span></h5>
-<dl>
-<dd>Functions to operate and pathfind on the generated graphs </dd>
-</dl>
-<h2 id="functions">Functions</h2>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="graph/" class="btn btn-neutral float-right" title="<span class="code"> <span class="mod">module</span> graph </span>">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="Lifting/" class="btn btn-neutral float-right" title="class Lifting">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -187,7 +170,7 @@ and <code>mkdocs serve</code> to build and serve on <code>localhost</code></p>
     
     
     
-      <span><a href="graph/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="Lifting/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -207,5 +190,5 @@ and <code>mkdocs serve</code> to build and serve on <code>localhost</code></p>
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-04-05 13:05:07.597110+00:00
+Build Date UTC : 2024-05-24 08:37:59.446970+00:00
 -->
