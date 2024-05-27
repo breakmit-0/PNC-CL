@@ -148,7 +148,7 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
                     end
                 end
 
-                disp("fail")
+                warning("Failed to calculate barycenter of edge using fast method. Falling back to default method")
                 center = util.barycenter(edge);
             end
         end
