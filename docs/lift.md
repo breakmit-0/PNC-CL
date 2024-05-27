@@ -12,7 +12,7 @@ Find a convex lifting over a set of obstacles,
 **Usage**
 
 ```matlab
-[oa, ob] = lift.find(obstacles)
+    [oa, ob] = lift.find(obstacles)
 ```
 
 **Parameters**

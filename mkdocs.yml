@@ -1,7 +1,7 @@
 site_name: My Docs
 theme: 
   name: readthedocs
-  highlightjs: true
+  highlightjs: false
 markdown_extensions:
   - pymdownx.highlight:
       use_pygments: true
@@ -15,3 +15,9 @@ markdown_extensions:
       def_list: true
 site_dir: "build/site"
 extra_css: [style.css]      
+nav:
+  - Home: "index.md"
+  - "class Lifting": "Lifting.md"
+  - "class LiftOptions": "LiftOptions.md"
+  - "class GraphBuilder": "GraphBuilder.md"
+  - "class LiftGraph": "LiftGraph.md"
