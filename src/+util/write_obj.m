@@ -2,18 +2,19 @@ function write_obj(polyhedra, path)
     fid = fopen(path, 'w');
     assert(fid ~= -1, "Cannot open file");
 
-    i = 0;
+    polyIndex = 0;
+    absolutionVertexIndex = 0;
     for p = polyhedra.'
-        i = i + 1;
+        polyIndex = polyIndex + 1;
         dim = p.Dim;
 
         if dim >= 4
-            warn("Cannot export " + i + "-th polyhedron to obj because 4 dimension or more");
+            warn("Cannot export " + polyIndex + "-th polyhedron to obj because 4 dimension or more");
             continue
         end
 
 
-        fprintf(fid, "o Polyhedron.%i\n", i);
+        fprintf(fid, "o Polyhedron.%i\n", polyIndex);
         p.minHRep();
         vertices = p.V;
         
@@ -55,11 +56,14 @@ function write_obj(polyhedra, path)
                 fV = facet.V;
                 fprintf(fid, "f");
                 for vertex = fV.'
-                    fprintf(fid, " %i", util.index_of(vertices, vertex.'));
+                    vertexIndex = absolutionVertexIndex + util.index_of(vertices, vertex.');
+                    fprintf(fid, " %i", vertexIndex);
                 end
                 fprintf(fid, "\n");
             end
         end
+
+        absolutionVertexIndex = absolutionVertexIndex + height(vertices);
     end
 
     fclose(fid);
