@@ -35,11 +35,14 @@ G = corridors.edge_weight_robot(G,robot);
 disp("Edges weight adjusted in " + toc + "s")
 
 tic
-path = alt_graph.path(G, src, dest, obstacles);
+path = graph.path(G, src, dest, obstacles);
 disp("Path found in " + toc + "s")
 
 tic
-[Corridors, width, path_length] = corridors.corridor_post_processing(G, path, 100);
+[Corridors, width] = corridors.corridor_post_processing(G, path, 100);
 disp("Corridors described in " + toc + "s")
 
+tic
+path_length = graph.path_length(G, path, src, dest);
+disp("Path length computed in " + toc + "s")
 end

@@ -21,8 +21,8 @@ hold on
 obstacles.plot('color', 'r')
 
 plot(corridors,'alpha',0.5,'color',[1 1 0],'edgealpha',0)
-alt_graph.plot_graph(G);
-alt_graph.plot_path(G, src, dest, path);
+testing.plot_graph(G);
+testing.plot_path(G, src, dest, path);
 
 %% Test new MPC code
 %
