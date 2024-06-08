@@ -7,7 +7,7 @@ gBuilder.parallel = true;
 
 %obstacles = testing.Counter_examples();
 obstacles = testing.generation_obstacles(dimension,10,1,0,0,space_length,100);
-bbx = util.bounding_box(obstacles, 1.25, true);
+bbx = util.bounding_polyhedron(obstacles, 1.25, true);
 
 [P, G, path, corridors, d] = testing.main(obstacles, bbx, src, dest, gBuilder);
 

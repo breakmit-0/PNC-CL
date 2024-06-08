@@ -6,7 +6,7 @@ gBuilder = graph.BarycenterGraphBuilder();
 
 obstacles = testing.generation_obstacles(dimension,10,1,0,0,space_length,50);
 %obstacles = util.read_obj("src/+testing/obj/3_cubes.obj").';
-bbx = util.bounding_box(obstacles, 1.25, true);
+bbx = util.bounding_polyhedron(obstacles, 1.25, true);
 
 [P, G, path, corridors, d] = testing.main(obstacles, bbx, src, dest, gBuilder);
 
