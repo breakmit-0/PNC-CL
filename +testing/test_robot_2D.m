@@ -7,7 +7,7 @@ gBuilder = graph.EdgeGraphBuilder();
 %obstacles = testing.Counter_examples();
 obstacles = testing.generation_obstacles(dimension,10,3,0,0,space_length,100);
 robot = testing.generation_obstacles(dimension,1,4,0,0,space_length,100);
-bbx = util.bounding_box(obstacles, 1.25, true);
+bbx = util.bounding_polyhedron(obstacles, 1.25, true);
 
 [P, G, path, corridors, width, dist] = testing.main_robot(obstacles, bbx, src, dest, gBuilder,robot);
 
