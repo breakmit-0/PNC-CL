@@ -13,6 +13,6 @@ function G = edge_weight(G)
     %
     % See also corridors, corridor, corridor_width
 
-    G.Edges.weight = (1+G.Edges.length).^2 + (1+G.Edges.width).^(-2);
+    G.Edges.Weight = (G.Edges.length).^2 + (G.Edges.width).^(-2);
 
 end

@@ -45,6 +45,16 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
 
     methods (Access=protected, Static)
         function edges = createEdges(partition, facets, subFacets)
+            % iterate over all partitions,
+            % then iterate over all facets of the partition,
+            % then iterate over all edges of facets,
+            % then compute the barycenter of an edge and save the result in
+            % 'centers',
+            % then compute the barycenter of the facet by computing the
+            % average of the just calculated barycenter,
+            % finally for each edge, create an edge from the barycenter of
+            % the edge to the barycenter of the facet.
+
             import util.barycenter;
             import graph.BarycenterGraphBuilder.*;
 
@@ -124,33 +134,11 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
         end
 
         function center = barycenter_of_edge(edge)
-            % Fast methods to compute the barycenter of an edge in 3D.
-            % https://or.stackexchange.com/questions/4540/how-to-find-all-vertices-of-a-polyhedron/4541#4541
+            % BARYCENTER_OF_EDGE compute the barycenter of edge
 
-            if height(edge.A) == 2
-                V1 = linsolve([edge.Ae; edge.A(1, :)], [edge.be; edge.b(1,:)]);
-                V2 = linsolve([edge.Ae; edge.A(2, :)], [edge.be; edge.b(2,:)]);
+            V = graph.fast_vertices_of_edge(edge);
 
-                center = ((V1 + V2) / 2).';
-            else
-                V1 = [];
-
-                for i = 1:height(edge.A)
-                    [V, ~] = linsolve([edge.Ae; edge.A(i, :)], [edge.be; edge.b(i,:)]);
-
-                    if ~anynan(V) && all(V ~= inf) && edge.contains(V)
-                        if isempty(V1)
-                            V1 = V;
-                        else
-                            center = ((V1 + V) / 2).';
-                            return
-                        end
-                    end
-                end
-
-                warning("Failed to calculate barycenter of edge using fast method. Falling back to default method")
-                center = util.barycenter(edge);
-            end
+            center = (V(1, :) + V(2, :)) / 2;
         end
     end
 end

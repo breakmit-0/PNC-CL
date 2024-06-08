@@ -1,4 +1,12 @@
 function out = edges_to_graph(edges)
+    % EDGES_TO_GRAPH Convert a column vector of edges to a graph
+    %
+    % Params:
+    %     edges: colun vector of edges
+    %
+    % Returns:
+    %     out: a graph
+
     EPS = 0.001;
 
     N = size(edges, 1);
@@ -15,15 +23,16 @@ function out = edges_to_graph(edges)
 
     storeV = 0;
     for i = 1:N
-        edges(i).minVRep();
+        edge = edges(i);
+        V = graph.fast_vertices_of_edge(edge);
 
-        if size(edges(i).V, 1) ~= 2
-            fprintf("skipped %d with %d\n", i, size(edges(i).V, 1));
+        if height(V) ~= 2
+            fprintf("skipped %d with %d\n", i, size(V, 1));
             continue;
         end
 
-        v1 = edges(i).V(1, :);
-        v2 = edges(i).V(2, :);
+        v1 = V(1, :);
+        v2 = V(2, :);
 
         n1 = 0;
         n2 = 0;

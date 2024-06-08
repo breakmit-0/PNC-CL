@@ -30,4 +30,3 @@ end
     best_n = -1;
 end
 
-
