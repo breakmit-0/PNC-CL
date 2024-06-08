@@ -19,13 +19,35 @@ classdef EdgeGraphBuilder < graph.IGraphBuilder
             % considered equals if the norm of the difference is less than
             % an epsilon.
 
+            import graph.EdgeGraphBuilder.*;
+
             if obj.parallel
-                edges = graph.parallel_find_edges(polyhedra);
+                edges = parallel_find_edges(polyhedra);
             else
-                edges = graph.find_edges(polyhedra);
+                edges = find_edges(polyhedra);
             end
 
             G = graph.edges_to_graph(edges);
+        end
+    end
+
+    methods (Access=private)
+        
+        function edge_list = find_edges(polys)
+            edge_list = polys;
+            while edge_list(1).Dim - size(edge_list(1).He, 1) > 1
+                edge_list = graph.flatten_facets(edge_list);
+            end
+        end
+
+        function edges = parallel_find_edges(polyhedra)
+            n = height(polyhedra);
+            edges_cell = cell(n);
+            parfor i = 1:n
+                edges_cell{i} = graph.find_edges(polyhedra(i))
+            end
+        
+            edges = vertcat(edges_cell{:});
         end
     end
 end

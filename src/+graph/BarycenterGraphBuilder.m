@@ -45,6 +45,16 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
 
     methods (Access=protected, Static)
         function edges = createEdges(partition, facets, subFacets)
+            % iterate over all partitions,
+            % then iterate over all facets of the partition,
+            % then iterate over all edges of facets,
+            % then compute the barycenter of an edge and save the result in
+            % 'centers',
+            % then compute the barycenter of the facet by computing the
+            % average of the just calculated barycenter,
+            % finally for each edge, create an edge from the barycenter of
+            % the edge to the barycenter of the facet.
+
             import util.barycenter;
             import graph.BarycenterGraphBuilder.*;
 

@@ -82,21 +82,6 @@ test = util.is_near_unit(vector, epsilon)
 `epsilon`
 : The error margin, defaults to `0.001`
 
-### <span class="code"> <span class="kw">function</span> matrix_equals </span>
-
-Tests wether two matrixes are equal within a given margin of error
-```usage
-test = util.matrix_equals(A, B)
-test = util.matrix_equals(A, B, epsilon)
-```
-
-**Parameters**
-`A` and `B`
-: Two matrices to test
-
-`epsilon`
-: The margin of error, defaults to `0.001`
-
 
 ### <span class="code"> <span class="kw">function</span> read_obj </span>
 

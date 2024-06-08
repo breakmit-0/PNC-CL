@@ -17,7 +17,7 @@ function out = edges_to_graph(edges)
     for i = 1:N
         edges(i).minVRep();
 
-        if size(edges(i).V, 1) ~= 2
+        if isempty(V1) || isempty(V2)
             fprintf("skipped %d with %d\n", i, size(edges(i).V, 1));
             continue;
         end

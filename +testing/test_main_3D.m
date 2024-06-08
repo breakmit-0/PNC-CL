@@ -1,10 +1,10 @@
 dimension = 3;
-space_length = 10;
+space_length = 20;
 src = [-space_length/2 -space_length/2 -space_length/2];
 dest = [space_length/2 space_length/2 space_length/2];
-gBuilder = graph.BarycenterGraphBuilder();
+gBuilder = graph.EdgeGraphBuilder();
 
-obstacles = testing.generation_obstacles(dimension,10,5,0,0,space_length,100);
+obstacles = testing.generation_obstacles(dimension,3,5,0,0,space_length,100);
 %obstacles = util.read_obj("src/+testing/obj/3_cubes.obj").';
 bbx = util.bounding_polyhedron(obstacles, true, 1.25);
 
