@@ -11,7 +11,7 @@ function out = plot_path(g, start, target, path)
     xyz = [start; g.Nodes.position(path, :); target];
 
     if size(start, 2) == 2
-        plot(xyz(:, 1), xyz(:, 2), 'Color', 'g', 'LineWidth', 5);
+        plot(xyz(:, 1), xyz(:, 2), 'Color', 'g', 'LineWidth', 1);
     else 
         plot3(xyz(:, 1), xyz(:, 2), xyz(:,3), 'Color', 'g', 'LineWidth', 5); 
     end

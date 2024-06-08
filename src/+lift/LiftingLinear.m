@@ -21,6 +21,9 @@ classdef LiftingLinear < Lifting
         end
 
         function part = getPartition(self, bbox)
+            if ~self.isSuccess()
+                error("cannot get partition for failed lifting")
+            end
             %% Calculates the partition for this lifting, possibly overwriting the bounding box
             if (size(self.partition, 1) > 0 && (bbox.Dim == 0 || (self.bbox.Dim == bbox.Dim && self.bbox.eq(bbox))))
                 part = self.partition;
@@ -98,26 +101,19 @@ classdef LiftingLinear < Lifting
             constraints = [constraints; -1000 <= e <= 1000];
 
             % adding a constraint to force convexity strictly positive actually makes things lees efficient
-            ops = sdpsettings;
-            ops.debug = false;
-            ops.verbose = false;
-            if (isfield(options, 'solver'))
-                ops.solver = options.solver;
-            end
-            if( isfield(options, 'debug'))
-                ops.debug = options.debug;
-            end
-            if( isfield(options, 'debug'))
-                ops.debug = options.debug;
-            end
-            if( isfield(options, 'sdp'))
-                ops = options.sdp;
-            end
+            ops = options.sdp;
+            ops.debug = options.debug;
+            ops.verbose = options.verbose;
+            ops.solver = "glpk";
 
             self.diag = optimize(constraints, -min_convexity, ops);
             self.oa = value(a);
             self.ob = value(b);
             self.cvx = value(min_convexity);
+
+            if ~(self.cvx > 1e-6)
+                self.cvx = -1; % put an arbirary min bound on convexity
+            end
         end
     end
 end
