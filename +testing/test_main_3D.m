@@ -4,7 +4,7 @@ src = [-space_length/2 -space_length/2 -space_length/2];
 dest = [space_length/2 space_length/2 space_length/2];
 gBuilder = graph.BarycenterGraphBuilder();
 
-obstacles = testing.generation_obstacles(dimension,30,5,0,0,space_length,100);
+obstacles = testing.generation_obstacles(dimension,30,10,0,0,space_length,100);
 %obstacles = util.read_obj("src/+testing/obj/3_cubes.obj").';
 bbx = util.bounding_polyhedron(obstacles, true, 1.25);
 
