@@ -17,9 +17,6 @@ function out = edges_to_graph(edges)
     % len / dim should be a decent guess for number of actual edges
     % although a slight underestimate as world edges are not duplicated
     num_edges = zeros(N, 2, "uint32");
-    %
-    % plot(edges);
-    % uiwait;
 
     storeV = 0;
     for i = 1:N

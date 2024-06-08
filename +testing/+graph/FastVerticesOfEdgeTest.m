@@ -32,7 +32,7 @@ classdef FastVerticesOfEdgeTest < matlab.unittest.TestCase
             expected = edge.V;
             testCase.assertEqual(width(expected), width(vertices), "Invalid dimension")
         
-            if ismembertol(expected(1, :), vertices(1, :), 1e-7)
+            if ismembertol(expected(1, :), vertices(1, :), 1e-7, 'DataScale', 1, 'ByRows', true)
                 testCase.assertEqual(expected(2, :), vertices(2, :), "Invalid second point", "AbsTol", 1e-7)
             else
                 testCase.assertEqual(expected(1, :), vertices(2, :), "Invalid first point", "AbsTol", 1e-7)

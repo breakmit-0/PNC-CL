@@ -9,14 +9,15 @@ function V = fast_vertices_of_edge(edge)
     % Returns:
     %     V: a 2-line matrix containing the two vertice of the edge.
     %
-    % Fast methods to compute the barycenter of an edge in 3D.
     % https://or.stackexchange.com/questions/4540/how-to-find-all-vertices-of-a-polyhedron/4541#4541
     % Instead of using the optimized version for general use, we use the
     % naive one but because we have edges, it is simpler and faster. In
     % fact, we just need to solve multiple linear systems, because it's an 
     % edge) instead of solving multiple optimisation problems.
 
-    if height(edge.A) == 2
+    if edge.irredundantVRep
+        V = edge.V;
+    elseif height(edge.A) == 2
         V1 = linsolve([edge.Ae; edge.A(1, :)], [edge.be; edge.b(1,:)]);
         V2 = linsolve([edge.Ae; edge.A(2, :)], [edge.be; edge.b(2,:)]);
 
