@@ -1,4 +1,4 @@
-classdef (Abstract) Lifting
+classdef (Abstract) Lifting < handle & matlab.mixin.Heterogeneous
     %% An interface for the output of convex lifting, the possible options are
     % See LiftingOptions
     
@@ -22,10 +22,29 @@ classdef (Abstract) Lifting
         end
     end
 
+
+    methods (Static, Sealed, Access = protected)
+        function default_object = getDefaultScalarElement
+            default_object = lift.EmptyLifting;
+        end
+    end
+
     methods
-        function getGraph(self, options)
-            p = self.getPartition(options.bbox);
-            
+        function g = getGraph(self, builder, bbox)
+
+            if ~self.isSuccess()
+                fprintf("error: tried to construct a graph from a failed lifting, error output is \n")
+                self.dispErrors()
+            end
+
+            P = self.getPartition(bbox);
+            g = builder.buildGraph(P);
+        end
+    end
+
+    methods
+        function dispErrors(self)
+            disp(self.getDiagnostics());
         end
     end
 

@@ -16,8 +16,8 @@ classdef LiftOptions
         function opts = linearDefault()
             opts = LiftOptions();
             opts.strategy = "linear";
-            opts.debug = false;
-            opts.verbose = false;
+            opts.debug = true;
+            opts.verbose = true;
         end
 
         function opts = convexDefault()

@@ -20,23 +20,32 @@ classdef LiftingLinear < Lifting
             out = (self.cvx > 0);
         end
 
-        function part = getPartition(self, bbox)
-            %% Calculates the partition for this lifting, possibly overwriting the bounding box
-            if (size(self.partition, 1) > 0 && (bbox.Dim == 0 || (self.bbox.Dim == bbox.Dim && self.bbox.eq(bbox))))
+        function [part] = getPartition(self, bbox)
+            %% may be called without bbox
+            if ~self.isSuccess()
+                error("cannot get partition for failed lifting")
+            end
+
+            if nargin < 2
+                bbox = Polyhedron();
+            end
+            
+            if bbox.Dim == 0
+                if self.bbox.Dim == 0
+                    error("cannot query the stored partition as it does not exist (provide a bbox)")
+                end
+
+                if size(self.partition, 1) == 0
+                    self.partition = lift.partition(self.oa, self.ob, self.bbox);
+                end
+
                 part = self.partition;
-                return;
-            end
-
-            if (bbox.Dim ~= 0)
+            else
                 self.bbox = bbox;
+                self.partition = lift.partition(self.oa, self.ob, self.bbox);
+                part = self.partition;
             end
 
-            if (self.bbox.Dim == 0)
-                error("Cannot get partition from LiftingLinear without a boundiing box")
-            end
-
-            self.partition = lift.partition(self.oa, self.ob, self.bbox);
-            part = self.partition;
         end
 
         function self = LiftingLinear(Obstacles, options)
@@ -98,26 +107,19 @@ classdef LiftingLinear < Lifting
             constraints = [constraints; -1000 <= e <= 1000];
 
             % adding a constraint to force convexity strictly positive actually makes things lees efficient
-            ops = sdpsettings;
-            ops.debug = false;
-            ops.verbose = false;
-            if (isfield(options, 'solver'))
-                ops.solver = options.solver;
-            end
-            if( isfield(options, 'debug'))
-                ops.debug = options.debug;
-            end
-            if( isfield(options, 'debug'))
-                ops.debug = options.debug;
-            end
-            if( isfield(options, 'sdp'))
-                ops = options.sdp;
-            end
+            ops = options.sdp;
+            ops.debug = options.debug;
+            ops.verbose = options.verbose;
+            ops.solver = "glpk";
 
             self.diag = optimize(constraints, -min_convexity, ops);
             self.oa = value(a);
             self.ob = value(b);
             self.cvx = value(min_convexity);
+
+            if ~(self.cvx > 1e-6)
+                self.cvx = -1; % put an arbirary min bound on convexity
+            end
         end
     end
 end

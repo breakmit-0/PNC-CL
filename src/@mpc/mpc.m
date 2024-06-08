@@ -1,5 +1,8 @@
 classdef mpc < matlab.mixin.Copyable
-
+%
+% Refer to example for documentation on the usage of this class 
+%
+%
 
     
     properties (Access = public)   

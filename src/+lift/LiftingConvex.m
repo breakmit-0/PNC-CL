@@ -17,33 +17,46 @@ classdef LiftingConvex < Lifting
 
 
         function out = isSuccess(self)
-            %% Success is achieved if the minimal convexity is greater than 0
-            error("not implemented")
+            if ~isstruct(self.diag)
+                error("cannot call isSuccess before lift.find ??")
+            end
+
+            if self.diag.problem == 0
+                out = true;
+            elseif self.diag.problem == 4
+                warning("isSuccess: ran into numerical problems (output may still be ok)")
+                out = true;
+            else
+                out = false;
+            end
         end
 
 
         function part = getPartition(self, bbox)
-        %% Calculates the partition for this lifting, possibly overwriting the bounding box
-            arguments
-                self (1, 1) LiftingLinear;
-                bbox (1, 1) Polyhedron = Polyhedron();
+            %% may be called without bbox
+            if ~self.isSuccess()
+                error("cannot get partition for failed lifting")
             end
 
-            if (size(self.partition, 1) > 0 && (bbox.Dim == 0 || self.bbox.eq(bbox)))
+            if nargin < 2
+                bbox = Polyhedron();
+            end
+            
+            if bbox.Dim == 0
+                if self.bbox.Dim == 0
+                    error("cannot query the stored partition as it does not exist (provide a bbox)")
+                end
+
+                if size(self.partition, 1) == 0
+                    self.partition = lift.partition(self.oa, self.ob, self.bbox);
+                end
+
                 part = self.partition;
-                return;
-            end
-
-            if (bbox.Dim ~= 0)
+            else
                 self.bbox = bbox;
+                self.partition = lift.partition(self.oa, self.ob, self.bbox);
+                part = self.partition;
             end
-
-            if (self.bbox.Dim == 0)
-                error("Cannot get partition from LiftingConvex without a boundiing box")
-            end
-
-            self.partition = lift.partition(self.oa, self.ob, self.bbox);
-            part = self.partition;
         end
 
 
