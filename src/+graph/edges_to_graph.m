@@ -1,4 +1,12 @@
 function out = edges_to_graph(edges)
+    % EDGES_TO_GRAPH Convert a column vector of edges to a graph
+    %
+    % Params:
+    %     edges: colun vector of edges
+    %
+    % Returns:
+    %     out: a graph
+
     EPS = 0.001;
 
     N = size(edges, 1);

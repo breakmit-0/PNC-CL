@@ -134,6 +134,8 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
         end
 
         function center = barycenter_of_edge(edge)
+            % BARYCENTER_OF_EDGE compute the barycenter of edge
+
             V = graph.fast_vertices_of_edge(edge);
 
             center = (V(1, :) + V(2, :)) / 2;

@@ -33,14 +33,19 @@ classdef EdgeGraphBuilder < graph.IGraphBuilder
 
     methods (Access=private, Static)
         
-        function edge_list = find_edges(polys)
-            edge_list = polys;
+        function edge_list = find_edges(polyhedra)
+            % FIND_EDGES compute all edges of polys
+
+            edge_list = polyhedra;
             while edge_list(1).Dim - size(edge_list(1).He, 1) > 1
                 edge_list = graph.flatten_facets(edge_list);
             end
         end
 
         function edges = parallel_find_edges(polyhedra)
+            % PARALLEL_FIND_EDGES compute all edges of polyhedra but in
+            % parallel
+
             n = height(polyhedra);
             edges_cell = cell(n);
             parfor i = 1:n

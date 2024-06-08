@@ -1,4 +1,15 @@
 function length = path_length(G, path, start, dest)
+    % PATH_LENGTH Compute the length of the path 'path' in graph G
+    %
+    % Params:
+    %     G: graph
+    %     path: path in graph
+    %     start: start point, can be outside the graph
+    %     dest: destination point, can be outside the graph
+    %
+    % Returns:
+    %     length: length of path 'path'
+
     if size(path) == 0
         length = norm(start - dest);
     elseif size(path) == 1
