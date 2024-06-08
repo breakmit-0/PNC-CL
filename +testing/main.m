@@ -16,7 +16,7 @@ function [P, G, path, Corridors, width, path_length] = main(obstacles, bbx, src,
 
 
 tic
-lifting = Lifting.find(obstacles, LiftOptions.clusterDefault());
+lifting = Lifting.find(obstacles, LiftOptions.linearDefault());
 disp("Lift computed in " + toc + "s")
 
 tic
