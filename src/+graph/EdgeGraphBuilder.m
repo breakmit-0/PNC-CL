@@ -31,7 +31,7 @@ classdef EdgeGraphBuilder < graph.IGraphBuilder
         end
     end
 
-    methods (Access=private)
+    methods (Access=private, Static)
         
         function edge_list = find_edges(polys)
             edge_list = polys;
