@@ -46,7 +46,7 @@ classdef EdgeGraphBuilder < graph.IGraphBuilder
                     dim = dim - 1;
                 end
 
-                if true
+                if false
                     arrayfun(@(x) x.minHRep(), edge_list);
                     if any( arrayfun(@(x) height(x.H) ~= 2, edge_list))
                         error("Calculating all edges of partition failed. Applying dim - 1 times getFacet() didn't produce an edge for at least one polyhedron")

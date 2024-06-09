@@ -19,12 +19,18 @@ function out = edges_to_graph(edges)
     num_edges = zeros(N, 2, "uint32");
 
     storeV = 0;
+    skip = 0;
     for i = 1:N
         edge = edges(i);
         V = graph.fast_vertices_of_edge(edge);
 
         if height(V) ~= 2
-            fprintf("skipped %d with %d\n", i, size(V, 1));
+            if height(edge.V) == 2
+                error("Fast vertices of edge returned one vertices while the edge has two vertices. Please report this issue.")
+            else
+                warning("skipped edge n°" + i + " because it has " + height(edge.V) + " ~= 2 vertices");
+            end
+            skip = skip + 1;
             continue;
         end
 
@@ -33,8 +39,6 @@ function out = edges_to_graph(edges)
 
         n1 = 0;
         n2 = 0;
-
-        % fprintf("--\nstarting with %d vertices\n", size(vertices, 1));
         
         for j = 1:storeV
             if norm(v1 - vertices(j, :)) < EPS
@@ -52,22 +56,20 @@ function out = edges_to_graph(edges)
             storeV = storeV + 1;
             vertices(storeV, :) = v1;
             n1 = storeV;
-            % fprintf("creating new for n1 (%d)\n", n1);
         end
 
         if n2 == 0
             storeV = storeV + 1;
             vertices(storeV, :) = v2;
             n2 = storeV;
-            % fprintf("creating new for n2 (%d)\n", n2);
         end
    
-        num_edges(i, 1) = min(n1, n2);
-        num_edges(i, 2) = max(n1, n2);
+        num_edges(i - skip, 1) = min(n1, n2);
+        num_edges(i - skip, 2) = max(n1, n2);
     end
     
     vertices = vertices(1:storeV, :);
-    edges = unique(num_edges, 'rows');
+    edges = unique(num_edges(1:(end - skip), :), 'rows');
 
     sq_distances =  (vertices(edges(:,1), :) - vertices(edges(:,2), :) ).^2;
     distances = sqrt(sum(sq_distances, 2));
