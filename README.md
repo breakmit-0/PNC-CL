@@ -15,7 +15,7 @@ First, install both dependencies :
 You may also install the [Matlab Optimisation Toolbox](https://fr.mathworks.com/products/optimization.html) to speed up some calculations.
 
 
-To use the tooblox, download the [latest release](), decompress it and add the `toolbox` directory to your matlab path, for example by adding
+To use the tooblox, download the [latest release](https://github.com/breakmit-0/lift-ppl/releases), decompress it and add the `toolbox` directory to your matlab path, for example by adding
 ```matlab
 add_path("/home/... path to the toolbox ../toolbox");
 ```
