@@ -1,14 +1,18 @@
-function [P, min_width] = corridor_post_processing(G, path, n)
-% corridor - The function to describes the safety corridors of the path with Polyhedra  [<a href="matlab:web('https://breakmit-0.github.io/corridors/')">online docs</a>]
+function [P, min_width] = corridor_post_processing(G, path, start, target, obstacles, n)
+% corridor_post_processing - The function to describes the safety corridors of the path with Polyhedra  [<a href="matlab:web('https://breakmit-0.github.io/corridors/')">online docs</a>]
     % 
     %
     % Usage:
-    %    [P, min_width, path_length] = corridor(G, path, smooth_number)
+    %    [P, min_width] = corridor(G, path, start, target, obstacles, smooth_number)
     %
     % Parameters:
     %   G should be the graph returned by edge_weight
     %
     %   path should be the array of l points returned by alt_graph.path 
+    %
+    %   start and target should be two points in dimension D
+    %
+    %   obstacles should be an array of N Polyhedron objects of dimension D
     %
     %   smooth_number should be a scalar. It is mainly used to have smooth
     %   corridors extremities.
@@ -19,12 +23,10 @@ function [P, min_width] = corridor_post_processing(G, path, n)
     %
     %   min_width is the width of the narrowest corridor in the path
     %
-    %   path_length is the length of the path
-    %
     %
     % Warning - For now, the function only works in 2D and 3D cases ! 
     %
-    % See also corridors, edge_weight, alt_graph.path
+    % See also corridors, edge_weight, edge_weight_robot, alt_graph.path, draw_corridor
     
     %Coordinates of the nodes of the graph, corridor width and length
     %for each edge of the graph
@@ -34,27 +36,30 @@ function [P, min_width] = corridor_post_processing(G, path, n)
     %Initialization of the values of interest (described above)
     l = length(path);
     D = width(G.Nodes.position);
-    P = repmat(Polyhedron(), l-1, 1);
-    min_width = +inf;
+    P = repmat(Polyhedron(), l+1, 1);
+    N = length(obstacles);
+    
+    %Computation of the width of the starting corridor and of the width of the ending corridor
+    %Same computation as in corridor width
+    start_junction = coords(path(1),:);
+    target_junction = coords(path(l),:);
 
-    %Uniform discretisation of the angles of a circle in 2D/ a sphere in 3D
-    %rotate90 is a rotation matrix of angle 90°
-    if D == 2
-        rotate90 = [0 -1; 1 0];
-        phi = linspace(0, 2*pi, n);
-    elseif D==3
-        num = floor(sqrt(n));
-        n = num*num;
-        phi = linspace(0, 2*pi, num);
-        theta = linspace(0, 2*pi, num);
-    else
-        error("Corridors make sense only in 2D and in 3D")
-    end   
-
-    %Initialization of the matrix of the points of the polyhedron 
-    %that will describe the current corridor
-    points = zeros(D,n);
-
+    Q = Polyhedron('V',[start;start_junction]);
+    R = Polyhedron('V',[target_junction;target]);
+    d_start = zeros(N,1);
+    d_target = zeros(N,1);
+    for j=1:N
+        ret_start = distance(obstacles(j),Q);
+        ret_target = distance(obstacles(j),R);
+        d_start(j) = ret_start.dist;
+        d_target(j) = ret_target.dist;
+    end
+    width_start = min(d_start);
+    width_target = min(d_target);
+    
+    min_width = min(width_start,width_target);
+    
+    %For each edge in the graph, 
     for i=1:(l-1)
         %Finding the edge corresponding to (path(i) path(i+1)) in the
         %graph to have the correct index for corridors_width
@@ -66,31 +71,10 @@ function [P, min_width] = corridor_post_processing(G, path, n)
         %Unit vector of the edge
         A = [coords(path(i),:)];
         B = [coords(path(i+1),:)];
-        normalized = (B-A)/norm(B-A);
 
-        %Construction of the current corridor with the discretization of
-        %the circle/sphere
-        if D == 2
-            ortho = normalized * rotate90;
-            for k=1:n
-                points(:,k) = (cos(phi(k))*ortho*corridors_width(index)+sin(phi(k))*normalized*corridors_width(index))';
-            end
-        elseif D == 3 
-            xvector = [1 0 0];
-            yvector = [0 1 0];
-            if abs(dot(xvector,normalized))<abs(dot(xvector,normalized))
-                ortho = xvector - dot(xvector,normalized)*normalized;
-            else
-                ortho = yvector - dot(yvector,normalized)*normalized;
-            end
-            ortho1 = ortho/norm(ortho);
-            ortho2 = cross(normalized,ortho1);
-            for k=1:num
-                for m=1:num
-                    points(:,k*num+m) = (cos(phi(m))*(cos(theta(k))*ortho1*corridors_width(index) + sin(theta(k))*ortho2*corridors_width(index))+sin(phi(m))*normalized*corridors_width(index))';
-                end
-            end
-        end
-        P(i) = Polyhedron([points + A' points + B']');
+        P(i) = corridors.draw_corridor(D, A, B, corridors_width(index), n);
     end
+    P(l) = corridors.draw_corridor(D, start, start_junction, width_start, n);
+    P(l+1) = corridors.draw_corridor(D, target, target_junction, width_target, n);
+
 end
