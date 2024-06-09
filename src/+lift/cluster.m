@@ -1,4 +1,14 @@
 function [groups, hulls] = cluster(polyhedra, k, spacemin, spacemax)
+% lift.cluster is quite slow function to generate clusters of polyhedra
+% this should only be used internally
+% 
+% spacemin and spaceman sets where cluster centers should be placed
+% k is the target cluster count
+%
+% groups is a column of group ids and hulls the corresponding convex hull of all polyhedra in
+% the group
+%
+% See Also Lifting, lift, lift.LiftingCluster
 arguments
     polyhedra (:, 1) Polyhedron;
     k (1, 1) uint32;

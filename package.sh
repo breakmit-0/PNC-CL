@@ -11,6 +11,7 @@ zip -r ../build/package/toolbox.zip .
 cd -
 
 cp README.md build/package/README.md
+cp LICENSE build/package/LICENSE
 
 zip -r build/package/source-code.zip .
 

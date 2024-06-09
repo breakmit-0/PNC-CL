@@ -1,5 +1,11 @@
 
 classdef LiftingCluster < Lifting
+    % LiftingCluster is an implementation of Lifting
+    %
+    % This lifting method is quite unstable, LiftingLinear should be used instead
+    %
+    % See Also Lifting, lift, lift.LiftingLinear
+
     properties
         hulls (:, 1) Polyhedron;
         groups (:, 1) uint32;
@@ -11,11 +17,18 @@ classdef LiftingCluster < Lifting
 
     methods
         function diags = getDiagnostics(self)
+            % Abstract method overwrite see superclass
+            %
+            % See Also Lifting, lift, Lifting.getDiagnostics
+
             diags.self = self.meta.getDiagnostics();
             diags.child = self.children.getDiagnostics();
         end
 
         function part = getPartition(self, bbox)
+            % Abstract method overwrite see superclass
+            %
+            % See Also Lifting, lift, Lifting.getPartition
 
             if ~self.isSuccess()
                 error("cannot get partition for failed lifting")
@@ -57,6 +70,10 @@ classdef LiftingCluster < Lifting
         end
 
         function succ = isSuccess(self)
+            % Abstract method overwrite see superclass
+            %
+            % See Also Lifting, lift, Lifting.isSuccess
+
             if ~self.meta.isSuccess()
                 succ = false;
                 return;
@@ -72,6 +89,9 @@ classdef LiftingCluster < Lifting
         end
 
         function dispErrors(self)
+            % Abstract method overwrite see superclass
+            %
+            % See Also Lifting, lift, Lifting.dispErrors
 
             if ~self.meta.isSuccess()
                 fprintf("failed because of meta lifting :\n");
@@ -89,6 +109,10 @@ classdef LiftingCluster < Lifting
 
         
         function self = LiftingCluster(obstacles, options)
+            % The function called by Lifting.find with the cluster method
+            % see Lifting.find
+            %
+            % See Also Lifting, lift, Lifting.find
             arguments
                 obstacles (:, 1) Polyhedron;
                 options (1, 1) LiftOptions;

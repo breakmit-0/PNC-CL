@@ -1,6 +1,8 @@
 
 classdef EmptyLifting < Lifting
-    %% Placeholder class for a not yet set lifting
+    % Placeholder class for a not yet set lifting
+    %
+    % See Also Lifting, lift
     methods
         function res = isSuccess(~)
             res = false;

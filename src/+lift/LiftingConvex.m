@@ -1,5 +1,8 @@
 
 classdef LiftingConvex < Lifting
+    % LiftingConvex is an implementation of Lifting
+    %
+    % See Also Lifting, lift, lift.LiftingLinear
     properties
         oa (:, :) double;
         ob (:, 1) double;

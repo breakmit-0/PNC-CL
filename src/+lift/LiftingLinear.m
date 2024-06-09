@@ -1,4 +1,8 @@
 classdef LiftingLinear < Lifting
+    % LiftingLinear is an implementation of Lifting
+    %
+    % See Also Lifting, lift
+
     properties
         oa (:, :) double;
         ob (:, 1) double;

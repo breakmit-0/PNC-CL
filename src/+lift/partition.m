@@ -1,4 +1,10 @@
 function P = partition(oa,ob,bbx)
+    % lift.partiton creates a partion from the output of lift optimizations
+    %
+    % for internal use only
+    %
+    % Seee Also lift, Lifting
+
 
     %Definition and creation of the workspace we wish to partition according 
     %to obstacles, centered at 0 and of size space_length
