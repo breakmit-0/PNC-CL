@@ -2,18 +2,21 @@ global fast_edge
 
 
 builders = {graph.EdgeGraphBuilder(), graph.BarycenterGraphBuilder()};
-dimensions = [3];
-obstacleCount = [35 40 50 75 100];
-repeat = 10;
+dimensions = [2 3];
+obstacleCount = [5 10 15 20 25 30 35 40 50];
+repeat = 1;
 repeat_obs = 10;
-
 
 for dimension = dimensions
     fprintf("Dimension: %d\n", dimension)
+    
+    start = zeros(repeat_obs, dimension);
+    dest = zeros(repeat_obs, dimension);
+    
     for obs = obstacleCount
         fprintf("Obstacle count: %d\n", obs)
     
-        partitions = cell(repeat_obs);
+        partitions = cell(repeat_obs, 1);
     
         for i = 1:repeat_obs
             failed = true;
@@ -41,16 +44,16 @@ for dimension = dimensions
             end
     
             for b = builders
-                sum = 0;
+                sum_time = 0;
                 for i = 1:repeat_obs
                     for j = 1:repeat
                         tic
-                        b{1}.buildGraph(partitions{i});
-                        sum = sum + toc;
+                        G = b{1}.buildGraph(partitions{i});
+                        sum_time = sum_time + toc;
                     end
                 end
     
-                fprintf("Time elapsed: %f\n", sum / (repeat * repeat_obs))
+                fprintf("Time elapsed: %f\n", sum_time / (repeat * repeat_obs))
             end
         end
     end
