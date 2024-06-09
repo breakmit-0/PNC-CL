@@ -1,10 +1,10 @@
 global fast_edge
 
 
-builders = {graph.BarycenterGraphBuilder()}; % {graph.EdgeGraphBuilder(), graph.BarycenterGraphBuilder()};
-dimensions = [2]; % 3];
-obstacleCount = [5 10 15 20 25 30 35 40 50 75 100];
-repeat = 1;
+builders = {graph.EdgeGraphBuilder(), graph.BarycenterGraphBuilder()};
+dimensions = [3];
+obstacleCount = [35 40 50 75 100];
+repeat = 10;
 repeat_obs = 10;
 
 
@@ -31,7 +31,7 @@ for dimension = dimensions
         end
     
     
-        for n = 2
+        for n = 1:2
             if n == 1
                 fprintf("Running slow\n")
                 fast_edge = false;
