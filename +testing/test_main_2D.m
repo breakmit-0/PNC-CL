@@ -1,15 +1,11 @@
-clear all;
-clc;
-close all;
-
 dimension = 2;
-space_length = 100;
+space_length = 10;
 src = [-space_length/2 -space_length/2];
 dest = [space_length/2 space_length/2];
 gBuilder = graph.EdgeGraphBuilder();
 
 %obstacles = testing.Counter_examples();
-obstacles = testing.generation_obstacles(dimension,60,3,0,0,space_length,100);
+obstacles = testing.generation_obstacles(dimension,10,3,0,0,space_length,100);
 bbx = util.bounding_polyhedron(obstacles, true, 1.25);
 
 [P, G, path, corridors, width, dist] = testing.main(obstacles, bbx, src, dest, gBuilder);

@@ -20,11 +20,6 @@ lifting = Lifting.find(obstacles, LiftOptions.linearDefault());
 disp("Lift computed in " + toc + "s")
 
 tic
-% P = lifting.getPartition(bbx);
-% disp("Partition computed in " + toc + "s")
-%
-% tic
-% G = graphBuilder.buildGraph(P);
 G = lifting.getGraph(graph.EdgeGraphBuilder(), bbx);
 P = lifting.getPartition();
 disp("Graph build in " + toc + "s")

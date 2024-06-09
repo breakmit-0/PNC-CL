@@ -112,8 +112,8 @@ classdef LiftingLinear < Lifting
 
             % adding a constraint to force convexity strictly positive actually makes things lees efficient
             ops = options.sdp;
-            ops.debug = options.debug;
-            ops.verbose = options.verbose;
+            ops.debug = false; % options.debug;
+            ops.verbose = false; % options.verbose;
             ops.solver = "glpk";
 
             self.diag = optimize(constraints, -min_convexity, ops);

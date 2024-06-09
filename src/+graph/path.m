@@ -1,9 +1,10 @@
-function sp = path(g, start, target, obstacles)
+function sp = path(g, start, target, obstacles, partition)
 arguments
     g (1, 1) graph;
     start (1, :) double;
     target (1, :) double;
-    obstacles (:, 1) Polyhedron
+    obstacles (:, 1) Polyhedron;
+    partition (:, 1) Polyhedron
 end
     % PATH Compute the shortest path in a graph. It is only useful if the
     % start and target points aren't in the graph.
@@ -22,8 +23,8 @@ end
     %     target point aren't included inside this vector as they aren't
     %     part of g.
 
-    nstart = graph.best_start(g, start, target, obstacles);
-    ntarget = graph.best_start(g, target, start, obstacles);
+    nstart = graph.best_start_no_shortcut(g, start, target, obstacles, partition);
+    ntarget = graph.best_start_no_shortcut(g, target, start, obstacles, partition);
 
     if nstart <= 0 || ntarget <= 0
         error("Impossible path finding. Start or dest in inside one obstacle")
