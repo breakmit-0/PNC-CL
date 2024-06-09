@@ -57,7 +57,7 @@ mpt_init;
 
 ### Examples
 
-More example programs are available in the `examples` directory as scripts. To run them, simply add the `examples` to the matlab path.
+More example programs are available in the `examples` directory as scripts. To run them, simply add the `examples` directory to the matlab path and call the relevant script names from matlab.
 
 
 # Building
