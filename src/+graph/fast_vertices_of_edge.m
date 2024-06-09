@@ -18,10 +18,6 @@ function V = fast_vertices_of_edge(edge)
     global fast_edge
     do_fast_edge = ~isempty(fast_edge) && fast_edge; %% fast_edge could be a 0x0 matrix -> not castable to logical
 
-    fprintf("printing values\n")
-    fprintf("fast_edge : %d\n", do_fast_edge)
-    disp(edge.irredundantVRep)
-
     if ~do_fast_edge || edge.irredundantVRep
         V = edge.V;
     elseif height(edge.A) == 2
