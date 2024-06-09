@@ -38,43 +38,56 @@ function [P, min_width] = corridor_post_processing(G, path, start, target, obsta
     D = width(G.Nodes.position);
     P = repmat(Polyhedron(), l+1, 1);
     N = length(obstacles);
-    
-    %Computation of the width of the starting corridor and of the width of the ending corridor
-    %Same computation as in corridor width
-    start_junction = coords(path(1),:);
-    target_junction = coords(path(l),:);
 
-    Q = Polyhedron('V',[start;start_junction]);
-    R = Polyhedron('V',[target_junction;target]);
-    d_start = zeros(N,1);
-    d_target = zeros(N,1);
-    for j=1:N
-        ret_start = distance(obstacles(j),Q);
-        ret_target = distance(obstacles(j),R);
-        d_start(j) = ret_start.dist;
-        d_target(j) = ret_target.dist;
-    end
-    width_start = min(d_start);
-    width_target = min(d_target);
-    
-    min_width = min(width_start,width_target);
-    
-    %For each edge in the graph, 
-    for i=1:(l-1)
-        %Finding the edge corresponding to (path(i) path(i+1)) in the
-        %graph to have the correct index for corridors_width
-        index = findedge(G, path(i), path(i+1));
+    %Case where the path is just an edge from start to target
+    if l == 0
+        Q = Polyhedron('V',[start;target]);
+        d_obstacles = zeros(N,1);
+        for j=1:N
+            ret = distance(obstacles(j),Q);
+            d_obstacles(j) = ret.dist;
+        end
+        width_start = min(d_obstacles);
+        min_width = width_start;
+        P(1) = corridors.draw_corridor(D, start, target, width_start, n);
+    %Other cases
+    else
 
-        %min_width and path_length updated with the new corridor/edge
-        min_width = min(min_width, corridors_width(index));
+        %Computation of the width of the starting corridor and of the width of the ending corridor
+        start_junction = coords(path(1),:);
+        target_junction = coords(path(l),:);
+
+        Q = Polyhedron('V',[start;start_junction]);
+        R = Polyhedron('V',[target_junction;target]);
+        d_start = zeros(N,1);
+        d_target = zeros(N,1);
+        for j=1:N
+            ret_start = distance(obstacles(j),Q);
+            ret_target = distance(obstacles(j),R);
+            d_start(j) = ret_start.dist;
+            d_target(j) = ret_target.dist;
+        end
+        width_start = min(d_start);
+        width_target = min(d_target);
+    
+        min_width = min(width_start,width_target);
         
-        %Unit vector of the edge
-        A = [coords(path(i),:)];
-        B = [coords(path(i+1),:)];
+        %For each edge in the graph, 
+        for i=1:(l-1)
+            %Finding the edge corresponding to (path(i) path(i+1)) in the
+            %graph to have the correct index for corridors_width
+            index = findedge(G, path(i), path(i+1));
 
-        P(i) = corridors.draw_corridor(D, A, B, corridors_width(index), n);
+            %min_width and path_length updated with the new corridor/edge
+            min_width = min(min_width, corridors_width(index));
+        
+            %Computation of the polyhedral representation of the corridor 
+            A = [coords(path(i),:)];
+            B = [coords(path(i+1),:)];
+            P(i) = corridors.draw_corridor(D, A, B, corridors_width(index), n);
+
+        end
+        P(l) = corridors.draw_corridor(D, start, start_junction, width_start, n);
+        P(l+1) = corridors.draw_corridor(D, target, target_junction, width_target, n);
     end
-    P(l) = corridors.draw_corridor(D, start, start_junction, width_start, n);
-    P(l+1) = corridors.draw_corridor(D, target, target_junction, width_target, n);
-
 end
