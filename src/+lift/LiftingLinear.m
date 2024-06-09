@@ -14,6 +14,13 @@ classdef LiftingLinear < Lifting
 
     methods
 
+        function dispErrors(self)
+            fprintf("optimizer outpuut:\n")
+            disp(self.diag)
+            fprintf("found convexity:\n")
+            disp(self.cvx)
+        end
+
         function diags = getDiagnostics(self)
             %% Gets the single diagnostic for this method
             diags = self.diag;
