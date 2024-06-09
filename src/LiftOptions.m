@@ -1,5 +1,11 @@
    
 classdef LiftOptions
+    % The argument passed to Lifting
+    %
+    % Construct with the deault constrctor or any of the static methods
+    %
+    % See Also Lifting,
+
     properties
         sdp (1, 1) struct = sdpsettings();   % override sdpsettings for optimizer
         debug (1, 1) logical = false;        % enable debug mode
@@ -14,6 +20,7 @@ classdef LiftOptions
 
     methods (Static)
         function opts = linearDefault()
+            % Default settings with "linear" method
             opts = LiftOptions();
             opts.strategy = "linear";
             opts.debug = true;
@@ -21,6 +28,7 @@ classdef LiftOptions
         end
 
         function opts = convexDefault()
+            % Default settings with "convex" method
             opts = LiftOptions();
             opts.strategy = "convex";
             opts.debug = false;
@@ -29,6 +37,7 @@ classdef LiftOptions
         end
 
         function opts = clusterDefault()
+            % Default settings with "cluster" method (not recommended)
             opts = LiftOptions();
             opts.debug = false;
             opts.verbose = false;
