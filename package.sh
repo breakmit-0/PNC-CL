@@ -12,7 +12,6 @@ cd -
 
 cp README.md build/package/README.md
 
-
 zip -r build/package/source-code.zip .
 
 rm build/lift-ppl.zip
