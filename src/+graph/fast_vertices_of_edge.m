@@ -16,8 +16,9 @@ function V = fast_vertices_of_edge(edge)
     % edge) instead of solving multiple optimisation problems.
 
     global fast_edge
+    do_fast_edge = ~isempty(fast_edge) && fast_edge; %% fast_edge could be a 0x0 matrix -> not castable to logical
 
-    if ~fast_edge || edge.irredundantVRep
+    if ~do_fast_edge || edge.irredundantVRep
         V = edge.V;
     elseif height(edge.A) == 2
         V1 = linsolve([edge.Ae; edge.A(1, :)], [edge.be; edge.b(1,:)]);
