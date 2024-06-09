@@ -34,7 +34,13 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
                 
             else
                 facets = graph.flatten_facets(polyhedra);
-                subFacets = graph.flatten_facets(facets);
+                
+                if polyhedra(1).Dim == 2
+                    % use fast_vertices_of_edge
+                    subFacets = flatten_edges(facets);
+                else
+                    subFacets = graph.flatten_facets(facets);
+                end
 
                 edges = createEdges(polyhedra, facets, subFacets);
             end
@@ -44,6 +50,17 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
     end
 
     methods (Access=protected, Static)
+        function vertices = flatten_edges(edges)
+            vertices = repmat(Polyhedron(), 2 * height(edges), 1);
+
+            for i = 1:(height(edges))
+                V = graph.fast_vertices_of_edge(edges(i));
+                vertices(2 * i - 1) = Polyhedron(V(1, :));
+                vertices(2 * i) = Polyhedron(V(2, :));
+            end
+        end
+
+
         function edges = createEdges(partition, facets, subFacets)
             % iterate over all partitions,
             % then iterate over all facets of the partition,
@@ -78,7 +95,12 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
                 % iterator over all facets of the polyhedron
                 while facetI < fiEnd
                     f = facets(facetI);
-                    numSubFacet = height(f.H);
+
+                    if partition(1).Dim == 2
+                        numSubFacet = 2;
+                    else
+                        numSubFacet = height(f.H);
+                    end
 
                     edgeIEnd = edgeI + numSubFacet;
                     edgeICopy = edgeI;
@@ -121,12 +143,16 @@ classdef BarycenterGraphBuilder < graph.IGraphBuilder
             fi = 1;
             size = 0;
 
-            for p = polyhedra.'
-                fiEnd = fi + height(p.H);
-                
-                while fi < fiEnd
-                    size = max(size, height(facets(fi).H));
-                    fi = fi + 1;
+            if polyhedra(1).Dim == 2
+                size = 2;
+            else
+                for p = polyhedra.'
+                    fiEnd = fi + height(p.H);
+                    
+                    while fi < fiEnd
+                        size = max(size, height(facets(fi).H));
+                        fi = fi + 1;
+                    end
                 end
             end
 

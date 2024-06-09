@@ -13,8 +13,8 @@ function P = partition(oa,ob,bbx)
         offset = 0;
         for j=1:N
             if i ~= j
-                Ai(j - offset, :) = (oa(j - offset, :) - oa(i, :))';
-                bi(j - offset) = ob(i) - ob(j - offset);
+                Ai(j - offset, :) = (oa(j, :) - oa(i, :))';
+                bi(j - offset) = ob(i) - ob(j);
             else
                 offset = 1;
             end
