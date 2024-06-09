@@ -19,11 +19,13 @@ lifting = Lifting.find(obstacles, LiftOptions.linearDefault());
 disp("Lift computed in " + toc + "s")
 
 tic
-P = lifting.getPartition(bbx);
-disp("Partition computed in " + toc + "s")
-
-tic
-G = graphBuilder.buildGraph(P);
+% P = lifting.getPartition(bbx);
+% disp("Partition computed in " + toc + "s")
+%
+% tic
+% G = graphBuilder.buildGraph(P);
+G = lifting.getGraph(graph.EdgeGraphBuilder(), bbx);
+P = lifting.getPartition();
 disp("Graph build in " + toc + "s")
 
 tic
@@ -39,7 +41,7 @@ path = graph.path(G, src, dest, obstacles);
 disp("Path found in " + toc + "s")
 
 tic
-[Corridors, width] = corridors.corridor_post_processing(G, path, 100);
+[Corridors, width] = corridors.corridor_post_processing(G, path, src, dest, obstacles, 100);
 disp("Corridors described in " + toc + "s")
 
 tic

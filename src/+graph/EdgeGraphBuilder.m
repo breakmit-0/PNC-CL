@@ -36,9 +36,22 @@ classdef EdgeGraphBuilder < graph.IGraphBuilder
         function edge_list = find_edges(polyhedra)
             % FIND_EDGES compute all edges of polys
 
-            edge_list = polyhedra;
-            while edge_list(1).Dim - size(edge_list(1).He, 1) > 1
-                edge_list = graph.flatten_facets(edge_list);
+            if isempty(polyhedra)
+                edge_list = [];
+            else
+                dim = polyhedra(1).Dim;
+                edge_list = polyhedra;
+                while dim > 1
+                    edge_list = graph.flatten_facets(edge_list);
+                    dim = dim - 1;
+                end
+
+                if true
+                    arrayfun(@(x) x.minHRep(), edge_list);
+                    if any( arrayfun(@(x) height(x.H) ~= 2, edge_list))
+                        error("Calculating all edges of partition failed. Applying dim - 1 times getFacet() didn't produce an edge for at least one polyhedron")
+                    end
+                end
             end
         end
 
