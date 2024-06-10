@@ -37,7 +37,7 @@ G = corridors.edge_weight_robot(G,robot);
 disp("Edges weight adjusted in " + toc + "s")
 
 tic
-path = graph.path(G, src, dest, obstacles);
+path = graph.path_robot(G, src, dest, obstacles, robot);
 disp("Path found in " + toc + "s")
 
 tic
