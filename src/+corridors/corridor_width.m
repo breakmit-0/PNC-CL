@@ -23,14 +23,9 @@ function G = corridor_width(G, obstacles)
 
     %Initialization of the values of interest
     l = height(edges);
-    N = length(obstacles);
     G.Edges.length = zeros(l,1);
     G.Edges.width = zeros(l,1);
     
-    %Initialization of the array of distances between the current edge of 
-    %and each obstacle
-    d_obstacles = zeros(N,1);
-   
     for i=1:l
         %For each edge of the graph, the function calculates the distance
         %between this edge and each obstacle, and took the minimum for the
@@ -39,12 +34,7 @@ function G = corridor_width(G, obstacles)
         extremities = edge.EndNodes;
         A = [coords(extremities(1),:)];
         B = [coords(extremities(2),:)];
-        Q = Polyhedron('V',[A;B]);
-        for j=1:N
-            ret = distance(obstacles(j),Q);
-            d_obstacles(j) = ret.dist;
-        end
         G.Edges.length(i) = edge.Weight; 
-        G.Edges.width(i) = min(d_obstacles);
+        G.Edges.width(i) = corridors.edge_width(A, B, obstacles);
     end
 end
