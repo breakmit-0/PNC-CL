@@ -59,6 +59,7 @@ mpt_init;
 
 More example programs are available in the `examples` directory as scripts. To run them, simply add the `examples` directory to the matlab path and call the relevant script names from matlab.
 
+Note: the MPC functionnality is not ready yet meaning the `random_MPC` test will not succeed.
 
 # Building
 
