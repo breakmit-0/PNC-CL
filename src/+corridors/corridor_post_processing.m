@@ -28,8 +28,8 @@ function [P, min_width] = corridor_post_processing(G, path, start, target, obsta
     %
     % See also corridors, edge_weight, edge_weight_robot, alt_graph.path, draw_corridor
     
-    %Coordinates of the nodes of the graph, corridor width and length
-    %for each edge of the graph
+    %Coordinates of the nodes of the graph, corridor width for each edge of
+    %the graph
     coords = G.Nodes.position;
     corridors_width = G.Edges.width;
 
@@ -37,19 +37,13 @@ function [P, min_width] = corridor_post_processing(G, path, start, target, obsta
     l = length(path);
     D = width(G.Nodes.position);
     P = repmat(Polyhedron(), l+1, 1);
-    N = length(obstacles);
 
     %Case where the path is just an edge from start to target
     if l == 0
-        Q = Polyhedron('V',[start;target]);
-        d_obstacles = zeros(N,1);
-        for j=1:N
-            ret = distance(obstacles(j),Q);
-            d_obstacles(j) = ret.dist;
-        end
-        width_start = min(d_obstacles);
+        width_start = corridors.edge_width(start, target, obstacles);
         min_width = width_start;
         P(1) = corridors.draw_corridor(D, start, target, width_start, n);
+        
     %Other cases
     else
 
@@ -57,18 +51,8 @@ function [P, min_width] = corridor_post_processing(G, path, start, target, obsta
         start_junction = coords(path(1),:);
         target_junction = coords(path(l),:);
 
-        Q = Polyhedron('V',[start;start_junction]);
-        R = Polyhedron('V',[target_junction;target]);
-        d_start = zeros(N,1);
-        d_target = zeros(N,1);
-        for j=1:N
-            ret_start = distance(obstacles(j),Q);
-            ret_target = distance(obstacles(j),R);
-            d_start(j) = ret_start.dist;
-            d_target(j) = ret_target.dist;
-        end
-        width_start = min(d_start);
-        width_target = min(d_target);
+        width_start = corridors.edge_width(start, start_junction, obstacles);
+        width_target = corridors.edge_width(target_junction, target, obstacles);
     
         min_width = min(width_start,width_target);
         
@@ -87,6 +71,10 @@ function [P, min_width] = corridor_post_processing(G, path, start, target, obsta
             P(i) = corridors.draw_corridor(D, A, B, corridors_width(index), n);
 
         end
+        P(l) = corridors.draw_corridor(D, start, start_junction, width_start, n);
+        P(l+1) = corridors.draw_corridor(D, target, target_junction, width_target, n);
+    end
+end
         P(l) = corridors.draw_corridor(D, start, start_junction, width_start, n);
         P(l+1) = corridors.draw_corridor(D, target, target_junction, width_target, n);
     end
