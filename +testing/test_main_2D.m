@@ -60,6 +60,6 @@ ctrl = mpc(mpc_input);
 pathS = struct('V',table2array(G.Nodes(path,:)));
 x0 = pinv(ctrl.C) * pathS.V(1,:)';
 %
-[ts, trajectory, controller] = ctrl.relayMPC(pathS, corridors, x0);
+[ts, trajectory, controller] = ctrl.relayMPC(pathS, Corridors, x0);
 %%
 plot(trajectory(:,1),trajectory(:,2),'Marker','*','LineStyle','-','color',[0 0 0],'LineWidth',1.5);
