@@ -72,7 +72,7 @@ function best_n = best_start_no_shortcut(g, start, target, obstacles, partition)
             sline = Polyhedron('V', [start; point]);
     
             if obstacles(oi).and(sline).isEmptySet()
-                best_n = indices(I(i));
+                best_n = indices(I(j));
                 return
             end
         end
