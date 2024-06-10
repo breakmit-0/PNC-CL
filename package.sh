@@ -5,20 +5,27 @@ mkdir build
 
 mkdir build/package
 rm -r build/package/*
-
-cd src
-zip -r ../build/package/toolbox.zip .
-cd -
+#
+# cd src
+# zip -r ../build/package/toolbox.zip .
+# cd -
 
 cp README.md build/package/README.md
 cp LICENSE build/package/LICENSE
 
 zip -r build/package/source-code.zip .
 
-cd examples
-zip -r ../build/package/examples.zip .
-cd -
+# mkdir build/package/toolbox
+cp -r src build/package/toolbox
 
+# mkdir /build/package/examples
+cp -r examples build/package/examples
+
+#
+# cd examples
+# zip -r ../build/package/examples.zip .
+# cd -
+#
 # extract source code as idependent file
 cp build/package/source-code.zip build/lift-ppl-source-code.zip
 
