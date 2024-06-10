@@ -15,17 +15,7 @@ function G = edge_weight_robot(G, robot)
     % See also corridors, corridor, corridor_width, edge_weight
     
     %Computing the radius of the robot
-    bary = util.barycenter(robot);
-    robot_radius = 0;
-    points = robot.V;
-    n = height(points);
-    for i=1:n
-        point = points(i,:);
-        if norm(point-bary)>robot_radius
-            robot_radius = norm(point-bary);
-        end
-    end
-    disp("robot radius : " + robot_radius)
+    robot_radius = util.radius(robot);
     
     %Adjusting the weights : if the width of an edge is smaller than the
     %robot radius, then the weight of this edge is infinite. This prevents
