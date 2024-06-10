@@ -75,7 +75,3 @@ function [P, min_width] = corridor_post_processing(G, path, start, target, obsta
         P(l+1) = corridors.draw_corridor(D, target, target_junction, width_target, n);
     end
 end
-        P(l) = corridors.draw_corridor(D, start, start_junction, width_start, n);
-        P(l+1) = corridors.draw_corridor(D, target, target_junction, width_target, n);
-    end
-end
