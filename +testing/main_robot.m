@@ -1,11 +1,11 @@
-function [P, G, path, Corridors, width, path_length] = main_robot(obstacles, bbx, src, dest, graphBuilder,robot)
+function [P, G, path, Corridors, width, path_length] = main_robot(obstacles, bbx, src, dest, graphBuilder, robot)
 % main [<a href="matlab:web('https://breakmit-0.github.io/testing-ppl/')">online docs</a>]
     %
     % Usage:
-    %   P = main(obstales, space_length, src, dest, barycenterpath)
+    %   P = main(obstales, obstacles, bbx, src, dest, graphBuilder, robot)
     %
     % Parameters:
-    %
+    %    
     %
     % Return Values:
     %  
@@ -24,7 +24,7 @@ tic
 %
 % tic
 % G = graphBuilder.buildGraph(P);
-G = lifting.getGraph(graph.EdgeGraphBuilder(), bbx);
+G = lifting.getGraph(graphBuilder, bbx);
 P = lifting.getPartition();
 disp("Graph build in " + toc + "s")
 
