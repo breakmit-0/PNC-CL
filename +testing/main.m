@@ -33,7 +33,7 @@ G = corridors.edge_weight(G);
 disp("Edges weight adjusted in " + toc + "s")
 
 tic
-path = graph.path(G, src, dest, obstacles);
+path = graph.path(G, src, dest, obstacles, P);
 disp("Path found in " + toc + "s")
 
 tic
