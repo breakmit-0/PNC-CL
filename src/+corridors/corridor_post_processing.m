@@ -55,7 +55,8 @@ function [P, min_width] = corridor_post_processing(G, path, start, target, obsta
         width_target = corridors.edge_width(target_junction, target, obstacles);
     
         min_width = min(width_start,width_target);
-        
+
+        P(1) = corridors.draw_corridor(D, start, start_junction, width_start, n);
         %For each edge in the graph, 
         for i=1:(l-1)
             %Finding the edge corresponding to (path(i) path(i+1)) in the
@@ -68,10 +69,9 @@ function [P, min_width] = corridor_post_processing(G, path, start, target, obsta
             %Computation of the polyhedral representation of the corridor 
             A = [coords(path(i),:)];
             B = [coords(path(i+1),:)];
-            P(i) = corridors.draw_corridor(D, A, B, corridors_width(index), n);
+            P(i+1) = corridors.draw_corridor(D, A, B, corridors_width(index), n);
 
         end
-        P(l) = corridors.draw_corridor(D, start, start_junction, width_start, n);
         P(l+1) = corridors.draw_corridor(D, target, target_junction, width_target, n);
     end
 end
