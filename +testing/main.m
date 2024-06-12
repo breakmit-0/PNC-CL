@@ -37,7 +37,7 @@ path = graph.path(G, src, dest, obstacles, P);
 disp("Path found in " + toc + "s")
 
 tic
-[Corridors, width] = corridors.corridor_post_processing(G, path, src, dest, obstacles, 100);
+[Corridors, width] = corridors.corridor_post_processing(G, path, src, dest, obstacles, 20);
 disp("Corridors described in " + toc + "s")
 
 tic

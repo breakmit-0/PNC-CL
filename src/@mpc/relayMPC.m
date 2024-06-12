@@ -17,9 +17,20 @@ for segment = 1:length(PI)
         R = Polyhedron(util.minkowskiSum(s.V,-path.V(segment+1,:)));
 
         if obj.settings.terminal_set_fast
-            % S =  + Polyhedron(xf');
-            lambda = obj.centeredEnlargement(obj.box.A, obj.box.b, R.A * obj.C, R.b, zeros(obj.nx,1));
-            Xf = Polyhedron(obj.XfTilde.A, obj.XfTilde.b * lambda);
+            if isEmptySet(obj.tmpXf)
+                Xf        = obj.controlInvariant(obj.A - obj.B * obj.K, 'C', obj.C, 'Y', R, 'U', obj.U, 'K', obj.K);
+                obj.tmpXf = Polyhedron(Xf.V*0.01);
+            else
+                lambda = obj.centeredEnlargement(obj.tmpXf.A, obj.tmpXf.b, R.A * obj.C, R.b, zeros(obj.nx,1));
+                Xf = Polyhedron(obj.tmpXf.A, obj.tmpXf.b * lambda);
+                if isnan(lambda) || isinf(lambda) || isEmptySet(Xf)
+                    % display('WarningL enlarged as NaN or Inf!')
+                    Xf = obj.controlInvariant(obj.A - obj.B * obj.K, 'C', obj.C, 'Y', R, 'U', obj.U, 'K', obj.K);
+                    obj.tmpXf = Xf;
+                end
+            end
+
+
         else
             Xf = obj.controlInvariant(obj.A - obj.B * obj.K, 'C', obj.C, 'Y', R, 'U', obj.U, 'K', obj.K);
         end
@@ -28,11 +39,11 @@ for segment = 1:length(PI)
         Y = Polyhedron(util.minkowskiSum(PI(segment).V, -(obj.C*xf)'));
         obj.setNewOutputConstraint(Y);
         
-        obj.construct(Ntmp+2, Xf);
+        obj.construct(Ntmp, Xf);
         obj.setController();
 
         controllerList = [controllerList; copy(obj)];
-        u = controllerList(segment).controller(-xf + xs)
+        u = controllerList(segment).controller(-xf + xs);
 
         xt = xs';
         x = xs;
@@ -56,7 +67,7 @@ for segment = 1:length(PI)
         obj.setController();
 
         controllerList = [controllerList; copy(obj)];
-        u = controllerList(segment).controller(-xf + xs)
+        u = controllerList(segment).controller(-xf + xs);
 
         xt = xs';
         x = xs;

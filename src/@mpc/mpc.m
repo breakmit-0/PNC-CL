@@ -1,7 +1,7 @@
 classdef mpc < matlab.mixin.Copyable
 %
 % Refer to example for documentation on the usage of this class 
-%
+% Very very soon
 %
 
     
@@ -25,6 +25,7 @@ classdef mpc < matlab.mixin.Copyable
 
     properties (Access = public)
         nx = 0;nu = 0;ny = 0;
+        sys = [];sysd=[];dt=1;
         
         Pi = [];Gamma = [];PSI = [];PHI = [];
         
@@ -43,22 +44,28 @@ classdef mpc < matlab.mixin.Copyable
         U = [];
         X = [];
         Y = [];
-        Xf = Polyhedron;
+        Xf  = Polyhedron; tmpXf = Polyhedron;
 
-        box_width = 0.001;
+        box_width = 0.1;
         box = Polyhedron;
         XfTilde = Polyhedron;
         
         settings = mpcsettings();
+
+        UBRS = [];  ABRS = []; BBRS = [];
         
     end
     
     methods
     function obj = mpc(option)
-        obj.A = option.A;
-        obj.B = option.B;
-        obj.C = option.C;
-        obj.D = option.D;
+        obj.sys = option.sys;
+        obj.dt  = option.dt;
+        obj.sysd= c2d(obj.sys,option.dt);
+
+        obj.A = obj.sysd.A;
+        obj.B = obj.sysd.B;
+        obj.C = obj.sysd.C;
+        obj.D = obj.sysd.D;
         
         obj.Q = option.Q;
         obj.R = option.R;
@@ -131,6 +138,12 @@ classdef mpc < matlab.mixin.Copyable
         obj.Np = option.Np;
         obj.construct();
         obj.setController();
+
+        % BRS Initialization
+        tmpSys = c2d(obj.sys, obj.dt * option.backwards_reachability_scaler);
+        obj.ABRS = tmpSys.A;
+        obj.BBRS = tmpSys.B;
+        obj.UBRS = Polyhedron(obj.U.V * option.backwards_reachability_scaler);
         
     end
     
@@ -143,9 +156,7 @@ classdef mpc < matlab.mixin.Copyable
             n = obj.Np;
         end
 
-        % obj.Pi = zeros(obj.ny * n, obj.nx);
         obj.Pi = zeros(obj.nx * n, obj.nx);
-        % obj.Gamma = zeros(obj.ny * n, obj.nu * obj.Np);
         obj.Gamma = zeros(obj.nx * n, obj.nu * n);
         obj.Xf = [];
         if obj.settings.terminal_set_use && nargin < 3
@@ -164,10 +175,8 @@ classdef mpc < matlab.mixin.Copyable
         obj.WU  = [];
         for k = 0:n-1
             obj.Pi((k)*obj.nx+1:(k+1)*obj.nx,:) = obj.A^(k+1);
-            % obj.Pi((k)*obj.ny+1:(k+1)*obj.ny,:) = obj.C * obj.A^(k+1);
 
             for i = 1:k+1
-                % obj.Gamma((k)*obj.ny+1:(k+1)*obj.ny,(i-1)*obj.nu+1:(i)*obj.nu) = obj.C * obj.A^(k+1-i)*obj.B;
                 obj.Gamma((k)*obj.nx+1:(k+1)*obj.nx,(i-1)*obj.nu+1:(i)*obj.nu) = obj.A^(k+1-i)*obj.B;
             end
 

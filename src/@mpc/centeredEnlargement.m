@@ -1,4 +1,4 @@
-function lamda = centeredEnlargement(obj,Aq,bq,Ah,bh,cq)
+function lamda = centeredEnlargement(obj, Aq, bq, Ah, bh, cq)
 
     % min mu1
     %   x = [mu1,mu2,tildaU]
@@ -94,28 +94,23 @@ function lamda = centeredEnlargement(obj,Aq,bq,Ah,bh,cq)
     
     c           = zeros(numVar,1);
     c(mu1Loc,1) = 1;
+
+    f = c';
     
 
-    % options = optimoptions('linprog');
-    % options.ConstraintTolerance = 1e-8;
-    % options.Algorithm = 'interior-point';
-    % options.MaxIterations = 10000;
-    % options.Display = 'none';
+    options = optimoptions('linprog');
+    options.ConstraintTolerance = 1e-8;
+    options.Algorithm = 'interior-point';
+    options.MaxIterations = 10000;
+    options.Display = 'none';
     
-    
-    
-    x = sdpvar(numVar,1);
-    
-    Objective = c' * x;
-    Constraints = [ A*x <= b, Aeq*x == beq ];
 
-    optSettings = sdpsettings();
-    optSettings.solver = 'linprog';
-    optSettings.verbose = 0;
-    optSettings.cachesolvers = 1;
-    sol = optimize(Constraints,Objective,optSettings);
-    x = double(x);
+    [x,~,exitflag,~] = linprog(f,A,b,Aeq,beq,[],[],options);
 
-    lamda = 1 + 1 / x(mu2Loc);   
+    if exitflag == 1
+        lamda = 1 + 1 / x(mu2Loc);   
+    else
+        lamda = NaN;
+    end
 
 end
