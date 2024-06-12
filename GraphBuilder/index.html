@@ -52,13 +52,21 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="./">class GraphBuilder</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#subclass-graphedgegraphbuilder">  subclass  graph.EdgeGraphBuilder </a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#subclass-graphbarycentergraphbuilder">  subclass  graph.BarycenterGraphBuilder </a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#method-getgraph"> method  getGraph </a>
     </li>
     </ul>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../LiftGraph/">class LiftGraph</a>
+                <li class="toctree-l1"><a class="reference internal" href="../graph/">module graph</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../corridors/">module corridors</a>
                 </li>
               </ul>
       </div>
@@ -84,20 +92,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="class-liftgraph"><span class="code"> <span class="kw"> class </span> LiftGraph </span></h1>
-<p>An abstract class for building a <a href="../LiftGraph/">Liftgraph</a> from a partition provided by a <a href="../Lifting/">Lifting</a>.</p>
+                <h1 id="class-graphigraphbuilder"><span class="code"> <span class="kw"> class </span> graph.IGraphBuilder </span></h1>
+<p>An abstract class for building a <a href="LiftGraph.md">Liftgraph</a> from a partition provided by a <a href="../Lifting/">Lifting</a>.</p>
 <p>Creating a subclass of this is encouraged if you need to build a graph in a way to supported by the default builders</p>
 <hr>
 
+<h3 id="subclass-graphedgegraphbuilder"><span class="code"> <span class="kw"> subclass </span> graph.EdgeGraphBuilder </span></h3>
+<p>A possible graph builder, construct with the default constructor.</p>
+<hr>
+
+<h3 id="subclass-graphbarycentergraphbuilder"><span class="code"> <span class="kw"> subclass </span> graph.BarycenterGraphBuilder </span></h3>
+<p>A possible graph builder, construct with the default constructor.</p>
+<hr>
+
 <h3 id="method-getgraph"><span class="code"> <span class="fun">method </span> getGraph </span></h3>
-<p>Constructs a <a href="../LiftGraph/">LiftGraph</a> </p>
+<p>Constructs a <a href="LiftGraph.md">LiftGraph</a> </p>
 <p><strong>Usage</strong>
 <div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>lift_graph<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>builder.getGraph(<span style="color: #008000">partition</span>)
 </code></pre></div></p>
 <p><strong>Parameters</strong></p>
 <dl>
 <dt><code>lift_graph</code></dt>
-<dd>Returns a <a href="../LiftGraph/">LiftGraph</a> </dd>
+<dd>Returns a <a href="LiftGraph.md">LiftGraph</a> </dd>
 <dt><code>partition</code></dt>
 <dd>A column vector of <a href="">MPT</a> Polyhedron objects, the builder may fail if they are not a partition (every edge must be fully shared between neighbours)</dd>
 </dl>
@@ -106,7 +122,7 @@
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../LiftOptions/" class="btn btn-neutral float-left" title="class LiftOptions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../LiftGraph/" class="btn btn-neutral float-right" title="class LiftGraph">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../graph/" class="btn btn-neutral float-right" title="module graph">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -132,7 +148,7 @@
       <span><a href="../LiftOptions/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../LiftGraph/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../graph/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

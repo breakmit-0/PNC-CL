@@ -46,6 +46,8 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#static-method-find"> static method  find </a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#method-getgraph"> method getGraph</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#abstract-method-issuccess"> abstract method isSuccess</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#abstract-method-getdiagnostic"> abstract method getDiagnostic</a>
@@ -62,7 +64,11 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../LiftGraph/">class LiftGraph</a>
+                <li class="toctree-l1"><a class="reference internal" href="../graph/">module graph</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../corridors/">module corridors</a>
                 </li>
               </ul>
       </div>
@@ -108,6 +114,22 @@ through the <span class="code"><a href="./#static-method-find">find</a></span> c
 <dd>A <span class="code"><a href="../LiftOptions/">LiftOptions</a> object</dd>
 <dt><code>lifting</code></dt>
 <dd>The function returns a <span class="code"><a href="./">Lifting</a></span> object</dd>
+</dl>
+<hr>
+
+<h3 id="method-getgraph"><span class="code"> <span class="fun">method </span>getGraph</span></h3>
+<p>A function to construct a graph from a lifting</p>
+<p><strong>Usage</strong></p>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>g<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>lifting.getGraph(graph_builder,<span style="color: #bbbbbb"> </span>bbox)
+</code></pre></div>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>graph_builder</code></dt>
+<dd>A  <a href="../GraphBuilder/">IGraphBuilder</a> </dd>
+<dt><code>bbox</code></dt>
+<dd>A bounding box used to create the partition, should be at least the convex hull of the obstacles</dd>
+<dt><code>g</code></dt>
+<dd>A matlab <code>graph</code></dd>
 </dl>
 <hr>
 

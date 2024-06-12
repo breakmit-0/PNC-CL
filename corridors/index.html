@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title><span class="code"> <span class="mod">module</span> project </span> - My Docs</title>
+    <title>module corridors - My Docs</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link href="../style.css" rel="stylesheet" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "\u003cspan class=\"code\"\u003e \u003cspan class=\"mod\"\u003emodule\u003c/span\u003e project \u003c/span\u003e";
-        var mkdocs_page_input_path = "project.md";
+        var mkdocs_page_name = "module corridors";
+        var mkdocs_page_input_path = "corridors.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -54,7 +54,17 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../LiftGraph/">class LiftGraph</a>
+                <li class="toctree-l1"><a class="reference internal" href="../graph/">module graph</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">module corridors</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#function-edge_weight"> function  edge_weight </a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-corridor_post_processing"> function  corridor_post_processing </a>
+    </li>
+    </ul>
                 </li>
               </ul>
       </div>
@@ -71,7 +81,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active"><span class="code"> <span class="mod">module</span> project </span></li>
+      <li class="breadcrumb-item active">module corridors</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -80,14 +90,47 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="module-project"><span class="code"> <span class="mod">module</span> project </span></h1>
-<p>Functions for testing this library.</p>
-<h3 id="function"><span class="code"> <span class="kw">function</span> </span></h3>
-<p>Causes an error if <code>size(x)</code> is different from <code>shape</code>.</p>
-<p>*</p>
+                <h1 id="module-corridors"><span class="code"> <span class="mod">module</span> corridors </span></h1>
+<p>Operations related to the safety area around the paths.</p>
+<hr>
+
+<h3 id="function-edge_weight"><span class="code"> <span class="fun">function </span> edge_weight </span></h3>
+<p>A default way to calculate edge weights for pathfinding</p>
+<p>This can be replaced by a user functions, simply set <code>g.Edges.Weight</code> from <code>g.Edges.length</code> and <code>g.Edges.width</code></p>
+<p><strong>Usage</strong></p>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>corridors.edge_weight(g)
+</code></pre></div>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>g</code></dt>
+<dd>The graph</dd>
+</dl>
+<h3 id="function-corridor_post_processing"><span class="code"> <span class="fun">function </span> corridor_post_processing </span></h3>
+<p>Calculates the actual corridor data once the path is found.</p>
+<p><strong>Usage</strong></p>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>[cor,<span style="color: #bbbbbb"> </span>min_width]<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>corridor_post_processing(G,<span style="color: #bbbbbb"> </span><span style="color: #008000">path</span>,<span style="color: #bbbbbb"> </span><span style="color: #008000">start</span>,<span style="color: #bbbbbb"> </span>target,<span style="color: #bbbbbb"> </span>obstacles,<span style="color: #bbbbbb"> </span>n)
+</code></pre></div>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>G</code></dt>
+<dd>The graph</dd>
+<dt><code>path</code></dt>
+<dd>The path to calculate corridors on</dd>
+<dt><code>start</code></dt>
+<dd>The start of the path</dd>
+<dt><code>target</code></dt>
+<dd>The end of the path</dd>
+<dt><code>obstacles</code></dt>
+<dd>The obstacles vector</dd>
+</dl>
+<p><code>n</code>
+:</p>
               
             </div>
           </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../graph/" class="btn btn-neutral float-left" title="module graph"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
 
   <hr/>
 
@@ -108,6 +151,8 @@
   <div class="rst-versions" role="note" aria-label="Versions">
   <span class="rst-current-version" data-toggle="rst-current-version">
     
+    
+      <span><a href="../graph/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
   </span>

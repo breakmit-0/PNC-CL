@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title><span class="code"> <span class="mod">module</span> graph </span> - My Docs</title>
+    <title>module graph - My Docs</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link href="../style.css" rel="stylesheet" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "\u003cspan class=\"code\"\u003e \u003cspan class=\"mod\"\u003emodule\u003c/span\u003e graph \u003c/span\u003e";
+        var mkdocs_page_name = "module graph";
         var mkdocs_page_input_path = "graph.md";
         var mkdocs_page_url = null;
       </script>
@@ -53,8 +53,18 @@
                 <li class="toctree-l1"><a class="reference internal" href="../GraphBuilder/">class GraphBuilder</a>
                 </li>
               </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">module graph</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#function-path"> function  path </a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-path_length"> function  path_length </a>
+    </li>
+    </ul>
+                </li>
+              </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../LiftGraph/">class LiftGraph</a>
+                <li class="toctree-l1"><a class="reference internal" href="../corridors/">module corridors</a>
                 </li>
               </ul>
       </div>
@@ -71,7 +81,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active"><span class="code"> <span class="mod">module</span> graph </span></li>
+      <li class="breadcrumb-item active">module graph</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -81,13 +91,54 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="module-graph"><span class="code"> <span class="mod">module</span> graph </span></h1>
-<p>Functions for testing this library.</p>
-<h3 id="function"><span class="code"> <span class="kw">function</span> </span></h3>
-<p>Causes an error if <code>size(x)</code> is different from <code>shape</code>.</p>
-<p>*</p>
+<p>Functions on graphs.</p>
+<hr>
+
+<h3 id="function-path"><span class="code"> <span class="fun">function </span> path </span></h3>
+<p>Calculates the shortest path on a graph.</p>
+<p><strong>Usage</strong></p>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000">path</span><span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span><span style="color: #008000">graph</span>.path(g,<span style="color: #bbbbbb"> </span><span style="color: #008000">start</span>,<span style="color: #bbbbbb"> </span>dest,<span style="color: #bbbbbb"> </span>obstacles,<span style="color: #bbbbbb"> </span><span style="color: #008000">partition</span>)
+</code></pre></div>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>g</code></dt>
+<dd>The graph to operate on</dd>
+<dt><code>start</code></dt>
+<dd>A vector, the point to start from</dd>
+<dt><code>dest</code></dt>
+<dd>A Vecotr, the point to end on</dd>
+<dt><code>obstacles</code></dt>
+<dd>The obstacles vector used to create the lifting</dd>
+<dt><code>partition</code></dt>
+<dd>The partition obtained from the lifting</dd>
+<dt><code>path</code></dt>
+<dd>A vector of indices into the graph</dd>
+</dl>
+<hr>
+
+<h3 id="function-path_length"><span class="code"> <span class="fun">function </span> path_length </span></h3>
+<p>Calculates the length of the path</p>
+<p><strong>Usage</strong></p>
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000">length</span><span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span><span style="color: #008000">graph</span>.path_length(g,<span style="color: #bbbbbb"> </span><span style="color: #008000">path</span>,<span style="color: #bbbbbb"> </span><span style="color: #008000">start</span>,<span style="color: #bbbbbb"> </span>dest)
+</code></pre></div>
+<p><strong>Parameters</strong></p>
+<dl>
+<dt><code>g</code></dt>
+<dd>The graph to operate on</dd>
+<dt><code>path</code></dt>
+<dd>The path from <code>graph.path</code></dd>
+<dt><code>start</code></dt>
+<dd>The starting point</dd>
+<dt><code>dest</code></dt>
+<dd>The end point</dd>
+</dl>
               
             </div>
           </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../GraphBuilder/" class="btn btn-neutral float-left" title="class GraphBuilder"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../corridors/" class="btn btn-neutral float-right" title="module corridors">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
 
   <hr/>
 
@@ -109,6 +160,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
+      <span><a href="../GraphBuilder/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../corridors/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
