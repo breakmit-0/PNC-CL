@@ -20,4 +20,5 @@ nav:
   - "class Lifting": "Lifting.md"
   - "class LiftOptions": "LiftOptions.md"
   - "class GraphBuilder": "GraphBuilder.md"
-  - "class LiftGraph": "LiftGraph.md"
+  - "module graph": "graph.md"
+  - "module corridors": "corridors.md"

@@ -1,8 +1,21 @@
-# <span class="code"> <span class="kw"> class </span> LiftGraph </span>
+# <span class="code"> <span class="kw"> class </span> graph.IGraphBuilder </span>
 
 An abstract class for building a [Liftgraph](LiftGraph.md) from a partition provided by a [Lifting](Lifting.md).
 
 Creating a subclass of this is encouraged if you need to build a graph in a way to supported by the default builders
+
+<hr>
+
+### <span class="code"> <span class="kw"> subclass </span> graph.EdgeGraphBuilder </span>
+
+A possible graph builder, construct with the default constructor.
+
+<hr>
+
+### <span class="code"> <span class="kw"> subclass </span> graph.BarycenterGraphBuilder </span>
+
+A possible graph builder, construct with the default constructor.
+
 
 <hr>
 

@@ -93,3 +93,18 @@ It can be acessed with `help <name>` or `doc <name>` inside matlab.
 ##### <span class="code"> <span class="kw"> class </span> [LiftOptions](LiftOptions.md) </span>
 : A simple structure that holds all the options to create a [Lifting] object
 
+##### <span class="code"> <span class="kw"> class </span> [GraphBuilder](GraphBuilder.md) </span>
+: A class that provides a method to construct a graph
+
+##### <span class="code"> <span class="kw"> class </span> [graph](graph.md) </span>
+: Functions to operate on graphs
+
+##### <span class="code"> <span class="kw"> class </span> [corridors](corridors.md) </span>
+: Functions to manipulate the security corridors
+
+##### <span class="code"> <span class="kw"> class </span> [mpc](mpc.md) </span>
+: A class to perform MPC computation. Implementation exists but is unstable and undocumented, see `+testing` for examples.
+
+
+
+

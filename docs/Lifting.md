@@ -33,6 +33,32 @@ lifting = Lifting.find(obstacles, options)
 
 <hr>
 
+### <span class="code"> <span class="fun">method </span>getGraph</span>
+
+A function to construct a graph from a lifting
+
+**Usage**
+
+```matlab
+g = lifting.getGraph(graph_builder, bbox)
+```
+
+**Parameters**
+
+`graph_builder`
+: A  [IGraphBuilder](GraphBuilder.md) 
+
+`bbox`
+: A bounding box used to create the partition, should be at least the convex hull of the obstacles
+
+`g`
+: A matlab `graph`
+
+
+
+
+<hr>
+
 ### <span class="code"> <span class="fun">abstract method </span>isSuccess</span>
 
 This quickly tests wether lifting was successful, if this returns false, displaying the result of <span class="code">[getDiagnostic](Lifting.md#abstract-method-getdiagnostic)</span>
