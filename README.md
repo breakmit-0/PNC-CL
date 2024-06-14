@@ -5,12 +5,19 @@ It uses the Convex Lifting method to construct a graph of possible paths in the 
 
 This toolbox requires [MPT](https://www.mpt3.org/) and [tbxmanager](https://www.tbxmanager.com/).
 
+
+# Dependencies
+* [MPT3](https://www.mpt3.org/)
+* [YALMIP](https://yalmip.github.io/)
+* [CDD](https://people.inf.ethz.ch/fukudak/cdd_home/index.html)
+
+The recommended installation instructions can be reached at this [link](https://www.mpt3.org/Main/Installation).
 # Installation
 
 First, install both dependencies :
 
-* [MPT](https://www.mpt3.org/)
-* [tbxmanager](https://www.tbxmanager.com/)
+
+
 
 You may also install the [Matlab Optimisation Toolbox](https://fr.mathworks.com/products/optimization.html) to speed up some calculations.
 
