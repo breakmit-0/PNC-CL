@@ -50,13 +50,13 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">class GraphBuilder</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">class GraphBuilder</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#subclass-graphedgegraphbuilder">  subclass  graph.EdgeGraphBuilder </a>
+    <li class="toctree-l2"><a class="reference internal" href="#subclass-graphedgegraphbuilder">subclass graph.EdgeGraphBuilder</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#subclass-graphbarycentergraphbuilder">  subclass  graph.BarycenterGraphBuilder </a>
+    <li class="toctree-l2"><a class="reference internal" href="#subclass-graphbarycentergraphbuilder">subclass graph.BarycenterGraphBuilder</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#method-getgraph"> method  getGraph </a>
+    <li class="toctree-l2"><a class="reference internal" href="#method-getgraph">method getGraph</a>
     </li>
     </ul>
                 </li>
@@ -108,12 +108,10 @@
 <h3 id="method-getgraph"><span class="code"> <span class="fun">method </span> getGraph </span></h3>
 <p>Constructs a <a href="LiftGraph.md">LiftGraph</a> </p>
 <p><strong>Usage</strong>
-<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>lift_graph<span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>builder.getGraph(<span style="color: #008000">partition</span>)
+<div class="language-matlab highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000">graph</span><span style="color: #bbbbbb"> </span>=<span style="color: #bbbbbb"> </span>builder.getGraph(<span style="color: #008000">partition</span>)
 </code></pre></div></p>
 <p><strong>Parameters</strong></p>
 <dl>
-<dt><code>lift_graph</code></dt>
-<dd>Returns a <a href="LiftGraph.md">LiftGraph</a> </dd>
 <dt><code>partition</code></dt>
 <dd>A column vector of <a href="">MPT</a> Polyhedron objects, the builder may fail if they are not a partition (every edge must be fully shared between neighbours)</dd>
 </dl>
