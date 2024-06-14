@@ -1,4 +1,4 @@
-# Path Planning using Convex Lifting
+# A Toolbox for Path Planning, Navigation, and Control based on Convex-lifting 
 
 This is a [MATLAB](https://mathworks.com) toolbox for pathplanning, or finding a path in a continuous environment with obstacles, in two or three dimensions.
 It uses the Convex Lifting method to construct a graph of possible paths in the environment.
