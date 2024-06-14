@@ -17,8 +17,9 @@ The recommended installation instructions can be reached at this [link](https://
 
 ## Internal dependencies
 * MATLAB  > [9.6](https://fr.mathworks.com/support/requirements/previous-releases.html)
-* MATLAB Optimization Toolbox
-* MATLAB Control Toolbox
+* [MATLAB Optimization Toolbox](https://fr.mathworks.com/products/optimization.html)
+* [MATLAB Control Toolbox](https://fr.mathworks.com/products/control.html)
+  
 # Installation
 
 First, install both dependencies :
