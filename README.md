@@ -7,11 +7,16 @@ This toolbox requires [MPT](https://www.mpt3.org/) and [tbxmanager](https://www.
 
 
 # Dependencies
+
+## External dependencies
 * [MPT3](https://www.mpt3.org/)
 * [YALMIP](https://yalmip.github.io/)
 * [CDD](https://people.inf.ethz.ch/fukudak/cdd_home/index.html)
 
 The recommended installation instructions can be reached at this [link](https://www.mpt3.org/Main/Installation).
+
+## Internal dependencies
+* MATLAB  > 9.6
 # Installation
 
 First, install both dependencies :
