@@ -16,7 +16,9 @@ This toolbox requires [MPT](https://www.mpt3.org/) and [tbxmanager](https://www.
 The recommended installation instructions can be reached at this [link](https://www.mpt3.org/Main/Installation).
 
 ## Internal dependencies
-* MATLAB  > 9.6
+* MATLAB  > [9.6](https://fr.mathworks.com/support/requirements/previous-releases.html)
+* MATLAB Optimization Toolbox
+* MATLAB Control Toolbox
 # Installation
 
 First, install both dependencies :
