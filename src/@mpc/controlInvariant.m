@@ -1,5 +1,25 @@
 function S = controlInvariant(obj, A, varargin)
 
+% Computes controlled invariant set for given possible pairs:
+% (A,X) - (C,Y) - (K,U)
+% See for more: Blanchini, F. (1999). Set invariance in control. Automatica, 35(11), 1747-1767.
+
+
+% Inputs:
+%   - obj:      mpc object.
+%   - A:        State matrix (Required) (must be controlled if K is not input).
+%   - C:        Output matrix (Optional with Y).
+%   - K:        Control feedback gain (Optional with U).
+%   - X:        State constraint set (Optional)
+%   - Y:        Output constraint set (Optional with C).
+%   - U:        Control admissible set (Optional with K).
+%   - N:        Maximum number of iterations (Optional)
+
+%   
+%
+% Output:
+%   - S:        Controlled invariant set
+
 
 S = Polyhedron;
 

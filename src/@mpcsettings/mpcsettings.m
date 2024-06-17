@@ -1,5 +1,12 @@
 classdef mpcsettings < handle
-
+%
+% A setting class for mpc object. Includes necessary variables required to
+% be defined to generate an mpc object.
+%
+%
+% See documentation: https://github.com/breakmit-0/PNC-CL
+%
+%
 
     
     properties (Access = public)   

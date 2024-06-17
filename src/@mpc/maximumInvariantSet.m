@@ -1,5 +1,19 @@
 function S = maximumInvariantSet(obj, S, Ac, N)
 
+
+% Computes maximal invariant set for 
+% See for more: 
+% Gilbert, E. G., & Tan, K. T. (1991). Linear systems with state and control constraints: The theory and application of maximal output admissible sets. IEEE Transactions on Automatic control, 36(9), 1008-1020.
+
+
+% Inputs:
+%   - obj:      mpc object.
+%   - S:        Given initial set.
+%   - Ac:       Controlled state matrix
+%   - N:        Maximum number of iterations
+% Output:
+%   - S:        Controlled invariant set
+
 H = S.A;
 w = S.b;
 

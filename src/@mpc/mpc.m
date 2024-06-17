@@ -1,7 +1,10 @@
 classdef mpc < matlab.mixin.Copyable
 %
-% Refer to example for documentation on the usage of this class 
-% Very very soon
+% MPC class to realize relay MPC
+%
+%
+% See documentation: https://github.com/breakmit-0/PNC-CL
+%
 %
 
     
@@ -23,7 +26,7 @@ classdef mpc < matlab.mixin.Copyable
         
     end
 
-    properties (Access = public)
+    properties (Access = private)
         nx = 0;nu = 0;ny = 0;
         sys = [];sysd=[];dt=1;
         
