@@ -15,6 +15,7 @@ classdef LiftOptions
         depth (1, 1) uint32 = 0;             % for cluster strategy, how many steps until fallback
         fallback (1, 1) string = "linear";   % the end strategy for clustering, "cluster" WILL create an infinite loop
         min_cvx (1, 1) double = 0.001;       % the minimum convexity for the convex strategy
+        boundedness (1, 1) double = 0.001;   % the boundedness parameter for the convex strategy
         solver (1, 1) string = "";           % override the solver only
     end
 
@@ -34,6 +35,7 @@ classdef LiftOptions
             opts.debug = false;
             opts.verbose = false;
             opts.min_cvx = 0.001;
+            opts.boundedness = 0.001;
         end
 
         function opts = clusterDefault()

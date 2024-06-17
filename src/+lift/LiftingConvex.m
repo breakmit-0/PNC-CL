@@ -84,44 +84,57 @@ classdef LiftingConvex < Lifting
                 min_convexity = options.min_cvx;
             end
 
+            boundedness = 0.1;
+            if (isfield(options, "min_cvx"))
+                boundedness = options.boundedness;
+            end
+
             a = sdpvar(N, D);
             b = sdpvar(N, 1);
-            e = reshape(cat(2, a, b)', [], 1);
+            x = reshape(cat(2, a, b)', [], 1);
 
             % Number of constraints to create
             N_constr = 0;
             for obs = 1:N
-                N_constr = N_constr + (N-1) * size(Obstacles(obs).V, 1);
+                N_constr = N_constr + (N) * size(Obstacles(obs).V, 1);
             end
 
-            cmat = zeros(N_constr, N * (D+1));
+            Aineq = zeros(N_constr, N * (D+1));
+            bineq    = zeros(N_constr, 1);
             i = 0;
 
             for obs = 1:N
 
                 for vertex_id = 1:size(Obstacles(obs).V, 1)
                     vertex = Obstacles(obs).V(vertex_id, :)';
-
                     assert_shape(vertex, [D 1]);
+
+                    i = i+1;
+                    Aineq(i, (D+1)*obs) = 1;
+                    Aineq(i, (D+1)*(obs-1)+1 : (D+1)*(obs-1)+D) = vertex';
+                    bineq(i) = boundedness;
                     for other = 1:N
+
                         if other ~= obs
 
                             i = i+1;
 
-                            cmat(i, (D+1)*obs) = 1;
-                            cmat(i, (D+1)*other) = -1;
-                            cmat(i, (D+1)*(obs-1)+1 : (D+1)*(obs-1)+D) = vertex';
-                            cmat(i, (D+1)*(other-1)+1 : (D+1)*(other-1)+D) = -vertex';
+                            Aineq(i, (D+1)*obs) = -1;
+                            Aineq(i, (D+1)*other) = 1;
+                            Aineq(i, (D+1)*(obs-1)+1 : (D+1)*(obs-1)+D) = -vertex';
+                            Aineq(i, (D+1)*(other-1)+1 : (D+1)*(other-1)+D) = vertex';
+
+                            bineq(i) = -min_convexity;
 
                         end
                     end
                 end
             end
 
-            constraints = cmat * e >= min_convexity;
-            constraints = [constraints; -1000 <= e <= 1000];
+            constraints = Aineq * x <= bineq;
 
-            % adding a constraint to force convexity strictly positive actually makes things lees efficient
+            H = eye(N * (D + 1));
+            % adding a constraint to force convexity strictly positive actually makes things less efficient
             ops = sdpsettings;
             ops.debug = false;
             ops.verbose = false;
@@ -138,7 +151,7 @@ classdef LiftingConvex < Lifting
                 ops = options.sdp;
             end
 
-            self.diag = optimize(constraints, norm(e, 2), ops);
+            self.diag = optimize(constraints, x' * H * x, ops);
             self.oa = value(a);
             self.ob = value(b);
         end
