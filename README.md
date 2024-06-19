@@ -1,21 +1,17 @@
 # A Toolbox for Path Planning, Navigation, and Control based on Convex-lifting 
 
-This is a [MATLAB](https://mathworks.com) toolbox for pathplanning, or finding a path in a continuous environment with obstacles, in two or three dimensions.
+This is a [MATLAB](https://mathworks.com) toolbox for pathplanning, or finding a path in a continuous environment with obstacles in two or three dimensions.
 It uses the Convex Lifting method to construct a graph of possible paths in the environment.
-
-This toolbox requires [MPT](https://www.mpt3.org/) and [tbxmanager](https://www.tbxmanager.com/).
-
 
 # Dependencies
 
-## External dependencies
 * [MPT3](https://www.mpt3.org/)
 * [YALMIP](https://yalmip.github.io/)
 * [CDD](https://people.inf.ethz.ch/fukudak/cdd_home/index.html)
 
 The recommended installation instructions can be reached at this [link](https://www.mpt3.org/Main/Installation).
 
-## Internal dependencies
+## MATLAB dependencies
 * MATLAB  > [9.6](https://fr.mathworks.com/support/requirements/previous-releases.html)
 * [MATLAB Optimization Toolbox](https://fr.mathworks.com/products/optimization.html)
 * [MATLAB Control Toolbox](https://fr.mathworks.com/products/control.html)
