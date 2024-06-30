@@ -8,7 +8,7 @@ function [P, min_width] = corridor_post_processing(G, path, start, target, obsta
     % Parameters:
     %   G should be the graph returned by edge_weight
     %
-    %   path should be the array of l points returned by alt_graph.path 
+    %   path should be the array of l points returned by graph.path 
     %
     %   start and target should be two points in dimension D
     %
@@ -26,7 +26,7 @@ function [P, min_width] = corridor_post_processing(G, path, start, target, obsta
     %
     % Warning - For now, the function only works in 2D and 3D cases ! 
     %
-    % See also corridors, edge_weight, edge_weight_robot, alt_graph.path, draw_corridor
+    % See also corridors, edge_weight, edge_weight_robot, graph.path, draw_corridor
     
     %Coordinates of the nodes of the graph, corridor width for each edge of
     %the graph
