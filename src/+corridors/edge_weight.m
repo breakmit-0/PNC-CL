@@ -11,7 +11,7 @@ function G = edge_weight(G)
     % Return Values:
     %   G is the edited graph with G.Edges.Weight adjusted 
     %
-    % See also corridors, corridor, corridor_width
+    % See also corridors, corridor_width, edge_weight_robot, corridor_post_processing 
 
     G.Edges.Weight = (G.Edges.length).^2 + (G.Edges.width).^(-2);
 
