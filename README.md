@@ -54,8 +54,8 @@ mpt_init;
     found_path = graph.path(g, src, dst);
 
     % perform calculations on the path
-    [Corridors, width] = corridors.corridor_post_processing(G, path, src, dest, obstacles, 100);
-    path_length = graph.path_length(G, path, src, dest)
+    [Corridors, width] = corridors.corridor_post_processing(G, found_path, src, dest, obstacles, 100);
+    path_length = graph.path_length(G, found_path, src, dest)
 ```
 
 ### Examples
