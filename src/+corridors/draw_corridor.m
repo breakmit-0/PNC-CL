@@ -22,8 +22,7 @@ function corridor_polyhedron = draw_corridor(D, A, B, corridor_width, n)
     %
     % Warning - For now, the function only works in 2D and 3D cases ! 
     %
-    % See also corridors, edge_weight, edge_weight_robot, alt_graph.path,
-    % corridor_post_processing
+    % See also corridors, corridor_post_processing
     
     points = zeros(D,n);
     normalized = (B-A)/norm(B-A);
