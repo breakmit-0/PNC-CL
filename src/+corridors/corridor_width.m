@@ -15,7 +15,7 @@ function G = corridor_width(G, obstacles)
     %   G.Edges.length = corridor_length  
     %   G.Edges.width = corridor_width
     %
-    % See also corridors, edge_weight
+    % See also corridors, edge_width, edge_weight, edge_weight_robot
     
     %Edges of the graph and coordinates of its nodes
     edges = G.Edges;
