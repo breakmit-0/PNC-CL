@@ -3,7 +3,7 @@ function G = edge_weight_robot(G, robot)
     % 
     %
     % Usage:
-    %    G = edge_weight(G, robot)
+    %    G = edge_weight_robot(G, robot)
     %
     % Parameters:
     %   G should be the graph returned by corridor_width
@@ -12,7 +12,7 @@ function G = edge_weight_robot(G, robot)
     % Return Values:
     %   G is the edited graph with G.Edges.Weight adjusted 
     %
-    % See also corridors, corridor, corridor_width, edge_weight
+    % See also corridors, corridor_width, edge_weight, corridor_post_processing
     
     %Computing the radius of the robot
     robot_radius = util.radius(robot);
